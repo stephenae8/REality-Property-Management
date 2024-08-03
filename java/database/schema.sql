@@ -44,7 +44,7 @@ create table amenities (
 
 );
 
-create table property_applicaton(
+create table property_application(
 	prop_app_id serial not null, 
 	user_id int not null, 
 	prop_id int not null, 
