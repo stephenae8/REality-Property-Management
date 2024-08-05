@@ -58,7 +58,9 @@
   <h6 class="afterMain">Choose from Thousands of Apartments, Houses, Condos, and Townhouses for rent or own.</h6>
 
   <div id="total"> 
-    <span class="small"></span>
+    <span class="small text">
+      <h6 style="border: 1px solid black;height: 100px;width: 600px;font-size: 43px;">Renting Made Easy</h6>
+    </span>
     <span class="small"></span>
   </div>
   
@@ -123,16 +125,20 @@ export default {
   height: 400px;
   display: flex;
   align-items: center;
+  justify-content: center;
   
 
 }
 
+.text{
+  background-color: rgba(128, 128, 128, 0.333);
+}
 
 .small{
   border: 1px solid black;
   width: 800px;
   height: 300px;
-  margin-left: 5%;
+  /* margin-left: 5%; */
 }
 
 
