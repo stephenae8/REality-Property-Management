@@ -20,7 +20,7 @@ CREATE TABLE property (
 	state varchar (50) not null, 
 	zipcode int not null, 
 	vacancy boolean not null, 
-	price numeric not null, 
+	price numeric not null,
 	bedrooms int not null, 
 	bathrooms numeric(2) not null,
 	img_url varchar (250) not null,
@@ -48,7 +48,7 @@ create table property_application(
 	prop_app_id serial not null, 
 	user_id int not null, 
 	prop_id int not null, 
-	status varchar (10) not null, 
+	status varchar (15) not null,
 	app_date date not null, 
 	
 	constraint PK_prop_app_id primary key (prop_app_id),
@@ -61,7 +61,7 @@ create table service_request(
 	req_id serial not null,
 	user_id int not null,
 	prop_id int not null,
-	status varchar (10) not null,
+	status varchar (15) not null,
 	req_date date not null,
 	
 	constraint PK_req_id primary key (req_id),
