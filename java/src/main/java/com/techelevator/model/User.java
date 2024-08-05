@@ -10,6 +10,12 @@ public class User {
 
    private int id;
    private String username;
+
+   public String fName;
+
+   private String lName;
+   private String email;
+   private int phone;
    @JsonIgnore
    private String password;
    @JsonIgnore
@@ -18,12 +24,48 @@ public class User {
 
    public User() { }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username, String password,String fName,String lName,String email,int phone, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;
+      this.fName = fName;
+      this.lName = lName;
+      this.email = email;
+      this.phone = phone;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
+   }
+
+   public String getfName() {
+      return fName;
+   }
+
+   public void setfName(String fName) {
+      this.fName = fName;
+   }
+
+   public String getlName() {
+      return lName;
+   }
+
+   public void setlName(String lName) {
+      this.lName = lName;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
+      this.email = email;
+   }
+
+   public int getPhone() {
+      return phone;
+   }
+
+   public void setPhone(int phone) {
+      this.phone = phone;
    }
 
    public int getId() {
@@ -57,6 +99,10 @@ public class User {
    public void setActivated(boolean activated) {
       this.activated = activated;
    }
+
+
+
+
 
    public Set<Authority> getAuthorities() {
       return authorities;

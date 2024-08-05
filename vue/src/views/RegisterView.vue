@@ -10,6 +10,24 @@
         <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
       <div class="form-input-group">
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" v-model="user.fName" required autofocus />
+      </div>
+      <div class="form-input-group">
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" v-model="user.lName" required autofocus />
+      </div>
+
+      <div class="form-input-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" v-model="user.email" required autofocus />
+      </div>
+      <div class="form-input-group">
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" v-model="user.phoneNumber" autofocus />
+      </div>
+     
+      <div class="form-input-group">
         <label for="password">Password</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
@@ -17,6 +35,9 @@
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
+
+
+
       <button type="submit">Create Account</button>
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
@@ -36,9 +57,10 @@ export default {
         password: '',
         confirmPassword: '',
         role: 'user',
-        fname:'',
-        lname: '',
+        fName:'',
+        lName: '',
         email:'',
+        phoneNumber: '',
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',

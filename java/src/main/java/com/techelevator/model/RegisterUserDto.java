@@ -8,7 +8,13 @@ import javax.validation.constraints.NotEmpty;
     to the client from a login endpoint.
  */
 public class RegisterUserDto {
-
+    @NotEmpty
+    private String fName;
+    @NotEmpty
+    private String lName;
+    @NotEmpty
+    private String email;
+    private String phoneNumber;
     @NotEmpty
     private String username;
     @NotEmpty
@@ -44,6 +50,38 @@ public class RegisterUserDto {
 
     public String getRole() {
         return role;
+    }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setRole(String role) {

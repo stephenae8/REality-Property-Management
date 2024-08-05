@@ -57,19 +57,24 @@
   <h6 class="afterMain main">The Best Rental Listings</h6>
   <h6 class="afterMain">Choose from Thousands of Apartments, Houses, Condos, and Townhouses for rent or own.</h6>
 
-  <div id="total"> 
-    <span class="small text">
-      <h6 style="border: 1px solid black;height: 100px;width: 600px;font-size: 43px;">Renting Made Easy</h6>
+  <div id="total" > 
+    <span class="small text" >
+      <h6 style="text-align: center;margin-left: 3%;height: 50px;width: 600px;font-size: 35px; width: 50%; font-weight: bold;color: black;">Renting Made Easy</h6>
+      <p style="width: 80%;margin-left: 6%; font-size: 20px; ">Browse from our thousands of real-estates properties available all over the US. Whether you're looking for an short-term stay or potential home, we have everything you need! </p>
+      <router-link to="" style="margin-left: 6%;font-size: 20px;">Find Out More</router-link>
+
     </span>
-    <span class="small"></span>
+    <span class="small image">
+    </span>
   </div>
-  
-  
+  <hr style="width: 70%; margin-left: 17%;">
+  <FooterP></FooterP>
 
 </template>
 
 <script>
 // import Navigator from '../components/Navigator.vue';
+import FooterP from '../components/Footer.vue'
 export default {
   data() {
     return {
@@ -115,13 +120,22 @@ export default {
     };
   },
 
-  components: {},
+  components: {
+    FooterP,
+  },
 };
 </script>
 
 <style scoped>
+.image{
+  background-image: url('https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4');
+  background-repeat: no-repeat ;
+}
+
+
+
+
 #total{
-  border: 1px solid black;
   height: 400px;
   display: flex;
   align-items: center;
@@ -135,8 +149,8 @@ export default {
 }
 
 .small{
-  border: 1px solid black;
-  width: 800px;
+  display: inline-block;
+  width: 700px;
   height: 300px;
   /* margin-left: 5%; */
 }
