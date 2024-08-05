@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Lease {
@@ -7,14 +8,14 @@ public class Lease {
     private int leaseId;
     private int userId;
     private int propId;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private double rent;
     private String leaseStatus;
     private int term_length;
 
     //constructor
-    public Lease(int userId, Date startDate, Date endDate, double rent, String leaseStatus, int term_length) {
+    public Lease(int userId, LocalDate startDate, LocalDate endDate, double rent, String leaseStatus, int term_length) {
         this.leaseId = leaseId;
         this.userId = userId;
         this.propId = propId;
@@ -39,11 +40,11 @@ public class Lease {
         return propId;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -73,11 +74,11 @@ public class Lease {
         this.propId = propId;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
