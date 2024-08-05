@@ -15,6 +15,17 @@ public class Payments {
 
     public Payments () { }
 
+    public Payments (int payId, int userId, int propId, int leaseId, LocalDate payPeriod, LocalDateTime payDate, double amount, boolean late){
+        this.payId = payId;
+        this.userId = userId;
+        this.propId = propId;
+        this.leaseId= leaseId;
+        this.payPeriod= payPeriod;
+        this.payDate= payDate;
+        this.amount= amount;
+        this.late=late;
+    }
+
     public int getPayId() {
         return payId;
     }

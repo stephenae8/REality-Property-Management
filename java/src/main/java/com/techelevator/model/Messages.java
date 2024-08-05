@@ -14,6 +14,16 @@ public class Messages {
 
     public Messages () { }
 
+    public Messages (int msgId, String contactType, int userTo, int userFrom, String subject, String msgBody, LocalDateTime msgDate){
+        this.msgId = msgId;
+        this.contactType=contactType;
+        this.userTo = userTo;
+        this.userFrom= userFrom;
+        this.subject=subject;
+        this.msgBody=msgBody;
+        this.msgDate= msgDate;
+    }
+
     public int getMsgId() {
         return msgId;
     }

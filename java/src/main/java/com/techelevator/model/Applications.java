@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import com.techelevator.Application;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,6 +16,15 @@ public class Applications {
 
 
     public Applications () { }
+
+    public Applications(int appId, int userId, int propId, LocalDate moveInDate, String appStatus, LocalDateTime appDate) {
+        this.appId = appId;
+        this.userId = userId;
+        this.propId = propId;
+        this.moveInDate = moveInDate;
+        this.appStatus = appStatus;
+        this.appDate = appDate;
+    }
 
     public int getAppId() {
         return appId;
