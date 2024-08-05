@@ -9,5 +9,5 @@ WHERE datname = 'final_capstone';
 
 DROP DATABASE "final_capstone";  --Was not working without ""
 
---DROP USER final_capstone_owner;
---DROP USER final_capstone_appuser;
+DROP USER final_capstone_owner;
+DROP USER final_capstone_appuser;

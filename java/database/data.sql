@@ -1,48 +1,311 @@
-BEGIN TRANSACTION;
-
-INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
-
-INSERT INTO users (role, fName, lName, email, password_hash) VALUES
-('tenant', 'John', 'Doe', 'john.doe@example.com', 'hashedpassword123'),
-('landlord', 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword456'),
-('admin', 'Alice', 'Johnson', 'alice.johnson@example.com', 'hashedpassword789'),
-('tenant', 'Michael', 'Brown', 'michael.brown@example.com', 'hashedpassword101'),
-('landlord', 'Emily', 'Davis', 'emily.davis@example.com', 'hashedpassword102');
-
-INSERT INTO property (address, city, state, zipcode, vacancy, price, bedrooms, bathrooms, img_url) VALUES
-('123 Maple St', 'Springfield', 'IL', 62701, true, 1200.00, 3, 2.0, 'http://example.com/img1.jpg'),
-('456 Oak St', 'Metropolis', 'NY', 10001, false, 2200.00, 4, 3.0, 'http://example.com/img2.jpg'),
-('789 Pine St', 'Gotham', 'NJ', 07001, true, 1500.00, 2, 1.5, 'http://example.com/img3.jpg'),
-('321 Birch St', 'Star City', 'CA', 90001, true, 1800.00, 3, 2.5, 'http://example.com/img4.jpg'),
-('654 Cedar St', 'Smallville', 'TX', 75001, false, 2000.00, 4, 3.0, 'http://example.com/img5.jpg');
-
-INSERT INTO amenities (prop_id, dishwasher, a_c, laundry, pets) VALUES
-(1, true, true, true, false),
-(2, true, true, true, true),
-(3, false, true, false, true),
-(4, true, false, true, false),
-(5, true, true, true, true);
-
-INSERT INTO property_application (user_id, prop_id, status, app_date) VALUES
-(1, 1, 'pending', '2024-08-01'),
-(2, 3, 'approved', '2024-08-02'),
-(4, 2, 'rejected', '2024-08-03'),
-(5, 4, 'pending', '2024-08-04'),
-(3, 5, 'approved', '2024-08-05');
-
-INSERT INTO service_request (user_id, prop_id, status, req_date) VALUES
-(1, 1, 'completed', '2024-08-01'),
-(2, 3, 'pending', '2024-08-02'),
-(4, 2, 'in-progress', '2024-08-03'),
-(5, 4, 'completed', '2024-08-04'),
-(3, 5, 'pending', '2024-08-05');
-
-INSERT INTO email (user_to, user_from, subject, body, email_date) VALUES
-(2, 1, 'Application Update', 'Your application has been approved.', '2024-08-02'),
-(3, 2, 'Service Request', 'Your service request is pending.', '2024-08-03'),
-(4, 3, 'Property Inquiry', 'We have received your inquiry about the property.', '2024-08-04'),
-(5, 4, 'Application Status', 'Your application is currently being reviewed.', '2024-08-05'),
-(1, 5, 'Service Request Update', 'Your service request has been completed.', '2024-08-06');
-
-COMMIT TRANSACTION;
+--BEGIN TRANSACTION;
+--
+--
+--INSERT INTO users (user_id, username,password_hash,role) VALUES (9000, 'user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
+--INSERT INTO users (user_id, username,password_hash,role) VALUES (9001, 'admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+--
+---- Users
+--INSERT INTO users (user_id, role, fName, lName, email, phone_number, password_hash) VALUES
+--(1, 'tenant', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', 'johndoe'),
+--(2, 'manager', 'Jane', 'Smith', 'jane.smith@example.com', '123-456-7891', 'janesmith'),
+--(3, 'owner', 'Bob', 'Johnson', 'bob.johnson@example.com', '123-456-7892', 'bobjohnson'),
+--(4, 'tenant', 'Alice', 'Brown', 'alice.brown@example.com', '123-456-7893', 'alicebrown'),
+--(5, 'tenant', 'Chris', 'Davis', 'chris.davis@example.com', '123-456-7894', 'chrisdavis'),
+--(6, 'owner', 'Eve', 'Miller', 'eve.miller@example.com', '123-456-7895', 'evemiller'),
+--(7, 'tenant', 'Frank', 'Wilson', 'frank.wilson@example.com', '123-456-7896', 'frankwilson'),
+--(8, 'tenant', 'Grace', 'Moore', 'grace.moore@example.com', '123-456-7897', 'gracemoore'),
+--(9, 'owner', 'Henry', 'Taylor', 'henry.taylor@example.com', '123-456-7898', 'henrytaylor'),
+--(10, 'tenant', 'Ivy', 'Anderson', 'ivy.anderson@example.com', '123-456-7899', 'ivyanderson'),
+--(11, 'tenant', 'Olivia', 'Young', 'olivia.young@example.com', '123-456-7890', 'oliviayoung'),
+--(12, 'tenant', 'Lucas', 'King', 'lucas.king@example.com', '123-456-7891', 'lucasking'),
+--(13, 'tenant', 'Mia', 'Carter', 'mia.carter@example.com', '123-456-7892', 'miacarter'),
+--(14, 'tenant', 'Noah', 'Adams', 'noah.adams@example.com', '123-456-7893', 'noahdmas'),
+--(15, 'tenant', 'Emma', 'Brown', 'emma.brown@example.com', '123-456-7894', 'emmabrown'),
+--(16, 'tenant', 'Jacob', 'Miller', 'jacob.miller@example.com', '123-456-7895', 'jacobmiller'),
+--(17, 'tenant', 'Ethan', 'Davis', 'ethan.davis@example.com', '123-456-7896', 'ethandavis'),
+--(18, 'tenant', 'Sophia', 'Johnson', 'sophia.johnson@example.com', '123-456-7897', 'sophiajohnson'),
+--(19, 'tenant', 'Ava', 'Wilson', 'ava.wilson@example.com', '123-456-7898', 'avawilson'),
+--(20, 'tenant', 'William', 'Anderson', 'william.anderson@example.com', '123-456-7899', 'williamanderson')
+--;
+--
+--
+--
+---- Properties
+--INSERT INTO properties (prop_id, owner_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms) VALUES
+--(1, 3, '123 Wabash Ave', 'Chicago', 'IL', 60601, false, false, 1200.00, 3, 2.0),
+--(2, 6, '456 Market St', 'Indianapolis', 'IN', 46201, false, false, 1500.00, 4, 3.0),
+--(3, 9, '789 Grand Blvd', 'Detroit', 'MI', 48201, false, false, 900.00, 2, 1.5),
+--(4, 3, '101 Walnut St', 'Columbus', 'OH', 43201, false, false, 1100.00, 3, 2.0),
+--(5, 6, '202 Cedar Dr', 'Milwaukee', 'WI', 53201, false, false, 1300.00, 3, 2.5),
+--(6, 9, '303 Elmwood Ln', 'St. Louis', 'MO', 63101, false, false, 1000.00, 2, 1.0),
+--(7, 3, '404 Pine St', 'Minneapolis', 'MN', 55401, false, false, 1400.00, 4, 3.0),
+--(8, 6, '505 Maplewood Ct', 'Kansas City', 'MO', 64101, false, false, 950.00, 2, 1.5),
+--(9, 6, '606 Oakwood Rd', 'Cleveland', 'OH', 44101, false, false, 1250.00, 3, 2.0),
+--(10, 9, '707 Birch Ln', 'Cincinnati', 'OH', 45201, false, false, 1150.00, 3, 2.0),
+--(11, 3, '808 Chestnut St', 'Madison', 'WI', 53701, true, false, 1350.00, 3, 2.5),
+--(12, 6, '909 Willow Ave', 'Des Moines', 'IA', 50301, true, true, 1050.00, 2, 1.0),
+--(13, 9, '1010 Cherry Pl', 'Toledo', 'OH', 43601, true, true, 1450.00, 4, 3.5),
+--(14, 3, '1111 Maple St', 'Omaha', 'NE', 68101, true, false, 950.00, 2, 1.5),
+--(15, 6, '1212 Oak St', 'Sioux Falls', 'SD', 57101, true, true, 1250.00, 3, 2.0),
+--(16, 9, '1313 Pine St', 'Fargo', 'ND', 58102, true, false, 1150.00, 3, 2.0),
+--(17, 3, '1414 Birch St', 'Lincoln', 'NE', 68501, true, false, 1550.00, 4, 3.0),
+--(18, 6, '1515 Cedar St', 'Green Bay', 'WI', 54301, true, false, 1000.00, 2, 1.0),
+--(19, 9, '1616 Elm St', 'Lansing', 'MI', 48901, true, true, 1350.00, 3, 2.5),
+--(20, 3, '1717 Fir St', 'Fort Wayne', 'IN', 46801, true, true, 1200.00, 3, 2.0);
+--;
+--
+--
+---- Amenities
+--INSERT INTO amenities (prop_id, dishwasher, central_air, laundry, pets_allowed) VALUES
+--(1, true, true, true, false),
+--(2, true, false, true, true),
+--(3, false, true, false, false),
+--(4, true, true, true, true),
+--(5, false, false, true, false),
+--(6, true, true, false, true),
+--(7, false, true, true, false),
+--(8, true, true, true, true),
+--(9, true, false, true, false),
+--(10, false, true, false, true),
+--(11, true, false, true, false),
+--(12, false, true, false, true),
+--(13, true, true, true, false),
+--(14, false, false, true, true),
+--(15, true, true, false, false),
+--(16, false, false, true, true),
+--(17, true, true, true, false),
+--(18, false, true, false, true),
+--(19, true, false, true, false),
+--(20, false, true, false, true)
+--;
+--
+---- Images
+--INSERT INTO images (prop_id, img_url) VALUES
+--(1, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(1, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(1, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(1, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(1, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(2, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(2, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(2, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(2, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(2, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(3, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(3, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(3, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(3, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(3, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(4, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(4, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(4, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(4, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(4, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(5, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(5, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(5, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(5, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(5, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(6, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(6, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(6, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(6, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(6, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(7, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(7, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(7, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(7, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(7, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(8, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(8, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(8, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(8, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(8, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(9, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(9, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(9, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(9, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(9, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(10, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(10, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(10,'https://via.placeholder.com/640x480?text=Kitchen'),
+--(10, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(10, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(11, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(11, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(11, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(11, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(11, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(12, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(12, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(12, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(12, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(12, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(13, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(13, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(13, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(13, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(13, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(14, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(14, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(14, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(14, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(14, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(15, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(15, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(15, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(15, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(15, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(16, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(16, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(16, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(16, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(16, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(17, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(17, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(17, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(17, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(17, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(18, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(18, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(18, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(18, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(18, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(19, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(19, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(19, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(19, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(19, 'https://via.placeholder.com/640x480?text=Bathroom'),
+--(20, 'https://via.placeholder.com/640x480?text=Exterior'),
+--(20, 'https://via.placeholder.com/640x480?text=Living+Room'),
+--(20, 'https://via.placeholder.com/640x480?text=Kitchen'),
+--(20, 'https://via.placeholder.com/640x480?text=Bedroom'),
+--(20, 'https://via.placeholder.com/640x480?text=Bathroom')
+--;
+--
+--
+---- Applications
+--INSERT INTO applications (user_id, prop_id, move_in_date, app_status, app_date) VALUES
+--(1, 1, '2024-01-15', 'approved', '2024-01-02 10:00:00'),
+--(15, 2, '2024-02-01', 'withdrawn', '2024-01-14 12:30:00'),
+--(4, 2, '2024-02-01', 'approved', '2024-01-15 14:30:00'),
+--(5, 3, '2024-03-01', 'approved', '2024-02-10 09:15:00'),
+--(17, 4, '2024-04-01', 'denied', '2024-03-14 16:00:00'),
+--(7, 4, '2024-04-01', 'approved', '2024-03-15 16:45:00'),
+--(8, 5, '2024-05-01', 'approved', '2024-04-10 11:20:00'),
+--(10, 6, '2024-06-01', 'approved', '2024-05-15 13:00:00'),
+--(11, 7, '2024-07-01', 'approved', '2024-06-10 15:30:00'),
+--(12, 8, '2024-07-15', 'approved', '2024-06-25 10:45:00'),
+--(16, 8, '2024-07-15', 'denied', '2024-06-25 10:45:00'),
+--(13, 9, '2024-08-01', 'approved', '2024-07-10 14:15:00'),
+--(14, 10, '2024-08-15', 'approved', '2024-07-25 09:30:00'),
+--(18, 13, '2024-09-01', 'pending', '2024-08-01 11:30:00'),
+--(19, 12, '2024-09-15', 'pending', '2024-08-01 14:45:00'),
+--(20, 19, '2024-09-01', 'pending', '2024-08-02 09:00:00'),
+--(19, 15, '2024-09-15', 'pending', '2024-08-02 14:45:00'),
+--(20, 20, '2024-10-01', 'pending', '2024-08-01 11:00:00'),
+--(20, 20, '2024-10-01', 'pending', '2024-08-03 09:00:00')
+--;
+--
+---- Leases
+--INSERT INTO leases (user_id, prop_id, start_date, end_date, rent, lease_status, term_length) VALUES
+--(1, 1, '2024-01-15', '2025-01-14', 1200.00, 'active', 12),
+--(4, 2, '2024-02-01', '2025-07-31', 1500.00, 'active', 18),
+--(5, 3, '2024-03-01', '2025-02-28', 900.00, 'active', 12),
+--(7, 4, '2024-04-01', '2026-03-31', 1100.00, 'active', 24),
+--(8, 5, '2024-05-01', '2025-04-30', 1300.00, 'active', 12),
+--(10, 6, '2024-06-01', '2025-11-30', 1000.00, 'active', 18),
+--(11, 7, '2024-07-01', '2024-12-31', 1400.00, 'active', 6),
+--(12, 8, '2024-07-15', '2026-07-14', 950.00, 'active', 24),
+--(13, 9, '2024-08-01', '2025-07-31', 1250.00, 'active', 12),
+--(14, 10, '2024-08-15', '2026-02-14', 1150.00, 'active', 18)
+--;
+--
+---- Payments
+--INSERT INTO payments (user_id, prop_id, lease_id, pay_period, pay_date, amount, late) VALUES
+--(1, 1, 1, '2024-02-01', '2024-02-01 09:15:00', 1200.00, false),
+--(1, 1, 1, '2024-03-01', '2024-03-01 10:30:00', 1200.00, false),
+--(1, 1, 1, '2024-04-01', '2024-04-03 14:45:00', 1200.00, true),
+--(1, 1, 1, '2024-05-01', '2024-05-01 11:00:00', 1200.00, false),
+--(1, 1, 1, '2024-06-01', '2024-06-01 09:30:00', 1200.00, false),
+--(1, 1, 1, '2024-07-01', '2024-07-02 16:15:00', 1200.00, true),
+--(1, 1, 1, '2024-08-01', '2024-08-01 10:45:00', 1200.00, false),
+--(4, 2, 2, '2024-02-01', '2024-02-01 08:45:00', 1500.00, false),
+--(4, 2, 2, '2024-03-01', '2024-03-01 09:30:00', 1500.00, false),
+--(4, 2, 2, '2024-04-01', '2024-04-01 10:15:00', 1500.00, false),
+--(4, 2, 2, '2024-05-01', '2024-05-03 15:30:00', 1500.00, true),
+--(4, 2, 2, '2024-06-01', '2024-06-01 11:45:00', 1500.00, false),
+--(4, 2, 2, '2024-07-01', '2024-07-01 09:00:00', 1500.00, false),
+--(4, 2, 2, '2024-08-01', '2024-08-01 10:30:00', 1500.00, false),
+--(5, 3, 3,'2024-03-01', '2024-03-01 10:00:00', 900.00, false),
+--(5, 3, 3,'2024-04-01', '2024-04-02 14:30:00', 900.00, true),
+--(5, 3, 3,'2024-05-01', '2024-05-01 09:45:00', 900.00, false),
+--(5, 3, 3,'2024-06-01', '2024-06-01 11:15:00', 900.00, false),
+--(5, 3, 3,'2024-07-01', '2024-07-01 10:30:00', 900.00, false),
+--(5, 3, 3,'2024-08-01', '2024-08-01 09:15:00', 900.00, false),
+--(7, 4, 4, '2024-04-01', '2024-04-01 09:30:00', 1100.00, false),
+--(7, 4, 4, '2024-05-01', '2024-05-01 10:45:00', 1100.00, false),
+--(7, 4, 4, '2024-06-01', '2024-06-03 15:00:00', 1100.00, true),
+--(7, 4, 4, '2024-07-01', '2024-07-01 11:30:00', 1100.00, false),
+--(7, 4, 4, '2024-08-01', '2024-08-01 10:15:00', 1100.00, false),
+--(8, 5, 5, '2024-05-01', '2024-05-01 10:00:00', 1300.00, false),
+--(8, 5, 5, '2024-06-01', '2024-06-01 09:45:00', 1300.00, false),
+--(8, 5, 5, '2024-07-01', '2024-07-03 14:30:00', 1300.00, true),
+--(8, 5, 5, '2024-08-01', '2024-08-01 11:15:00', 1300.00, false),
+--(10, 6, 6, '2024-06-01', '2024-06-01 09:15:00', 1000.00, false),
+--(10, 6, 6, '2024-07-01', '2024-07-01 10:30:00', 1000.00, false),
+--(10, 6, 6, '2024-08-01', '2024-08-02 15:45:00', 1000.00, true),
+--(11, 7, 7, '2024-07-01', '2024-07-01 10:00:00', 1400.00, false),
+--(11, 7, 7, '2024-08-01', '2024-08-01 09:30:00', 1400.00, false),
+--(12, 8, 8,'2024-08-01', '2024-08-01 11:00:00', 950.00, false),
+--(13, 9, 9, '2024-08-01', '2024-08-01 10:15:00', 1250.00, false)
+--;
+--
+---- Service Requests
+--INSERT INTO service_request (user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type) VALUES
+--(1, 1, 'complete', '2024-03-15 10:30:00', '2024-03-16 10:30:00', 'Dishwasher not draining properly', 'dishwasher'),
+--(5, 3, 'complete', '2024-05-20 14:45:00', '2024-05-21 09:15:00', 'Central air not cooling effectively', 'central_air'),
+--(8, 5, 'complete', '2024-06-10 11:00:00', '2024-06-12 16:30:00', 'Washing machine leaking', 'laundry'),
+--(11, 7, 'complete', '2024-07-05 09:30:00', '2024-07-06 09:30:00', 'Bathroom sink clogged', 'bathroom'),
+--(13, 9, 'in_progress', '2024-08-03 13:15:00', '2024-08-04 10:00:00', 'Strange noise coming from the ceiling fan', 'other'),
+--(4, 2, 'pending', '2024-07-25 14:20:00', '2024-07-25 14:20:00', 'Dishwasher making loud grinding noise during wash cycle', 'dishwasher'),
+--(7, 4, 'in_progress', '2024-08-02 09:45:00', '2024-08-03 11:30:00', 'Air conditioning not turning on', 'central_air'),
+--(10, 6, 'pending', '2024-08-05 16:10:00', '2024-08-05 16:10:00', 'Shower head leaking and low water pressure', 'bathroom')
+--;
+--
+---- Messages
+--INSERT INTO messages (contact_type, user_to, user_from, subject, msg_body, msg_date) VALUES
+---- Welcome messages for each lease
+--('email', 1, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-01-15 09:00:00'),
+--('email', 4, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-02-01 09:00:00'),
+--('email', 5, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-03-01 09:00:00'),
+--('email', 7, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-04-01 09:00:00'),
+--('email', 8, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-05-01 09:00:00'),
+--('email', 10, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-06-01 09:00:00'),
+--('email', 11, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-07-01 09:00:00'),
+--('email', 12, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-07-15 09:00:00'),
+--('email', 13, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-08-01 09:00:00'),
+--('email', 14, 2, 'Welcome to Your New Home!', 'Welcome to your new home! We''re excited to have you as our tenant. Here''s some important information about your rental property...', '2024-08-15 09:00:00'),
+--
+---- Newsletter messages (for some tenants)
+--('email', 1, 2, 'Community Newsletter - March 2024', 'Here''s your community newsletter for March 2024. Learn about upcoming events and important updates...', '2024-03-01 10:00:00'),
+--('email', 5, 2, 'Community Newsletter - June 2024', 'Here''s your community newsletter for June 2024. Learn about upcoming events and important updates...', '2024-06-01 10:00:00'),
+--('email', 8, 2, 'Community Newsletter - August 2024', 'Here''s your community newsletter for August 2024. Learn about upcoming events and important updates...', '2024-08-01 10:00:00'),
+--
+---- Service request messages
+--('email', 1, 2, 'Service Request Received - Dishwasher', 'We have received your service request regarding the dishwasher not draining properly. Our maintenance team will address this issue soon.', '2024-03-15 10:35:00'),
+--('email', 1, 2, 'Service Request Completed - Dishwasher', 'Your service request for the dishwasher has been completed. Please let us know if you need any further assistance.', '2024-03-16 10:35:00'),
+--('email', 5, 2, 'Service Request Received - Central Air', 'We have received your service request regarding the central air not cooling effectively. Our maintenance team will address this issue soon.', '2024-05-20 14:50:00'),
+--('email', 5, 2, 'Service Request Completed - Central Air', 'Your service request for the central air has been completed. Please let us know if you need any further assistance.', '2024-05-21 09:20:00'),
+--('email', 8, 2, 'Service Request Received - Washing Machine', 'We have received your service request regarding the leaking washing machine. Our maintenance team will address this issue soon.', '2024-06-10 11:05:00'),
+--('email', 8, 2, 'Service Request Completed - Washing Machine', 'Your service request for the washing machine has been completed. Please let us know if you need any further assistance.', '2024-06-12 16:35:00'),
+--('email', 11, 2, 'Service Request Received - Bathroom Sink', 'We have received your service request regarding the clogged bathroom sink. Our maintenance team will address this issue soon.', '2024-07-05 09:35:00'),
+--('email', 11, 2, 'Service Request Completed - Bathroom Sink', 'Your service request for the bathroom sink has been completed. Please let us know if you need any further assistance.', '2024-07-06 09:35:00'),
+--('email', 13, 2, 'Service Request Received - Ceiling Fan', 'We have received your service request regarding the strange noise from the ceiling fan. Our maintenance team will address this issue soon.', '2024-08-03 13:20:00'),
+--('email', 13, 2, 'Service Request Update - Ceiling Fan', 'Our maintenance team is currently working on your ceiling fan issue. We''ll update you once the work is completed.', '2024-08-04 10:05:00'),
+--('email', 4, 2, 'Service Request Received - Dishwasher', 'We have received your service request regarding the dishwasher making a loud grinding noise. Our maintenance team will address this issue soon.', '2024-07-25 14:25:00'),
+--('email', 7, 2, 'Service Request Received - Air Conditioning', 'We have received your service request regarding the air conditioning not turning on. Our maintenance team will address this issue soon.', '2024-08-02 09:50:00'),
+--('email', 7, 2, 'Service Request Update - Air Conditioning', 'Our maintenance team is currently working on your air conditioning issue. We''ll update you once the work is completed.', '2024-08-03 11:35:00'),
+--('email', 10, 2, 'Service Request Received - Shower', 'We have received your service request regarding the leaking shower head and low water pressure. Our maintenance team will address this issue soon.', '2024-08-05 16:15:00');
+--
+--COMMIT TRANSACTION;

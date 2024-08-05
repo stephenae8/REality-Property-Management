@@ -1,87 +1,114 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS email, service_request, property_application, amenities, property, users;
+DROP TABLE IF EXISTS messages, service_request, payments, leases, applications, images, amenities, properties, users CASCADE;
 
 CREATE TABLE users (
 	user_id SERIAL NOT NULL,
-	role varchar(50) NOT NULL,
-	fName varchar(25) NOT NULL,
-	lName varchar(25) NOT NULL,
-	email varchar(50) NOT NULL UNIQUE,
+	username varchar(50),
+	role varchar(50),
+	fName varchar(25),
+	lName varchar(25),
+	email varchar(50) UNIQUE,
+	phone_number varchar(25),
 	password_hash varchar(200) NOT NULL,
 	
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
-CREATE TABLE property (
-	prop_id serial not null, 
-	address varchar (100) not null, 
-	city varchar (50) not null, 
-	state varchar (50) not null, 
-	zipcode int not null, 
-	vacancy boolean not null, 
-	price numeric not null,
-	bedrooms int not null, 
-	bathrooms numeric(2) not null,
-	img_url varchar (250) not null,
-	
-	Constraint PK_prop_id primary key (prop_id)
-	
-
+CREATE TABLE properties (
+	prop_id SERIAL PRIMARY KEY,
+	owner_id INT NOT NULL REFERENCES users(user_id),
+	address VARCHAR(100) NOT NULL,
+	city VARCHAR(50) NOT NULL,
+	state VARCHAR(50) NOT NULL,
+	zip VARCHAR(10) NOT NULL,
+	vacancy BOOLEAN NOT NULL DEFAULT false,
+ 	pending BOOLEAN NOT NULL DEFAULT false,
+	rent NUMERIC(10,2) NOT NULL,
+	bedrooms INT NOT NULL,
+	bathrooms NUMERIC(2,1) NOT NULL
 );
 
-create table amenities (
-	amenities_id serial not null,
-	prop_id int not null,
-	dishwasher boolean not null, 
-	a_c boolean not null, 
-	laundry boolean not null, 
-	pets boolean not null, 
-	
-	Constraint PK_amenities_id primary key (amenities_id),
-	Constraint FK_prop_id foreign key (prop_id) references property (prop_id)
-
-
+CREATE TABLE amenities (
+	amenities_id SERIAL PRIMARY KEY,
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	dishwasher BOOLEAN NOT NULL,
+	central_air BOOLEAN NOT NULL,
+	laundry BOOLEAN NOT NULL,
+	pets_allowed BOOLEAN NOT NULL
 );
 
-create table property_application(
-	prop_app_id serial not null, 
-	user_id int not null, 
-	prop_id int not null, 
-	status varchar (15) not null,
-	app_date date not null, 
-	
-	constraint PK_prop_app_id primary key (prop_app_id),
-	constraint FK_user_id foreign key (user_id) references users (user_id),
-	constraint FK_prop_id foreign key (prop_id) references property (prop_id)
-	
+CREATE TABLE images (
+	img_id SERIAL PRIMARY KEY,
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	img_url VARCHAR(255) NOT NULL
 );
 
-create table service_request(
-	req_id serial not null,
-	user_id int not null,
-	prop_id int not null,
-	status varchar (15) not null,
-	req_date date not null,
-	
-	constraint PK_req_id primary key (req_id),
-	constraint FK_user_id foreign key (user_id) references users (user_id),
-	constraint FK_prop_id foreign key (prop_id) references property (prop_id)
-
+CREATE TABLE applications (
+	app_id SERIAL PRIMARY KEY,
+	user_id INT NOT NULL REFERENCES users(user_id),
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	move_in_date DATE NOT NULL,
+	app_status VARCHAR(10) CHECK (app_status IN ('pending', 'approved', 'denied', 'withdrawn'))NOT NULL DEFAULT 'pending',
+ 	app_date TIMESTAMP NOT NULL
 );
 
-create table email (
-	email_id serial not null,
-	user_to int not null,
-	user_from int not null,
-	subject varchar(50) not null,
-	body varchar (500) not null,
-	email_date date not null,
-	
-	constraint PK_email_id primary key (email_id),
-	constraint FK_user_to foreign key (user_to) references users (user_id),
-	constraint FK_user_from foreign key (user_from) references users (user_id)
-
+CREATE TABLE leases (
+	lease_id SERIAL PRIMARY KEY,
+	user_id INT NOT NULL REFERENCES users(user_id),
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	start_date DATE NOT NULL,
+	end_date DATE NOT NULL,
+	rent NUMERIC(10,2) NOT NULL,
+	lease_status VARCHAR(15) CHECK (lease_status IN ('active', 'expired', 'terminated')) NOT NULL DEFAULT 'active',
+	term_length INT NOT NULL
 );
+
+CREATE TABLE payments (
+	pay_id SERIAL PRIMARY KEY,
+	user_id INT NOT NULL REFERENCES users(user_id),
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	lease_id INT NOT NULL REFERENCES leases(lease_id),
+	pay_period DATE NOT NULL,
+	pay_date TIMESTAMP NOT NULL,
+	amount NUMERIC(10,2) NOT NULL,
+	late BOOLEAN NOT NULL
+);
+
+CREATE TABLE service_request (
+	req_id SERIAL PRIMARY KEY,
+	user_id INT NOT NULL REFERENCES users(user_id),
+	prop_id INT NOT NULL REFERENCES properties(prop_id),
+	req_status VARCHAR(15) CHECK (req_status IN ('pending', 'in_progress', 'complete', 'canceled')) NOT NULL DEFAULT 'pending',
+	req_date TIMESTAMP NOT NULL,
+	last_updated TIMESTAMP,
+	req_body VARCHAR(500) NOT NULL,
+	issue_type VARCHAR(15) CHECK (issue_type IN ('dishwasher', 'central_air', 'laundry', 'bathroom', 'other')) NOT NULL DEFAULT 'other'
+);
+
+CREATE TABLE messages (
+	msg_id SERIAL PRIMARY KEY,
+	contact_type VARCHAR(5) CHECK (contact_type IN ('email', 'text')) NOT NULL DEFAULT 'email',
+	user_to INT NOT NULL REFERENCES users (user_id),
+	user_from INT NOT NULL REFERENCES users (user_id),
+	subject VARCHAR(50) NOT NULL,
+	msg_body VARCHAR(500) NOT NULL,
+	msg_date TIMESTAMP NOT NULL
+);
+
+-- Function to set payment_period
+CREATE OR REPLACE FUNCTION set_payment_period()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.pay_period := DATE_TRUNC('month', NEW.pay_date);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update payment_period before insert on payments table
+CREATE TRIGGER set_payment_period_trigger
+BEFORE INSERT ON payments
+FOR EACH ROW
+EXECUTE FUNCTION set_payment_period();
 
 COMMIT TRANSACTION;
