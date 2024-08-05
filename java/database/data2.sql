@@ -1,5 +1,9 @@
 BEGIN TRANSACTION;
 
+INSERT INTO users (user_id, account_type, fName, lName, email, phone_number, password_hash) VALUES (9000, 'final_capstone_appuser','user', 'user', 'user@user.com', '111-222-3333', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC');
+INSERT INTO users (user_id, account_type, fName, lName, email, phone_number, password_hash) VALUES (9001, 'final_capstone_owner','admin', 'admin', 'admin@admin.com', '444-555-6666', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC');
+
+
 -- Users
 INSERT INTO users (user_id, account_type, fName, lName, email, phone_number, password_hash) VALUES
 (1, 'tenant', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', 'johndoe'),
