@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+<div id="login">
     <form v-on:submit.prevent="login">
       <h1 >Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
@@ -27,7 +27,7 @@
 import authService from "../services/AuthService";
 
 export default {
-  components: {},
+
   data() {
     return {
       user: {
