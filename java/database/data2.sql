@@ -5,7 +5,7 @@ INSERT INTO users (user_id, account_type, fName, lName, email, phone_number, pas
 
 
 -- Users
-INSERT INTO users (user_id, account_type, fName, lName, email, phone_number, password_hash) VALUES
+INSERT INTO users (user_id, role, fName, lName, email, phone_number, password_hash) VALUES
 (1, 'tenant', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', 'johndoe'),
 (2, 'manager', 'Jane', 'Smith', 'jane.smith@example.com', '123-456-7891', 'janesmith'),
 (3, 'owner', 'Bob', 'Johnson', 'bob.johnson@example.com', '123-456-7892', 'bobjohnson'),

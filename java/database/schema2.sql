@@ -4,10 +4,11 @@ DROP TABLE IF EXISTS messages, service_request, payments, leases, applications, 
 
 CREATE TABLE users (
 	user_id SERIAL PRIMARY KEY,
-	account_type VARCHAR(25) CHECK (account_type IN ('tenant', 'manager', 'owner','final_capstone_appuser', 'final_capstone_owner')) NOT NULL DEFAULT 'tenant',
-	fName VARCHAR(25) NOT NULL,
-	lName VARCHAR(25) NOT NULL,
-	email VARCHAR(50) NOT NULL UNIQUE,
+	role VARCHAR(25) CHECK (role IN ('tenant', 'manager', 'owner','final_capstone_appuser', 'final_capstone_owner', 'ROLE_USER')) NOT NULL DEFAULT 'tenant',
+	fName VARCHAR(25) ,
+	lName VARCHAR(25) ,
+	username VARCHAR(25),
+	email VARCHAR(50) ,
 	phone_number VARCHAR(20),
 	password_hash VARCHAR(200) NOT NULL
 );
