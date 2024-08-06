@@ -5,7 +5,7 @@ public class Property {
     //instance variables
     private int propId;
     private int ownerId;
-    private int address;
+    private String address;
     private String city;
     private String state;
     private int zipCode;
@@ -16,8 +16,15 @@ public class Property {
     private double bathrooms;
     //prob going to need a .to<??> to cut the dec to one placeholder
 
+    private String amenString;
+    private String[] imgString;
+
+
     //constructor
-    public Property(int propId, int ownerId, int address, String city, String state, int zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms) {
+    public Property() {}
+
+    //constructor
+    public Property(int propId, int ownerId, String address, String city, String state, int zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms, String[] imgString) {
         this.propId = propId;
         this.ownerId = ownerId;
         this.address = address;
@@ -29,7 +36,11 @@ public class Property {
         this.rent = rent;
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
+        this.imgString = imgString;
+
     }
+
+
 
     //getters
     public int getPropId() {
@@ -40,7 +51,7 @@ public class Property {
         return ownerId;
     }
 
-    public int getAddress() {
+    public String getAddress() {
         return address;
     }
 
@@ -76,6 +87,9 @@ public class Property {
         return bathrooms;
     }
 
+    public String[] getImgString() {
+        return imgString;
+    }
 
     //setters
     public void setPropId(int propId) {
@@ -86,7 +100,7 @@ public class Property {
         this.ownerId = ownerId;
     }
 
-    public void setAddress(int address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -120,5 +134,9 @@ public class Property {
 
     public void setBathrooms(double bathrooms) {
         this.bathrooms = bathrooms;
+    }
+
+    public void setImgString(String[] imgString) {
+        this.imgString = imgString;
     }
 }
