@@ -7,6 +7,9 @@ import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import PropertyView from '../views/PropertyView.vue';
+
+import AvailableView from '../views/AvailableView.vue';
+
 import OwnerView from '../views/OwnerView.vue';
 
 
@@ -60,6 +63,11 @@ const routes = [
     }
   },
   {
+
+    path: '/available',
+    name: 'Available',
+    component: AvailableView,
+  },{
     path: "/owner",
     name: "owner",
     component: OwnerView,

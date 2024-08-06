@@ -3,7 +3,7 @@
     <div id="insidetext">
       <h2 id="ownh2">Discover Your New Home</h2>
       <h4>Helping Thousands Across the World Find Their Next Home!</h4>
-      <span style="display: block">
+      <span id="movetext" style="display: block">
         <input
           type="text"
           name=""
@@ -18,27 +18,8 @@
   <h3 id="unique">Explore Rental In Columbus, Ohio</h3>
 
   <div id="preview">
-    <div
-      style="border: 1px solid grey; border-radius: 2px"
-      v-for="(one, index) in apartmentdescrption"
-      :key="index"
-    >
-      <img
-        style="border: 1px solid grey"
-        class="photo"
-        :src="one.photo"
-        alt=""
-      />
-
-      <span
-        style="
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-        "
-      >
-        <h5>{{ one.name }} {{ one.address }}</h5>
-      </span>
+    <div v-for="(one, index) in 4" :key="index">
+      <property-card></property-card>
     </div>
   </div>
   <div
@@ -67,14 +48,13 @@
     <span class="small image">
     </span>
   </div>
-  <hr style="width: 70%; margin-left: 17%;">
-  <FooterP></FooterP>
+  <hr>
 
 </template>
 
 <script>
 // import Navigator from '../components/Navigator.vue';
-import FooterP from '../components/Footer.vue'
+import PropertyCard from './PropertyCard.vue';
 export default {
   data() {
     return {
@@ -121,12 +101,19 @@ export default {
   },
 
   components: {
-    FooterP,
-  },
+    PropertyCard,
+  }
+
+  
 };
 </script>
 
 <style scoped>
+#movetext{
+  margin-left: 7%;
+}
+
+
 .image{
   background-image: url('https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4');
   background-repeat: no-repeat ;
@@ -157,6 +144,7 @@ export default {
 
 
 #ownh2 {
+  
   text-align: center;
   animation: reveal 6s;
 }
@@ -261,9 +249,10 @@ button {
 }
 
 #preview {
-  margin-top: 1%;
+  margin-top: 3%;
   display: flex;
-  /* border: 1px solid black; */
+  margin-left: 9%;
+  width: 85%;
   justify-content: space-around;
 }
 
