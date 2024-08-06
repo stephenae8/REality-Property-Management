@@ -1,13 +1,13 @@
 <template>
-    <Property></Property>
+    <Owner></Owner>
   </template>
   
   <script>
-  import Property from '../components/Property.vue';
+  import Owner from '../components/Owner.vue';
 
   export default {
     components: {
-      Property,
+      Owner,
     }
   
   }
