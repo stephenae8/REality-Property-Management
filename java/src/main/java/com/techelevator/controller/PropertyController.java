@@ -25,6 +25,7 @@ public class PropertyController {
     }
 
 //    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("PermitAll()")
     @GetMapping(path = "/property")
     public List<Property> getAllProperties(Principal principal){
         List <Property> propertyList;
@@ -36,4 +37,8 @@ public class PropertyController {
         }
         return propertyList;
     }
+
+     
+
+
 }

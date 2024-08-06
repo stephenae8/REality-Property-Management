@@ -31,8 +31,8 @@ public class JdbcPropertyDao implements PropertyDAO {
     @Override
     public List<Property> getProperties() {
         List<Property> listofMultiProps = new ArrayList<>();
-        String sql = "SELECT prop_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|') \n" +
-                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id)\n" +
+        String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
+                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
                 "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
@@ -53,9 +53,9 @@ public class JdbcPropertyDao implements PropertyDAO {
     @Override
     public List<Property> getPropertyByOwnerId(int ownerId) {
         List<Property> listofOwnedProps = new ArrayList<>();
-        String sql = "\"SELECT prop_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|') \\n\" +\n" +
-                "\"FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id)\\n\" +\n" +
-                "\"GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed\\n\" +\n" +
+        String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
+                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
+                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
                 "\"WHERE owner_id = ?";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, ownerId);
@@ -74,11 +74,11 @@ public class JdbcPropertyDao implements PropertyDAO {
 
     //POV: specific property for tenant login
     @Override
-    public Property getPropertyById(int propId) {
+    public Property getPropertyByPropId(int propId) {
         Property oneProp = null;
-        String sql = "\"SELECT prop_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|') \\n\" +\n" +
-                "\"FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id)\\n\" +\n" +
-                "\"GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed\\n\" +\n" +
+        String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
+                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
+                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
                 "\"WHERE prop_id = ?";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
@@ -98,7 +98,7 @@ public class JdbcPropertyDao implements PropertyDAO {
     private Property mapRowToProperty(SqlRowSet rowSet) {
         Property property = new Property();
         property.setPropId(rowSet.getInt("prop_id"));
-       // property.setOwnerId(rowSet.getInt("owner_id"));
+        property.setOwnerId(rowSet.getInt("owner_id"));
         property.setAddress(rowSet.getString("address"));
         property.setCity(rowSet.getString("city"));
         property.setState(rowSet.getString("state"));
@@ -108,11 +108,10 @@ public class JdbcPropertyDao implements PropertyDAO {
         property.setRent(rowSet.getDouble("rent"));
         property.setBedrooms(rowSet.getInt("bedrooms"));
         property.setBathrooms(rowSet.getDouble("bathrooms"));
-//        if (rowSet.getString("string_agg") != null){
-//            property.setImgString(rowSet.getString("string_agg").split("|"));
-//        }
+        if (rowSet.getString("string_agg") != null){
+            property.setImgString(rowSet.getString("string_agg").split("\\|"));
+        }
 
-        //before you set it turn it into an array of string
         return property;
     }
 }
