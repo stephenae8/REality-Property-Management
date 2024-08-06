@@ -27,7 +27,7 @@ public class PropertyController {
     //    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("permitAll()")
     @GetMapping(path = "/property")
-    public List<Property> getAllProperties(Principal principal) {
+    public List<Property> getAllProperties() {
         List<Property> propertyList;
 
         try {
@@ -38,7 +38,7 @@ public class PropertyController {
         return propertyList;
     }
 
-    @GetMapping(path = "property/manage-by-owner-id/{owner_id}")
+    @GetMapping(path = "property/manage-by-owner-id/{owner_id}")            //???????
     public List<Property> getPropByOwnerId(@PathVariable int ownerId) {
         List<Property> propByOwnerIdList;
 
@@ -53,7 +53,7 @@ public class PropertyController {
 
     @GetMapping(path = "property/manage-by-property-id/{prop_id}")
     public Property getPropByPropId(@PathVariable int propId) {
-        Property propByPropId = null;
+        Property propByPropId;
 
         try {
             propByPropId = propertyDAO.getPropertyByPropId(propId);
