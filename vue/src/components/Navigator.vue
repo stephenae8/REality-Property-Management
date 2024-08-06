@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       username: this.$store.state.user.username,
+      role: this.$store.state.user.role,
       // role: this.$store.state.user.authorities[0].name,
       id: this.$store.state.user.id,
       mouseover: Boolean

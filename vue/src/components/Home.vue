@@ -3,7 +3,7 @@
     <div id="insidetext">
       <h2 id="ownh2">Discover Your New Home</h2>
       <h4>Helping Thousands Across the World Find Their Next Home!</h4>
-      <span style="display: block">
+      <span id="movetext" style="display: block">
         <input
           type="text"
           name=""
@@ -67,8 +67,7 @@
     <span class="small image">
     </span>
   </div>
-  <hr style="width: 70%; margin-left: 17%;">
-  <FooterP></FooterP>
+  <hr>
 
 </template>
 
@@ -120,13 +119,16 @@ export default {
     };
   },
 
-  components: {
-    FooterP,
-  },
+  
 };
 </script>
 
 <style scoped>
+#movetext{
+  margin-left: 7%;
+}
+
+
 .image{
   background-image: url('https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4');
   background-repeat: no-repeat ;
@@ -157,6 +159,7 @@ export default {
 
 
 #ownh2 {
+  
   text-align: center;
   animation: reveal 6s;
 }
