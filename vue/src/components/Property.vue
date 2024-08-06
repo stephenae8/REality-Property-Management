@@ -122,8 +122,8 @@
 </template>
 
 <script>
-import AuthService from '../services/AuthService.js';
-import PropertyCard from '../components/PropertyCard.vue';
+import PropertyCard from '../components/propertycard.vue';
+import PropertyService from '../services/PropertyService.js'
 export default {
  
 
@@ -132,22 +132,24 @@ export default {
             hotels: []
         }
     },
+    created() {
+        this.firstCase();
+    },
+
+    methods: {
+        firstCase(){
+
+            PropertyService.getProperty().then((e)=>{
+                this.hotels= e.data
+            }).catch(err => console.error(err));
+
+        }
+    },
+
 
     components: {
         PropertyCard,
         
-    },
-
-
-    computed: {
-        here(){
-          let  hello = [];
-           
-          AuthService.hotel().then((e)=>{
-            hello = e.data
-          });
-            return hello
-        }
     },
 
 

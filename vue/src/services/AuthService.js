@@ -10,8 +10,5 @@ export default {
     return axios.post('/register', user)
   },
 
-  hotel(){
-    return axios.get('/property')
-  }
 
 }

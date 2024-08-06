@@ -1,5 +1,5 @@
 <template>
-    <Property :id="1"></Property>
+    <Property ></Property>
   </template>
   
   <script>

@@ -55,7 +55,7 @@ const routes = [
     }
   },
   {
-    path: "/property/:1",
+    path: "/property",
     name: "property",
     component: PropertyView,
     meta: {
