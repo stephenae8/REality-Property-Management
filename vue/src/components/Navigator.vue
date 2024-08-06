@@ -34,7 +34,7 @@
         v-if="this.$store.state.token != ''"
         >Log Out</router-link
       >
-      <router-link :to="{ name: 'home' }"
+      <router-link :to="{ name: 'Available' }"
         >Available Properties</router-link
       >
       <router-link to="#" >About Us</router-link> 
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       username: this.$store.state.user.username,
+      role: this.$store.state.user.role,
       // role: this.$store.state.user.authorities[0].name,
       id: this.$store.state.user.id,
       mouseover: Boolean
