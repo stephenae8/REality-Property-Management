@@ -69,7 +69,7 @@ export default {
 #footer{
     padding: 30px;
     display: flex;
-    height: 400px;
+    height: 300px;
     background-color: lightgray;
 }
 

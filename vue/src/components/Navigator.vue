@@ -34,7 +34,7 @@
         v-if="this.$store.state.token != ''"
         >Log Out</router-link
       >
-      <router-link :to="{ name: 'home' }"
+      <router-link :to="{ name: 'Available' }"
         >Available Properties</router-link
       >
       <router-link to="#" >About Us</router-link> 

@@ -18,27 +18,8 @@
   <h3 id="unique">Explore Rental In Columbus, Ohio</h3>
 
   <div id="preview">
-    <div
-      style="border: 1px solid grey; border-radius: 2px"
-      v-for="(one, index) in apartmentdescrption"
-      :key="index"
-    >
-      <img
-        style="border: 1px solid grey"
-        class="photo"
-        :src="one.photo"
-        alt=""
-      />
-
-      <span
-        style="
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-        "
-      >
-        <h5>{{ one.name }} {{ one.address }}</h5>
-      </span>
+    <div v-for="(one, index) in 4" :key="index">
+      <property-card></property-card>
     </div>
   </div>
   <div
@@ -73,7 +54,7 @@
 
 <script>
 // import Navigator from '../components/Navigator.vue';
-import FooterP from '../components/Footer.vue'
+import PropertyCard from './PropertyCard.vue';
 export default {
   data() {
     return {
@@ -118,6 +99,10 @@ export default {
       ],
     };
   },
+
+  components: {
+    PropertyCard,
+  }
 
   
 };
@@ -264,9 +249,10 @@ button {
 }
 
 #preview {
-  margin-top: 1%;
+  margin-top: 3%;
   display: flex;
-  /* border: 1px solid black; */
+  margin-left: 9%;
+  width: 85%;
   justify-content: space-around;
 }
 

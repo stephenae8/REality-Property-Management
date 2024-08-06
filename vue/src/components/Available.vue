@@ -63,7 +63,21 @@
             </div>
         </span>
         <div id="secondMain">
+            
         <PropertyCard></PropertyCard>
+        <PropertyCard></PropertyCard>
+        <PropertyCard></PropertyCard>
+        <PropertyCard></PropertyCard> 
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>   
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>        
+        <PropertyCard></PropertyCard>        
+        
+
     </div>
       
     </div>
@@ -83,10 +97,14 @@ export default {
 <style scoped>
 
 #secondMain{
-    margin-left: 10%;
-    border: 1px solid black;
-    width: 80%;
+    margin-top: 1%;
+    width: 85%;
+    margin-left: 8%;
     padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    justify-content:space-between;
 }
 
 
@@ -100,7 +118,7 @@ export default {
 
 
 #main{
-    height: 800px;
+    height: auto;
 }
 
 #secondbox{
@@ -146,5 +164,8 @@ img{
     width: 65px;
 }
 
+input:focus{
+    outline: none;
+}
 
 </style>

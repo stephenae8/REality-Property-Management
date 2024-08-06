@@ -7,7 +7,11 @@ import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import PropertyView from '../views/PropertyView.vue';
+
 import AvailableView from '../views/AvailableView.vue';
+
+import OwnerView from '../views/OwnerView.vue';
+
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -51,7 +55,7 @@ const routes = [
     }
   },
   {
-    path: "/property",
+    path: "/property/:1",
     name: "property",
     component: PropertyView,
     meta: {
@@ -59,9 +63,14 @@ const routes = [
     }
   },
   {
+
     path: '/available',
     name: 'Available',
     component: AvailableView,
+  },{
+    path: "/owner",
+    name: "owner",
+    component: OwnerView,
     meta: {
       requiresAuth: false
     }
