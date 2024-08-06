@@ -8,7 +8,6 @@ public interface PropertyDAO {
 
     List<Property> getProperties();
     Property getPropertyById(int propId);
-
-    Property getPropertyByOwnerId(int ownerId);
+    List<Property> getPropertyByOwnerId(int ownerId);
 
 }
