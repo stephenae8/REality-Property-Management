@@ -20,25 +20,50 @@ public class PropertyController {
     @Autowired
     private final PropertyDAO propertyDAO;
 
-    public PropertyController(PropertyDAO propertyDAO){
+    public PropertyController(PropertyDAO propertyDAO) {
         this.propertyDAO = propertyDAO;
     }
 
-//    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("PermitAll()")
+    //    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("permitAll()")
     @GetMapping(path = "/property")
-    public List<Property> getAllProperties(Principal principal){
-        List <Property> propertyList;
+    public List<Property> getAllProperties(Principal principal) {
+        List<Property> propertyList;
 
         try {
-           propertyList =  propertyDAO.getProperties();
-        } catch (DaoException e){
+            propertyList = propertyDAO.getProperties();
+        } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Found :(");
         }
         return propertyList;
     }
 
-     
+    @GetMapping(path = "property/manage-by-owner-id/{owner_id}")
+    public List<Property> getPropByOwnerId(@PathVariable int ownerId) {
+        List<Property> propByOwnerIdList;
+
+        try {
+            propByOwnerIdList = propertyDAO.getPropertyByOwnerId(ownerId);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Found :(");
+        }
+        return propByOwnerIdList;
+
+    }
+
+    @GetMapping(path = "property/manage-by-property-id/{prop_id}")
+    public Property getPropByPropId(@PathVariable int propId) {
+        Property propByPropId = null;
+
+        try {
+            propByPropId = propertyDAO.getPropertyByPropId(propId);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Found :(");
+        }
+        return propByPropId;
+
+    }
+
 
 
 }
