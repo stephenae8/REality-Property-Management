@@ -1,4 +1,6 @@
 <template>
+
+    <h1>{{ hotels }}</h1>
     <div class="all">
         <div class="address">
             <header>The Tyler 123 Maple St, 62701</header>
@@ -120,17 +122,36 @@
 </template>
 
 <script>
+import AuthService from '../services/AuthService.js';
 import PropertyCard from '../components/PropertyCard.vue';
 export default {
-    props: {
-        id: Number,
+ 
+
+    data(){
+        return{
+            hotels: []
+        }
+    },
+
+    components: {
+        PropertyCard,
+        
     },
 
 
-    components: {
-        PropertyCard
-    }
+    computed: {
+        here(){
+          let  hello = [];
+           
+          AuthService.hotel().then((e)=>{
+            hello = e.data
+          });
+            return hello
+        }
+    },
 
+
+ 
 }
 </script>
 
