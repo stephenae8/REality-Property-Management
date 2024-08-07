@@ -31,7 +31,9 @@
       align-items: center;
     "
   >
-  <router-link :to="{name: 'Available'}"> <button id="middlebutton">Click to View More</button></router-link> 
+  <!-- <router-link :to="{name: 'Available'}">  -->
+    <button @click="moveToAvailable" id="middlebutton">Click to View More</button>
+  <!-- </router-link>  -->
   </div>
   <hr style="width: 70%; margin-left: 17%" />
 
@@ -67,6 +69,10 @@ export default {
   },
 
   methods: {
+    moveToAvailable() {
+      this.$router.push({name: 'Available'});
+
+    },
     createdProp(){
       PropertyService.getProperty().then((e)=>{
         this.apartmentdescrption = e.data
