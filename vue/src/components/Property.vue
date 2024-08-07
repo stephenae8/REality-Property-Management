@@ -1,54 +1,33 @@
 <template>
-
-    <h1>{{ hotels }}</h1>
+    
     <div class="all">
         <div class="address">
-            <header>The Tyler 123 Maple St, 62701</header>
+            <header> {{ street }} {{ city }} {{ state }}</header>
         </div>
         <div class="sliderAndApplication">
             <div class="whole-slider">
-
                 <div class="slider-container">
-
                     <div id="carouselExampleIndicators" class="carousel slide">
-
                         <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                                class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                                aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
+                            <button v-for="(image, index) in imageUrls" :key="index" type="button" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index" :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)"></button>
                         </div>
 
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.adsttc.com/media/images/5be3/3a40/08a5/e549/e300/0315/newsletter/42442.jpg?1541618191"
-                                    class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.adsttc.com/media/images/5be3/3a40/08a5/e549/e300/0315/newsletter/42442.jpg?1541618191"
-                                    class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.adsttc.com/media/images/5be3/3a40/08a5/e549/e300/0315/newsletter/42442.jpg?1541618191"
-                                    class="d-block w-100" alt="...">
+                            <div v-for="(image, index) in imageUrls" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
+                                <img :src="image" class="d-block w-100" alt="...">
                             </div>
                         </div>
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
-                        <div class="appForm">
 
+                        <div class="appForm">
                         </div>
                     </div>
                 </div>
@@ -56,54 +35,39 @@
             <form action="" class="submitApplication">
                 <div class="applicationBox">
                     <div class="firstName">
-                    <p>Move In Date?</p>
-                    <input type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
+                        <p>Move In Date?</p>
+                        <input type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
+                    </div>
+                    <div class="submitButton">
+                        <button type="submit" style="width: 100px;">Submit</button>
+                    </div>
                 </div>
-                <div class="submitButton">
-                    <button type="submit" style="width: 100px;">Submit</button>
-                </div>
-
-
-                </div>
-                
             </form>
         </div>
 
         <div class="priceDetails">
             <p>
-                <img src="https://img.icons8.com/?size=100&id=7163&format=png&color=000000" alt=""
-                    style="width: 40px">PRICE: $1738
+                <img src="https://img.icons8.com/?size=100&id=7163&format=png&color=000000" alt="" style="width: 40px">  
+                   PRICE: {{ rent }}                 
             </p>
         </div>
 
         <div class="propertyDetails">
             <p>
-            <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt=""
-                    style="width: 50px">
+                <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt="" style="width: 50px">
+                    <p> {{bed}} Bed</p>
+                </div>
 
-                <p> 3 Bed</p>
-            </div>
-
-            <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt=""
-                    style="width: 50px">
-
-                <p> 2 Bath</p>
-
-            </div>
-            <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt=""
-                    style="width: 50px">
-                <p>Pets Allowed!</p>
-
-            </div>
-
-
+                <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" style="width: 50px">
+                    <p> {{bath}} Bath</p>
+                </div>
+                <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" style="width: 50px">
+                    <p>Pets Allowed!</p>
+                </div>
             </p>
-
         </div>
         <div class="SimilarHomes">
-            <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt=""
-                    style="width: 50px">
-                More Homes</div>
+            <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt="" style="width: 50px"> More Homes</div>
         </div>
         <div class="AllCardContainer">
             <div class="PropertyCardContainer">
@@ -115,45 +79,100 @@
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
-
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import PropertyCard from '../components/propertycard.vue';
+import PropertyCard from '../components/PropertyCard.vue'
 import PropertyService from '../services/PropertyService.js'
-export default {
- 
 
-    data(){
-        return{
-            hotels: []
+export default {
+    data() {
+        return {
+            hotels: [],
+            imageUrls: [], 
+            rent: [],
+            street: [],
+            city: [],
+            state: [],
+            bed: [],
+            bath: [],
+
+
         }
     },
     created() {
         this.firstCase();
+        this.fetchPrice();
+        this.fetchStreet();
+        this.fetchCity();
+        this.fetchState();
+        this.fetchBed();
+        this.fetchBath();
     },
-
     methods: {
-        firstCase(){
-
-            PropertyService.getProperty().then((e)=>{
-                this.hotels= e.data
+        firstCase() {
+            PropertyService.getProperty().then((e) => {
+                this.hotels = e.data;
+                if (this.hotels.length > 0) {
+                    this.imageUrls = this.hotels[0].imgString;
+                }
             }).catch(err => console.error(err));
-
+        },
+        fetchPrice() {
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.rent = this.json[0].rent;
+                }
+            }).catch(err => console.error(err));
+        } ,
+        fetchStreet(){
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.street = this.json[0].address;
+                }
+            }).catch(err => console.error(err));
+        },
+        fetchCity(){
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.city = this.json[0].city;
+                }
+            }).catch(err => console.error(err));
+        },
+        fetchState(){
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.state = this.json[0].state;
+                }
+            }).catch(err => console.error(err));
+        },
+        fetchBed(){
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.bed = this.json[0].bedrooms;
+                }
+            }).catch(err => console.error(err));
+        },
+        fetchBath(){
+            PropertyService.getProperty().then((e) => {
+                this.json = e.data;
+                if (this.json.length > 0){
+                    this.bath = this.json[0].bathrooms;
+                }
+            }).catch(err => console.error(err));
         }
     },
-
-
     components: {
         PropertyCard,
-        
     },
-
-
- 
 }
 </script>
 
@@ -164,14 +183,12 @@ export default {
     display: flex;
     justify-content: space-between;
     grid-template-columns: repeat(2, .5fr);
-
 }
 
 .whole-slider {
     max-width: 650px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-
 }
 
 #carouselExampleIndicators {
@@ -188,15 +205,13 @@ export default {
     transition: box-shadow 0.4s;
 }
 
-
 .priceDetails,
 .propertyDetails {
+    display: flex;
     font-size: 1.2em;
     color: #333;
-
     font-family: 'Roboto', sans-serif;
     padding: 1%;
-
 }
 
 .priceDetails {
@@ -223,10 +238,13 @@ export default {
     border: 1px solid #eaeaea;
     text-align: center;
     padding-bottom: 0px;
-
-
-
-
+    p{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 10%;
+        margin-bottom: auto;
+    }
 }
 
 .PropertyCardContainer {
@@ -234,13 +252,10 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     max-width: 1000px;
-
-
 }
 
 .AllCardContainer {
     display: flex;
-
 }
 
 .all {
@@ -274,15 +289,12 @@ export default {
     padding-top: 10%;
     padding-bottom: 10%;
     max-height: 200px;
-    .submitButton{
-        display: flex;
-        justify-content: center;
-
-    }
-
-
 }
 
+.submitButton {
+    display: flex;
+    justify-content: center;
+}
 
 .applicationBox:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -297,8 +309,6 @@ input {
     text-align: left;
 }
 
-
-
 .submitApplication {
     display: flex;
     justify-content: center;
@@ -306,9 +316,5 @@ input {
     width: 100%;
     height: 100%;
     font-size: small;
-    
 }
-
-
-
 </style>
