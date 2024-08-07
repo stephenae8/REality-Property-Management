@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 @RestController
 @CrossOrigin
 
@@ -44,20 +44,26 @@ public class ApplicationController {
     @RequestMapping(path = "/applications/create", method = RequestMethod.POST )
 
     public Applications postMapping(@RequestBody Applications incomingData){
-        System.out.println("Incoming Data:");
-        System.out.println(incomingData);
-
         //save the application in confirmedApplication
-        Applications confirmedApplication = applicationsDao.createApplication(incomingData);
+        try{
+            return applicationsDao.createApplication(incomingData);
 
-        return confirmedApplication;
+        } catch (DaoException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Application not found: ");
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/applications/update", method = RequestMethod.PUT)
 
     public Applications updatedApplication(@Valid @RequestBody Applications updatedApplication){
-      return applicationsDao.updateApplication(updatedApplication);
+
+        try{
+            return applicationsDao.updateApplication(updatedApplication);
+        } catch (DaoException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Application not found: ");
+        }
+
     }
 
 }

@@ -18,4 +18,6 @@ public interface ApplicationsDao {
     Applications createApplication(Applications applications); //create app by incoming app
 
     Applications updateApplication (Applications applications); //update specific app by app
+
+    Applications getApplicationsByAppId(int appId);
 }

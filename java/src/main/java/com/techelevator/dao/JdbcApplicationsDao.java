@@ -8,10 +8,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcApplicationsDao implements ApplicationsDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -45,9 +47,9 @@ public class JdbcApplicationsDao implements ApplicationsDao {
 
         Applications applications = null;
 
-        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_data " +
+        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
                     "FROM applications " +
-                    "WHERE prop_id?;";
+                    "WHERE prop_id= ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, propId);
             if (results.next()) {
@@ -63,7 +65,8 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     public List<Applications> getAllApplications() {
         List<Applications> applications = new ArrayList<>();
 
-        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date;";
+        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
+                "FROM applications;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -86,13 +89,30 @@ public class JdbcApplicationsDao implements ApplicationsDao {
                     applications.getPropId(), applications.getMoveInDate(),
                     applications.getAppStatus(), applications.getAppDate());
 
-            newApplications = getApplicationsByUserId(newApplicationId);
+            newApplications = getApplicationsByAppId(newApplicationId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
         return newApplications;
+    }
+    @Override
+    public Applications getApplicationsByAppId(int appId) {
+        Applications applications = null;
+
+        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
+                "FROM applications " +
+                "WHERE app_id= ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, appId);
+            if (results.next()) {
+                applications = mapRowToApplications(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return applications;
     }
 
     @Override
