@@ -9,13 +9,15 @@ import java.util.Properties;
 
 public interface ApplicationsDao {
 
-    Applications getApplicationsByUserId(User incomingUser); //get app by user Id
+    Applications getApplicationsByUserId(int userId); //get app by user Id
 
-    Applications getApplicationsByPropId(Properties incomingProperty); //get app by prop Id
+    Applications getApplicationsByPropId(int propId); //get app by prop Id
 
     List<Applications> getAllApplications(); //get a list of ALL apps
 
-    Applications createApplication(Application incomingApplication); //create app by incoming app
+    Applications createApplication(Applications applications); //create app by incoming app
 
-    Applications updateApplication (Application incomingApplication); //update specific app by app
+    Applications updateApplication (Applications applications); //update specific app by app
+
+    Applications getApplicationsByAppId(int appId);
 }

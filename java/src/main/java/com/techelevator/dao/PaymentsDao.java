@@ -8,15 +8,17 @@ import java.util.List;
 import java.util.Properties;
 
 public interface PaymentsDao {
-    List<Payments> getPaymentsByUserId(User incomingUser); //get payments by user Id
+    List<Payments> getPaymentsByUserId(int userId); //get payments by user Id
 
-    List<Payments> getPaymentsByPropId(Properties incomingProperty); //get payments by property
+    List<Payments> getPaymentsByPropId(int propId); //get payments by property
 
-    List<Payments> getPaymentsByLeaseId(Lease incomingLease); //get payments by lease Id
+    List<Payments> getPaymentsByLeaseId(int leaseId); //get payments by lease Id
 
     List<Payments> getALlPayments ();
 
-    Payments createPayment (Payments incomingPayment); //create payment by user Id
+    Payments createPayment (Payments payments); //create payment by user Id
+
+    Payments getPaymentsByPayId(int payId);
 
 
 }
