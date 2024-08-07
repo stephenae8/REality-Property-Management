@@ -67,7 +67,11 @@ const routes = [
     path: '/available',
     name: 'Available',
     component: AvailableView,
-  },{
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: "/owner",
     name: "owner",
     component: OwnerView,

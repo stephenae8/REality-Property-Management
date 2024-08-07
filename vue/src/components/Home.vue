@@ -18,8 +18,8 @@
   <h3 id="unique">Explore Rental In Columbus, Ohio</h3>
 
   <div id="preview">
-    <div v-for="(one, index) in 4" :key="index">
-      <property-card></property-card>
+    <div  v-for="one in justfour" :key="one.propId">
+  <different-card :OneIndividual="one"></different-card>
     </div>
   </div>
   <div
@@ -31,7 +31,7 @@
       align-items: center;
     "
   >
-  <router-link :to="{name: 'home'}"> <button id="middlebutton">Click to View More</button></router-link> 
+  <router-link :to="{name: 'Available'}"> <button id="middlebutton">Click to View More</button></router-link> 
   </div>
   <hr style="width: 70%; margin-left: 17%" />
 
@@ -54,54 +54,41 @@
 
 <script>
 // import Navigator from '../components/Navigator.vue';
+import PropertyService from '../services/PropertyService.js';
 import PropertyCard from './PropertyCard.vue';
+import DifferentCard from './DifferentCard.vue';
 export default {
   data() {
     return {
       UserSearch: "",
-      apartmentdescrption: [
-        {
-          photo:
-            "https://images.adsttc.com/media/images/5be3/3a40/08a5/e549/e300/0315/newsletter/42442.jpg?1541618191",
-          name: "The Tyler",
-          address: "123 Maple St, 62701",
-          city: "Springfield",
-          state: "IL",
-          zipcode: "62701",
-        },
-        {
-          photo:
-            "https://www.interiorzine.com/wp-content/uploads/2020/02/scandinavian-style-apartment-nouvel-interior-5.jpg",
-          name: "The Dorian",
-          address: "123 Maple St, 62701",
-          city: "Springfield",
-          state: "IL",
-          zipcode: "62701",
-        },
-        {
-          photo:
-            "https://media.istockphoto.com/id/611895696/photo/trendy-open-floor-plan-idea.jpg?s=612x612&w=0&k=20&c=-26a1zEi33oP_Gyv48WcTTyDKTPB8gmkP7yTH7Hiczs=",
-          name: "The Nellie",
-          address: "123 Maple St, 62701",
-          city: "Springfield",
-          state: "IL",
-          zipcode: "62701",
-        },
-        {
-          photo:
-            "https://interioreast.com/wp-content/uploads/2019/12/small-apartment.jpg",
-          name: "The Prancer",
-          address: "123 Maple St, 62701",
-          city: "Springfield",
-          state: "IL",
-          zipcode: "62701",
-        },
-      ],
+      apartmentdescrption: [],
+       
     };
+  },
+
+  methods: {
+    createdProp(){
+      PropertyService.getProperty().then((e)=>{
+        this.apartmentdescrption = e.data
+      })
+    }
+  }, 
+
+  computed: {
+    justfour(){
+      let fourProp = [];
+      return fourProp = [this.apartmentdescrption[0], this.apartmentdescrption[1], this.apartmentdescrption[2], this.apartmentdescrption[3]]
+    },
+   
+  },
+
+  created(){
+    this.createdProp()
   },
 
   components: {
     PropertyCard,
+    DifferentCard
   }
 
   
