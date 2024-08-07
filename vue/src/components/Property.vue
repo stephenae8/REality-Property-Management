@@ -105,14 +105,14 @@
         </div>
         <div class="AllCardContainer">
             <div class="PropertyCardContainer">
+                <!-- <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
                 <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
+                <PropertyCard></PropertyCard> -->
 
             </div>
         </div>
