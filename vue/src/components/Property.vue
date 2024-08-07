@@ -1,6 +1,4 @@
 <template>
-
-    <h1>{{ hotels }}</h1>
     <div class="all">
         <div class="address">
             <header>The Tyler 123 Maple St, 62701</header>
@@ -125,6 +123,8 @@
 import PropertyCard from '../components/propertycard.vue';
 import PropertyService from '../services/PropertyService.js'
 export default {
+
+  
  
 
     data(){
@@ -132,19 +132,9 @@ export default {
             hotels: []
         }
     },
-    created() {
-        this.firstCase();
-    },
+ 
 
-    methods: {
-        firstCase(){
 
-            PropertyService.getProperty().then((e)=>{
-                this.hotels= e.data
-            }).catch(err => console.error(err));
-
-        }
-    },
 
 
     components: {

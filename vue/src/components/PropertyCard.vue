@@ -1,16 +1,56 @@
 <template>
+
 <div class="card" >
     <a href="#" target="_blank">
-<img src="https://images.adsttc.com/media/images/5be3/3a40/08a5/e549/e300/0315/newsletter/42442.jpg?1541618191" alt="Apartment image">
+<img :src="justOne[0].imgString[4]" alt="Apartment image">
     </a>
-    <p>The Tyler 123 Maple St, 62701asdfl kjasldf jasld;kf jas;ldf ja;sldf j;alsfj ;lasj fa s;ldkfjas;dlk fj;sldk fj;lasdj f;laksdj f;lkasdj f;lasdj f;laskdj f;lasj f;laskjf ;als fj;alsdkj f</p>
+    <h6 style="font-size: 14px; text-align: center; margin-top: 1%;">{{justOne[0].address}}</h6>
+    <p style="font-size: 12px; text-align: center;">{{ justOne[0].city }}, {{ justOne[0].state }}  {{ justOne[0].zipCode }}</p>
+   
 </div>
 </template>
 
 <script>
+import PropertyService from '../services/PropertyService';
 export default {
+    
+   
 
-}
+    
+    data(){
+        return{
+            property: []
+        }
+    },
+    methods:{
+        propertyCreate(){
+            PropertyService.getProperty().then((e)=>{
+                this.property = e.data
+            })
+        }
+    },
+
+    computed: {
+        justOne(){
+            let oneProperty = {}
+        oneProperty = this.property.filter((e)=>{
+                if( this.$route.params.id == e.propId){
+                    return e
+                }[0]                  
+                 })  
+                 
+               return oneProperty
+                }
+              
+            },
+
+        created(){
+        this.propertyCreate()
+    }
+    }
+
+
+
 </script>
 
 <style scoped>
