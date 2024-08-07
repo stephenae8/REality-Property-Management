@@ -62,21 +62,10 @@
                 </div>
             </div>
         </span>
-        <div id="secondMain">
-            
-        <PropertyCard></PropertyCard>
-        <PropertyCard></PropertyCard>
-        <PropertyCard></PropertyCard>
-        <PropertyCard></PropertyCard> 
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>   
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>        
-        <PropertyCard></PropertyCard>        
-        
+        <div id="secondMain" style="border: 1px solid black;">
+            <div style="margin-bottom: 2%;"  v-for="one in getthemAll" :key="one.propId">
+            <DifferentCard  :-one-individual="one" ></DifferentCard>
+            </div>
 
     </div>
       
@@ -86,11 +75,38 @@
 </template>
 
 <script>
+import PropertyService from '../services/PropertyService.js';
 import PropertyCard from './PropertyCard.vue';
+import DifferentCard from './DifferentCard.vue';
 export default {
+    data(){
+        return{
+            allProperty: []
+        }
+    },
+    
     components: {
-        PropertyCard
+        DifferentCard
+    },
+
+    methods:{
+        getproperty(){
+            PropertyService.getProperty().then((e)=>{
+                this.allProperty = e.data
+            })
+        }
+    },
+    created(){
+        this.getproperty()
+    },
+
+    computed: {
+        getthemAll(){
+            let newArray = [];
+            return newArray = this.allProperty
+        }
     }
+
 }
 </script>
 
@@ -98,13 +114,14 @@ export default {
 
 #secondMain{
     margin-top: 1%;
-    width: 85%;
-    margin-left: 8%;
+    width: 95%;
+    margin-left: 3%;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
     height: auto;
-    justify-content:space-between;
+    justify-content:space-evenly;
+
 }
 
 
