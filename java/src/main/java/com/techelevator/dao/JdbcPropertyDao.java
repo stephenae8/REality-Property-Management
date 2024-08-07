@@ -1,6 +1,8 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Amenities;
+import com.techelevator.model.Images;
 import com.techelevator.model.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -25,7 +27,7 @@ public class JdbcPropertyDao implements PropertyDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //methods
+    //GET methods
 
     // POV: prop own/mgr logs in to view multiple props
     @Override
@@ -51,7 +53,7 @@ public class JdbcPropertyDao implements PropertyDAO {
 
     //POV: prop own/mgr login for specific prop
     @Override
-    public List<Property> getPropertyByOwnerId(int ownerId) {
+    public List<Property> getPropertiesByOwnerId(int ownerId) {
         List<Property> listofOwnedProps = new ArrayList<>();
         String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
                 "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
@@ -72,14 +74,14 @@ public class JdbcPropertyDao implements PropertyDAO {
         return listofOwnedProps;
     }
 
-    //POV: specific property for tenant login
+    //POV: specific property for general user login
     @Override
     public Property getPropertyByPropId(int propId) {
         Property oneProp = null;
-        String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
-                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
-                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
-                "\"WHERE prop_id = ?";
+        String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '\\|')\n" +
+                " FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id " +
+                " GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
+                " WHERE prop_id = ? ;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
             if (rowSet.next()) {
@@ -93,6 +95,77 @@ public class JdbcPropertyDao implements PropertyDAO {
 
         return oneProp;
     }
+
+    //POST methods
+
+    @Override
+    public Property createProperty(Property property, Amenities amenities, Images images) {
+
+        String sql = "INSERT INTO properties (owner_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms)\n" +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
+        "RETURNING prop_id";
+
+        String sql2 =
+        "INSERT INTO amenities (prop_id, dishwasher, central_air, laundry, pets_allowed)\n" +
+        "VALUES (?, ?, ?, ?, ?)";
+
+        String sql3 =
+                "INSERT INTO images (prop_id, img_url) VALUES (?,?)";
+
+        try {
+            int newPropId =
+                    jdbcTemplate.queryForObject(sql, int.class,
+                    property.getOwnerId(),
+                    property.getAddress(),
+                    property.getCity(),
+                    property.getState(),
+                    property.getZipCode(),
+                    property.isVacancy(),
+                    property.isPending(),
+                    property.getRent(),
+                    property.getBedrooms(),
+                    property.getBathrooms());
+
+            jdbcTemplate.update(sql2,
+                    newPropId,
+                    amenities.isDishwasher(),
+                    amenities.isCentralAir(),
+                    amenities.isLaundry(),
+                    amenities.isPetsAllowed());
+
+            jdbcTemplate.update(sql3,
+                    newPropId,
+                    images.getImageURL());
+
+
+//            newProperty = getPropertyByPropId(newPropId);
+            property.setPropId(newPropId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (NullPointerException e) {
+            throw new DaoException("Property not found. :(", e);
+        }
+
+        return property;
+
+    }
+
+
+
+
+    //PUT methods
+
+
+
+
+
+
+
+
+
+
+
+
 
     //mapRowSet
     private Property mapRowToProperty(SqlRowSet rowSet) {
