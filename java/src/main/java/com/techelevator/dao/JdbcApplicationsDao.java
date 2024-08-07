@@ -101,8 +101,7 @@ public class JdbcApplicationsDao implements ApplicationsDao {
         String sql = "UPDATE applications SET app_status = ? " + "WHERE user_id = ?;";
 
         try {
-            int numberOfRows = jdbcTemplate.update(sql, applications.getMoveInDate(), applications.getAppStatus(),
-                    applications.getAppDate());
+            int numberOfRows = jdbcTemplate.update(sql, applications.getAppStatus(), applications.getUserId());
 
             if (numberOfRows == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
