@@ -96,7 +96,7 @@ public class PropertyController {
     //        try {
     //            createProperty = propertyDAO.createProperty(prdto.getProperty(), prdto.getAmenities(),prdto.getImages());
     //        } catch (DaoException e) {
-    //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Found :(");
+    //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
     //        }
     //        return createProperty;
     //    }
