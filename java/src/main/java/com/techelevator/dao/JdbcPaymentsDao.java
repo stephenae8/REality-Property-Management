@@ -8,9 +8,12 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+@Component
 
 public class JdbcPaymentsDao implements PaymentsDao{
 
@@ -74,7 +77,8 @@ public class JdbcPaymentsDao implements PaymentsDao{
     @Override
     public List<Payments> getALlPayments() {
         List<Payments> payments = new ArrayList<>();
-        String sql = "SELECT pay_id, user_id, prop_id, lease_id, pay_period, pay_date, amount, late;";
+        String sql = "SELECT pay_id, user_id, prop_id, lease_id, pay_period, pay_date, amount, late " +
+                "FROM payments;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -90,12 +94,12 @@ public class JdbcPaymentsDao implements PaymentsDao{
     public Payments createPayment(Payments payments) {
         Payments newPayments = null;
 
-        String sql = "INSERT into payments (user_id, prop_id, lease_id, pay_period, pay_date, amount, late)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING pay_id;";
+        String sql = "INSERT into payments (user_id, prop_id, lease_id, pay_date, amount, late)" +
+                    "VALUES (?, ?, ?, ?, ?, ?) RETURNING pay_id;";
         try {
             int newPaymentsId = jdbcTemplate.queryForObject(sql, int.class, payments.getUserId(),
                     payments.getPropId(), payments.getLeaseId(),
-                    payments.getPayPeriod(), payments.getPayDate(), payments.getAmount(), payments.isLate());
+                    payments.getPayDate(), payments.getAmount(), payments.isLate());
 
             newPayments = getPaymentsByPayId(newPaymentsId);
         } catch (CannotGetJdbcConnectionException e) {

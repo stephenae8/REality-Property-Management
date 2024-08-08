@@ -81,6 +81,14 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+  },
+  {
+    path: "/manager",
+    name: "manager",
+    component: OwnerView,
+    meta: {
+      requiresAuth: false
+    }
   },{
     path: '/tenant',
     name: 'Tenant',
