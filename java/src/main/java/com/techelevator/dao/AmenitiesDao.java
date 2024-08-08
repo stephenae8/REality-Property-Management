@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Properties;
 
 public interface AmenitiesDao {
-    List<Amenities> getAmenitiesByPropId(Properties incomingProperty);  // get amenities by propId
+    List<Amenities> getAmenities();  // get all amenities
 
-    Amenities createAmenitiesByPropId(Properties incomingProperty); //create amenities listed by the propId
+    Amenities getAmenitiesByPropId(int propId); //get amenities by Property ID
 
-    Amenities updateAmenitiesByPropId(Properties incomingProperty); //update the amenities by prop Id
+    Amenities createAmenities(Amenities amenities); //create amenities listed by the propId
+
+    Amenities updateAmenities(Amenities amenities); //update the amenities by prop Id
 }

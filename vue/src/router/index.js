@@ -12,6 +12,9 @@ import AvailableView from '../views/AvailableView.vue';
 
 import OwnerView from '../views/OwnerView.vue';
 
+import TenantView from '../views/TenantView.vue';
+
+
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -55,7 +58,7 @@ const routes = [
     }
   },
   {
-    path: "/property",
+    path: "/property/:id",
     name: "property",
     component: PropertyView,
     meta: {
@@ -75,6 +78,21 @@ const routes = [
     path: "/owner",
     name: "owner",
     component: OwnerView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/manager",
+    name: "manager",
+    component: OwnerView,
+    meta: {
+      requiresAuth: false
+    }
+  },{
+    path: '/tenant',
+    name: 'Tenant',
+    component: TenantView,
     meta: {
       requiresAuth: false
     }

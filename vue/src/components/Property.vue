@@ -1,7 +1,7 @@
 <template>
     <div class="all">
         <div class="address">
-            <header> {{ street }} {{ city }} {{ state }} </header>
+            <header> {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
         </div>
         <div class="sliderAndApplication">
             <div class="whole-slider">
@@ -40,10 +40,11 @@
                 <div class="applicationBox">
                     <div class="firstName">
                         <p>Move In Date?</p>
-                        <input v-model="date" type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
+                        <input v-model="application.moveInDate" type="date" default="2017-05-15" name="calendar"
+                            placeholder=""><br /><br />
                     </div>
                     <div class="submitButton">
-                        <button type="submit" style="width: 100px;">Submit</button>
+                        <button type="submit" style="width: 100px;" @click.prevent="submitApp">Submit</button>
                     </div>
                 </div>
             </form>
@@ -52,7 +53,8 @@
         <div class="priceDetails">
             <p>
                 <img src="https://img.icons8.com/?size=100&id=7163&format=png&color=000000" alt="" style="width: 40px">
-                PRICE: 
+                PRICE: {{ justTest.rent }}
+
             </p>
         </div>
 
@@ -60,18 +62,22 @@
             <p>
             <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt=""
                     style="width: 50px">
-                <p> Bed</p>
+                <p> {{ justTest.bedrooms }} Bed</p>
             </div>
 
             <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt=""
                     style="width: 50px">
-                <p> Bath</p>
+                <p> {{ justTest.bathrooms }} Bath</p>
             </div>
             <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt=""
                     style="width: 50px">
                 <p>Pets Allowed!</p>
             </div>
+
+
             </p>
+
+            
         </div>
         <div class="SimilarHomes">
             <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt=""
@@ -80,7 +86,8 @@
         <div class="AllCardContainer">
             <div class="PropertyCardContainer">
                 <div v-for="one in justfour" :key="one.propId">
-                    <different-card :OneIndividual="one"></different-card>
+                    <router-link :to="{ name: 'property', params: { id: one.propId } }"><different-card
+                            :OneIndividual="one"></different-card></router-link>
                 </div>
             </div>
         </div>
@@ -91,69 +98,88 @@
 import PropertyCard from '../components/PropertyCard.vue'
 import PropertyService from '../services/PropertyService.js'
 import DifferentCard from '../components/DifferentCard.vue'
+import ApplicationService from '../services/ApplicationService.js'
 
 
 export default {
     props:
-        {
-            OneIndividual: Object
+    {
+        OneIndividual: Object
 
-        },
-    
-        data() {
-    return {
-      hotels: [],
-      imageUrls: [],
-      apartmentDescription: [],
-      property: [],
-      status: '',
-      application: {
-        moveInDate: '',
-        userId: 9001,
-        propId: 9020,
-        appDate: Date.now()
-      }
-    }
-  },
-  
-  created() {
-    this.firstCase();
-    this.createdProp();
-    this.propertyCreate();
-  },
-  
-  methods: {
-    firstCase() {
-      PropertyService.getProperty().then((e) => {
-        this.hotels = e.data;
-        if (this.hotels.length > 0) {
-          this.imageUrls = this.hotels[0].imgString;
+    },
+
+    data() {
+        return {
+            id: this.$route.params.id,
+            justone: [],
+            imageUrls: [],
+            application: {
+                moveInDate: '',
+                userId: 9001,
+                propId: 9020,
+                appDate: "2020-11-10T10:00:00",
+                appStatus: 'approved'
+            }
         }
-      }).catch(err => console.error(err));
     },
-    createdProp() {
-      PropertyService.getProperty().then((e) => {
-        this.apartmentDescription = e.data;
-      }).catch(err => console.error(err));
-    },
-    propertyCreate() {
-      PropertyService.getProperty().then((e) => {
-        this.property = e.data;
-      }).catch(err => console.error(err));
-    },
-    
-  },
-  
-  computed: {
-    justfour() {
-      return this.apartmentDescription.slice(0, 4);
-    }
-  },
-  
-  components: {
-    DifferentCard
-  }
 
+    created() {
+        this.firstCase();
+        this.oneProp();
+    },
+
+    methods: {
+
+        oneProp() {
+            PropertyService.getProperty().then((e) => {
+                this.justone = e.data
+            });
+        },
+
+
+        firstCase() {
+            PropertyService.getProperty().then((e) => {
+                this.justone = e.data;
+                if (this.justone.length > 0) {
+                    this.imageUrls = this.justone[0].imgString;
+                }
+            }).catch(err => console.error(err));
+        },
+      
+       
+        submitApp() {
+            ApplicationService.createApplication(this.application)
+                .then(response => {
+                    if (response.status == 201) {
+                        alert('App submitted!')
+                    }
+                })
+                .catch(e => console.log("Error creating application"))
+        }
+    },
+
+
+    computed: {
+
+        justfour(){
+      let fourProp = [];
+      return fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+    },
+
+        justTest() {
+            let newOne = {}
+            newOne = this.justone.filter((e) => {
+                if (this.id == e.propId) {
+                    return e
+                }
+            })[0]
+            return newOne;
+        },
+    },
+
+    components: {
+        DifferentCard
+    }
 
 }
 
@@ -302,5 +328,4 @@ input {
     width: 100%;
     height: 100%;
     font-size: small;
-}
-</style>
+}</style>

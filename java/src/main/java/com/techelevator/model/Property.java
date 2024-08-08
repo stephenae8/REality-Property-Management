@@ -67,11 +67,11 @@ public class Property {
         return zipCode;
     }
 
-    public Boolean getVacancy() {
+    public Boolean isVacancy() {
         return vacancy;
     }
 
-    public Boolean getPending() {
+    public Boolean isPending() {
         return pending;
     }
 

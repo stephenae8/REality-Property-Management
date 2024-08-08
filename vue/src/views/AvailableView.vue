@@ -1,13 +1,13 @@
 <template>
-    <Avialable></Avialable>
-    
+    <Available></Available>
+    <!-- <h2>Hello</h2> -->
 </template>
 
 <script>
-import Avialable from '../components/Available.vue';
+import Available from '../components/Available.vue';
 export default {
     components: {
-        Avialable
+        Available
     }
     
 }

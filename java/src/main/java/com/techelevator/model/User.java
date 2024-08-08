@@ -11,11 +11,11 @@ public class User {
    private int id;
    private String username;
 
-   public String fName;
+   private String fName;
 
    private String lName;
    private String email;
-   private int phone;
+   private String phone;
    @JsonIgnore
    private String password;
    @JsonIgnore
@@ -24,7 +24,7 @@ public class User {
 
    public User() { }
 
-   public User(int id, String username, String password,String fName,String lName,String email,int phone, String authorities) {
+   public User(int id, String username, String password,String fName,String lName,String email,String phone, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;
@@ -60,11 +60,11 @@ public class User {
       this.email = email;
    }
 
-   public int getPhone() {
+   public String getPhone() {
       return phone;
    }
 
-   public void setPhone(int phone) {
+   public void setPhone(String phone) {
       this.phone = phone;
    }
 
