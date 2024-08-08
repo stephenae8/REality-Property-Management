@@ -70,6 +70,14 @@
             </span>
         </div>
 
+        <div id="secondBigDiv" >
+            <span class="secondboxset">
+                <h3 style="border: 1px solid black;font-size: 17px; margin-top: 3%; display: inline-block;">Leasing Information</h3>
+            </span>
+            
+            <span class="secondboxset" >asdasda</span>
+        </div>
+
     </div>
 </template>
 
@@ -85,6 +93,23 @@ export default {
 </script>
 
 <style scoped>
+
+#secondBigDiv{
+    height: 350px; 
+    margin-top: 3%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.secondboxset{
+    display: block; 
+    border: 1px solid #312f2fb0;
+    height: 200px;
+    width: 35%;
+     border-radius:10px
+}
 
 #secondP{
     height: 55%;
@@ -179,7 +204,7 @@ export default {
 .secondcase{
     padding: 7px;
     width: 35%;
-    border: 2px solid rgba(49, 47, 47, 0.692);
+    border: 2px solid #312f2fb0;
     border-radius: 10px;
     
 }
@@ -237,12 +262,12 @@ export default {
 #smallspan{
     display: block;
     width: 90%;
+    height: 120px;
 }
 
 #main{
     border: 1px solid black;
     background-color: rgba(158, 158, 158, 0.137);
-    height: 900px;
     width: 90%;
     margin-left: 5%;
     
