@@ -54,7 +54,7 @@
             <form action="" class="submitApplication">
                 <div class="applicationBox">
                     <div class="firstName">
-                    <p>Move In Date?</p>
+                    <label >Move In Date?</label>
                     <input type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
                 </div>
                 <div class="submitButton">
