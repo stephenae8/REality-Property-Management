@@ -19,7 +19,9 @@
 
   <div id="preview">
     <div  v-for="one in justfour" :key="one.propId">
+      <router-link :to="{name: 'property', params:{id: one.propId}}">
   <different-card :OneIndividual="one"></different-card>
+</router-link>
     </div>
   </div>
   <div

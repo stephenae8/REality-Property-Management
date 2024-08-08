@@ -71,11 +71,50 @@
         </div>
 
         <div id="secondBigDiv" >
-            <span class="secondboxset">
-                <h3 style="border: 1px solid black;font-size: 17px; margin-top: 3%; display: inline-block;">Leasing Information</h3>
+            <span class="secondboxset" style="height: 350px; padding: 3px;">
+                <h3 class="h3header" >Leasing Information</h3>
+                <h6 class="h6header" >Account</h6>
+                <p class="ptext">"!!AcountNumber"</p>
+                <h6 class="h6header" >Address</h6>
+                <p class="ptext" style="width: 35%;">"Address"</p>
+                <span style="display: block; height: 60px;;">
+                <div style="display: flex;">
+                <h6 class="h6header" >Start Date</h6>
+                <h6 class="h6header">End Date</h6>
+                </div>
+                <div style=";display: flex;">
+                    <p class="ptext">12/10/1996</p>
+                    <p class="ptext">08/08/1996</p>
+                </div>
+                </span>
+                <span style="display: block; height: 100px;">
+                <div style="display: flex;">
+                <h6 class="h6header" >Rent </h6>
+                <h6 class="h6header">Prepayment</h6>
+                </div>
+                <div style=";display: flex;">
+                    <p class="ptext">$$$</p>
+                    <p class="ptext">$$$</p>
+                </div>
+
+                </span>
+                
             </span>
             
-            <span class="secondboxset" >asdasda</span>
+            <span class="secondboxset" >
+                <h3 class="h3header" style="margin-bottom: 3%;">Contact Us</h3>
+                <span style="margin-bottom: 3%; display: block;">
+                    <h6 class="h6header" style="width: 70%;margin-left: 12.5%;font-size: 14px;font-style: italic;">A2DS2,LLC</h6>
+                </span>
+                <span style=" display: flex;margin-bottom: 3%;">
+                    <img class="imglogo" src="../img/socialMediaHandle/icons8-phone-50.png" alt="">
+                    <h6 class="h6header" style="width: 90%; margin-left: 5%;font-size: 14px;">(877) 606-3203</h6>
+                </span>
+                <span style="display: flex;">
+                    <img class="imglogo" src="../img/socialMediaHandle/icons8-mail-50.png" alt="">
+                <h6 class="h6header" style="width: 90%; margin-left: 5%;font-size: 14px;">it-services@techelevator.com</h6>
+                </span>
+            </span>
         </div>
 
     </div>
@@ -94,8 +133,32 @@ export default {
 
 <style scoped>
 
+.imglogo{
+    width: 25px; 
+    margin-left: 3%;
+}
+
+.h3header{
+    font-size: 18px; 
+    margin-top: 3%; 
+    display: inline-block;
+}
+
+.ptext{
+    font-size: 13px; 
+    width: 95%;
+    margin-left: 2%;
+
+}
+
+.h6header{
+    width: 95%;
+    margin-left: 2%;
+     font-size: 15px;
+}
+
 #secondBigDiv{
-    height: 350px; 
+    height: 500px; 
     margin-top: 3%;
     display: flex;
     justify-content: space-around;
@@ -106,7 +169,7 @@ export default {
 .secondboxset{
     display: block; 
     border: 1px solid #312f2fb0;
-    height: 200px;
+    height: 300px;
     width: 35%;
      border-radius:10px
 }
