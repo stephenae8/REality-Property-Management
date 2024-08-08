@@ -41,7 +41,6 @@ public class Property {
     }
 
 
-
     //getters
     public int getPropId() {
         return propId;
