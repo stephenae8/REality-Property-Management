@@ -87,7 +87,19 @@ public class PropertyController {
 
 
     //PUT methods
-
+    //prop mgr auth reqd to update prop listings
+    //@PreAuthorize();
+    // @ResponseStatus(HttpStatus.CREATED)
+    //    @PostMapping(path = "/property/create")
+    //    public Property createProperty (@RequestBody PropertyRequestDto prdto){
+    //        Property createProperty;
+    //        try {
+    //            createProperty = propertyDAO.createProperty(prdto.getProperty(), prdto.getAmenities(),prdto.getImages());
+    //        } catch (DaoException e) {
+    //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Found :(");
+    //        }
+    //        return createProperty;
+    //    }
 
 
 }

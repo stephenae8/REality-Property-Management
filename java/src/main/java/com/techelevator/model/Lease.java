@@ -12,10 +12,13 @@ public class Lease {
     private LocalDate endDate;
     private double rent;
     private String leaseStatus;
-    private int term_length;
+    private int termLength;
 
     //constructor
-    public Lease(int userId, LocalDate startDate, LocalDate endDate, double rent, String leaseStatus, int term_length) {
+    public Lease() {}
+
+    //constructor
+    public Lease(int userId, LocalDate startDate, LocalDate endDate, double rent, String leaseStatus, int termLength) {
         this.leaseId = leaseId;
         this.userId = userId;
         this.propId = propId;
@@ -23,9 +26,8 @@ public class Lease {
         this.endDate = endDate;
         this.rent = rent;
         this.leaseStatus = leaseStatus;
-        this.term_length = term_length;
+        this.termLength = termLength;
     }
-
 
     //getters
     public int getLeaseId() {
@@ -56,8 +58,8 @@ public class Lease {
         return leaseStatus;
     }
 
-    public int getTerm_length() {
-        return term_length;
+    public int gettermLength() {
+        return termLength;
     }
 
     //setters
@@ -90,7 +92,7 @@ public class Lease {
         this.leaseStatus = leaseStatus;
     }
 
-    public void setTerm_length(int term_length) {
-        this.term_length = term_length;
+    public void settermLength(int termLength) {
+        this.termLength = termLength;
     }
 }

@@ -6,8 +6,17 @@ import java.util.List;
 
 public interface LeaseDAO {
 
-    List<Lease> getLease();
-    Lease getLeaseById(int leaseId);
+    //GET
+    List<Lease> getListOfLeases();
+    Lease getLeaseByLeaseId(int leaseId);
     Lease getLeaseByUserId(int userId);
-    Lease getLeaseByPropId(int propId);
+
+    //POST
+    Lease createLease(Lease lease);
+
+    //PUT
+    Lease updateLeaseStatus(Lease lease);
+
+
+
 }
