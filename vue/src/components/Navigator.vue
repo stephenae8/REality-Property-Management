@@ -24,8 +24,10 @@
      
       </div>
     </a>
+
       <img class="icons" src="../img/icons8-notification-100.png" alt="" />
       <img class="icons" src="../img/icons8-favorite-100 (1).png" alt="" />
+      
     </div>
     <nav>
       <router-link
