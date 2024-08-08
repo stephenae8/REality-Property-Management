@@ -7,10 +7,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcMessagesDao implements MessagesDao{
 
     private final JdbcTemplate jdbcTemplate;
@@ -61,7 +63,7 @@ public class JdbcMessagesDao implements MessagesDao{
     public Messages getMessagesByMsgId(int msgId) {
         Messages messages = null;
 
-        String sql = "SELECT msg_id, contact_type, user_to, user_from, subject, msg_body, msg_date " +
+        String sql = "SELECT * " +
                 "FROM messages " +
                 "WHERE msg_id = ?;";
         try{
