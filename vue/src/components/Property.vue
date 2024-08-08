@@ -1,28 +1,32 @@
 <template>
-    
     <div class="all">
         <div class="address">
-            <header> {{ street }} {{ city }} {{ state }}</header>
+            <header> {{ street }} {{ city }} {{ state }} </header>
         </div>
         <div class="sliderAndApplication">
             <div class="whole-slider">
                 <div class="slider-container">
                     <div id="carouselExampleIndicators" class="carousel slide">
                         <div class="carousel-indicators">
-                            <button v-for="(image, index) in imageUrls" :key="index" type="button" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index" :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)"></button>
+                            <button v-for="(image, index) in imageUrls" :key="index" type="button"
+                                data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index"
+                                :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)"></button>
                         </div>
 
                         <div class="carousel-inner">
-                            <div v-for="(image, index) in imageUrls" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
+                            <div v-for="(image, index) in imageUrls" :key="index"
+                                :class="['carousel-item', { 'active': index === 0 }]">
                                 <img :src="image" class="d-block w-100" alt="...">
                             </div>
                         </div>
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -36,7 +40,7 @@
                 <div class="applicationBox">
                     <div class="firstName">
                         <p>Move In Date?</p>
-                        <input type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
+                        <input v-model="date" type="date" default="2017-05-15" name="calendar" placeholder=""><br /><br />
                     </div>
                     <div class="submitButton">
                         <button type="submit" style="width: 100px;">Submit</button>
@@ -47,38 +51,37 @@
 
         <div class="priceDetails">
             <p>
-                <img src="https://img.icons8.com/?size=100&id=7163&format=png&color=000000" alt="" style="width: 40px">  
-                   PRICE: {{ rent }}                 
+                <img src="https://img.icons8.com/?size=100&id=7163&format=png&color=000000" alt="" style="width: 40px">
+                PRICE: 
             </p>
         </div>
 
         <div class="propertyDetails">
             <p>
-                <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt="" style="width: 50px">
-                    <p> {{bed}} Bed</p>
-                </div>
+            <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt=""
+                    style="width: 50px">
+                <p> Bed</p>
+            </div>
 
-                <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" style="width: 50px">
-                    <p> {{bath}} Bath</p>
-                </div>
-                <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" style="width: 50px">
-                    <p>Pets Allowed!</p>
-                </div>
+            <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt=""
+                    style="width: 50px">
+                <p> Bath</p>
+            </div>
+            <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt=""
+                    style="width: 50px">
+                <p>Pets Allowed!</p>
+            </div>
             </p>
         </div>
         <div class="SimilarHomes">
-            <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt="" style="width: 50px"> More Homes</div>
+            <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt=""
+                    style="width: 50px"> More Homes</div>
         </div>
         <div class="AllCardContainer">
             <div class="PropertyCardContainer">
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
-                <PropertyCard></PropertyCard>
+                <div v-for="one in justfour" :key="one.propId">
+                    <different-card :OneIndividual="one"></different-card>
+                </div>
             </div>
         </div>
     </div>
@@ -87,93 +90,75 @@
 <script>
 import PropertyCard from '../components/PropertyCard.vue'
 import PropertyService from '../services/PropertyService.js'
+import DifferentCard from '../components/DifferentCard.vue'
+
 
 export default {
-    data() {
-        return {
-            hotels: [],
-            imageUrls: [], 
-            rent: [],
-            street: [],
-            city: [],
-            state: [],
-            bed: [],
-            bath: [],
+    props:
+        {
+            OneIndividual: Object
+
+        },
+    
+        data() {
+    return {
+      hotels: [],
+      imageUrls: [],
+      apartmentDescription: [],
+      property: [],
+      status: '',
+      application: {
+        moveInDate: '',
+        userId: 9001,
+        propId: 9020,
+        appDate: Date.now()
+      }
+    }
+  },
+  
+  created() {
+    this.firstCase();
+    this.createdProp();
+    this.propertyCreate();
+  },
+  
+  methods: {
+    firstCase() {
+      PropertyService.getProperty().then((e) => {
+        this.hotels = e.data;
+        if (this.hotels.length > 0) {
+          this.imageUrls = this.hotels[0].imgString;
+        }
+      }).catch(err => console.error(err));
+    },
+    createdProp() {
+      PropertyService.getProperty().then((e) => {
+        this.apartmentDescription = e.data;
+      }).catch(err => console.error(err));
+    },
+    propertyCreate() {
+      PropertyService.getProperty().then((e) => {
+        this.property = e.data;
+      }).catch(err => console.error(err));
+    },
+    
+  },
+  
+  computed: {
+    justfour() {
+      return this.apartmentDescription.slice(0, 4);
+    }
+  },
+  
+  components: {
+    DifferentCard
+  }
 
 
-        }
-    },
-    created() {
-        this.firstCase();
-        this.fetchPrice();
-        this.fetchStreet();
-        this.fetchCity();
-        this.fetchState();
-        this.fetchBed();
-        this.fetchBath();
-    },
-    methods: {
-        firstCase() {
-            PropertyService.getProperty().then((e) => {
-                this.hotels = e.data;
-                if (this.hotels.length > 0) {
-                    this.imageUrls = this.hotels[0].imgString;
-                }
-            }).catch(err => console.error(err));
-        },
-        fetchPrice() {
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.rent = this.json[0].rent;
-                }
-            }).catch(err => console.error(err));
-        } ,
-        fetchStreet(){
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.street = this.json[0].address;
-                }
-            }).catch(err => console.error(err));
-        },
-        fetchCity(){
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.city = this.json[0].city;
-                }
-            }).catch(err => console.error(err));
-        },
-        fetchState(){
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.state = this.json[0].state;
-                }
-            }).catch(err => console.error(err));
-        },
-        fetchBed(){
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.bed = this.json[0].bedrooms;
-                }
-            }).catch(err => console.error(err));
-        },
-        fetchBath(){
-            PropertyService.getProperty().then((e) => {
-                this.json = e.data;
-                if (this.json.length > 0){
-                    this.bath = this.json[0].bathrooms;
-                }
-            }).catch(err => console.error(err));
-        }
-    },
-    components: {
-        PropertyCard,
-    },
 }
+
+
+
 </script>
 
 <style scoped>
@@ -238,7 +223,8 @@ export default {
     border: 1px solid #eaeaea;
     text-align: center;
     padding-bottom: 0px;
-    p{
+
+    p {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;

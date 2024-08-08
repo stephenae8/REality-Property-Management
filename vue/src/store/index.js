@@ -1,11 +1,13 @@
 import { createStore as _createStore } from 'vuex';
 import axios from 'axios';
+import PropertyService from '../services/PropertyService.js';
 
 export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
       token: currentToken || '',
       user: currentUser || {},
+      property: [],
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -24,8 +26,14 @@ export function createStore(currentToken, currentUser) {
         state.user = {};
         axios.defaults.headers.common = {};
       },
+      // PROPERTY(state){
+      //   PropertyService.getProperty().then((e)=>{
+      //     state.property = e.data;
+      //   })
+      // }
   
     },
+   
   });
   return store;
 }
