@@ -19,7 +19,6 @@
                                 <img :src="image" class="d-block w-100" alt="...">
                             </div>
                         </div>
-
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -39,6 +38,7 @@
             <form action="" class="submitApplication">
                 <div class="applicationBox">
                     <div class="firstName">
+                        <h1 style="font-size: medium;">Move In Application</h1>
                         <p>Move In Date?</p>
                         <input v-model="application.moveInDate" type="date" default="2017-05-15" name="calendar"
                             placeholder=""><br /><br />
