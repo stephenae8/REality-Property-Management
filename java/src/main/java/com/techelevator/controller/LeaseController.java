@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LeaseController {
 
     //Instance variables
-    @Autowired
-    private final LeaseDAO leaseDAO;
+    //@Autowired
+    //private final LeaseDAO leaseDAO;
 
 
 // auth  for the tenant/mgr

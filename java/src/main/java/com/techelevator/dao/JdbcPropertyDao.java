@@ -153,37 +153,37 @@ public class JdbcPropertyDao implements PropertyDAO {
 
 //    PUT methods
 //    prop mgr auth reqd to update prop listings
-    @Override
-    public Property updatePropByPropId(Property property,int propId){
-        Property updatedProp = null;
-
-        String sql = "UPDATE properties\n" +
-                     "SET first_name = ?, last_name = ? \n" +
-                     "WHERE prop_id = ?;";
-
-
-        //    public Lease updateLeaseStatus(Lease lease) {
-        //        String sql =
-        //            "UPDATE leases\n" +
-        //            "SET lease_status = ?\n" +
-        //            "WHERE lease_id = ?\n" +
-        //            ";";
-        //        Lease updatedLease = lease;
-        //        try {
-        //            jdbcTemplate.update(sql,
-        //                    lease.getLeaseStatus());
-        //
-        //        } catch (CannotGetJdbcConnectionException e) {
-        //            throw new DaoException("Unable to connect to server or database", e);
-        //        } catch (NullPointerException e) {
-        //            throw new DaoException("Lease cannot be created.", e);
-        //        }
-        //        return updatedLease;
-        //    }
-
-
-        return updatedProp;
-    }
+//    @Override
+//    public Property updatePropByPropId(Property property,int propId){
+//        Property updatedProp = null;
+//
+//        String sql = "UPDATE properties\n" +
+//                     "SET first_name = ?, last_name = ? \n" +
+//                     "WHERE prop_id = ?;";
+//
+//
+//        //    public Lease updateLeaseStatus(Lease lease) {
+//        //        String sql =
+//        //            "UPDATE leases\n" +
+//        //            "SET lease_status = ?\n" +
+//        //            "WHERE lease_id = ?\n" +
+//        //            ";";
+//        //        Lease updatedLease = lease;
+//        //        try {
+//        //            jdbcTemplate.update(sql,
+//        //                    lease.getLeaseStatus());
+//        //
+//        //        } catch (CannotGetJdbcConnectionException e) {
+//        //            throw new DaoException("Unable to connect to server or database", e);
+//        //        } catch (NullPointerException e) {
+//        //            throw new DaoException("Lease cannot be created.", e);
+//        //        }
+//        //        return updatedLease;
+//        //    }
+//
+//
+//        return updatedProp;
+//    }
 
     //mapRowSet
     private Property mapRowToProperty(SqlRowSet rowSet) {

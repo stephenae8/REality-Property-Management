@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Lease;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -65,7 +66,6 @@ public class JdbcLeaseDAO implements LeaseDAO{
         } catch (NullPointerException e){
             throw new DaoException("Lease not found.", e);
         }
-
         return getLeaseByLeaseId;
     }
 
@@ -118,20 +118,26 @@ public class JdbcLeaseDAO implements LeaseDAO{
     //POV: prop mgr can update the lease status
     @Override
     public Lease updateLeaseStatus(Lease lease) {
-        String sql =
+        Lease updatedLease = null;
+                String sql =
             "UPDATE leases\n" +
             "SET lease_status = ?\n" +
             "WHERE lease_id = ?\n" +
             ";";
-        Lease updatedLease = lease;
+
         try {
-            jdbcTemplate.update(sql,
-                    lease.getLeaseStatus());
+           int numRows = jdbcTemplate.update(sql, lease.getLeaseStatus());
+
+           if (numRows == 0){
+               throw new DaoException("Zero rows affected, expected at least one");
+           } else {
+               updatedLease = getLeaseByLeaseId(lease.getLeaseId());
+           }
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e) {
-            throw new DaoException("Lease cannot be created.", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
         return updatedLease;
     }
