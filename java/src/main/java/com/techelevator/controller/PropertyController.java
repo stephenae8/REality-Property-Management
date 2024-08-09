@@ -90,11 +90,11 @@ public class PropertyController {
     // PUT Method
     @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/property/update")
-    public Property updatePropByPropId (@Valid @RequestBody Property property, Amenities amenities, Images images, int propId){
+    @PutMapping(path = "/property/update/")
+    public Property updatePropByPropId (@Valid @RequestBody PropertyRequestDto prdto){
             Property updatePropByPropId;
             try {
-                updatePropByPropId = propertyDAO.updatePropByPropId(property, amenities, images, propId);
+                updatePropByPropId = propertyDAO.updatePropByPropId(prdto.getProperty(), prdto.getAmenities(),prdto.getImages(), prdto.getProperty().getPropId());
             } catch (DaoException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
             }
