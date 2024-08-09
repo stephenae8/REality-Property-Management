@@ -14,7 +14,7 @@ public class Lease {
     private String leaseStatus;
     private int termLength;
 
-    //constructor
+    //default constructor
     public Lease() {}
 
     //constructor
