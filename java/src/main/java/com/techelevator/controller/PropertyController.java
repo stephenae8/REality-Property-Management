@@ -86,7 +86,7 @@ public class PropertyController {
     }
 
 
-    //PUT methods
+    // PUT Methods
     //prop mgr auth reqd to update prop listings
     //@PreAuthorize();
     // @ResponseStatus(HttpStatus.CREATED)

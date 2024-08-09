@@ -1,22 +1,22 @@
-<template>
-    <div class="all">
+<template >
+    <div v-show="done" class="all">
         <div class="address">
-            <header> {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
-        </div>
+            <header > {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
         <div class="sliderAndApplication">
             <div class="whole-slider">
                 <div class="slider-container">
                     <div id="carouselExampleIndicators" class="carousel slide">
                         <div class="carousel-indicators">
-                            <button v-for="(image, index) in imageUrls" :key="index" type="button"
+                            <button v-for="(image, index) in justTest.imgString" :key="index" type="button"
                                 data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index"
                                 :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)"></button>
                         </div>
 
                         <div class="carousel-inner">
-                            <div v-for="(image, index) in imageUrls" :key="index"
+                            <div v-for="(image, index) in justTest.imgString" :key="index"
                                 :class="['carousel-item', { 'active': index === 0 }]">
                                 <img :src="image" class="d-block w-100" alt="...">
+                                
                             </div>
                         </div>
 
@@ -74,7 +74,6 @@
                 <p>Pets Allowed!</p>
             </div>
 
-
             </p>
 
             
@@ -84,33 +83,33 @@
                     style="width: 50px"> More Homes</div>
         </div>
         <div class="AllCardContainer">
-            <div class="PropertyCardContainer">
-                <div v-for="one in justfour" :key="one.propId">
-                    <router-link :to="{ name: 'property', params: { id: one.propId } }"><different-card
+            <div class="PropertyCardContainer"  >
+                <div v-for="one in justfour" :key="one.propId" >
+                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }"><different-card
                             :OneIndividual="one"></different-card></router-link>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </template>
 
 <script>
-import PropertyCard from '../components/PropertyCard.vue'
 import PropertyService from '../services/PropertyService.js'
 import DifferentCard from '../components/DifferentCard.vue'
-import ApplicationService from '../services/ApplicationService.js'
+import ApplicationService from '../services/ApplicationService.js' 
 
 
 export default {
     props:
     {
-        OneIndividual: Object
+        OneIndividual: Object,
+        id: Number
 
     },
 
     data() {
         return {
-            id: this.$route.params.id,
             justone: [],
             imageUrls: [],
             application: {
@@ -119,12 +118,14 @@ export default {
                 propId: 9020,
                 appDate: "2020-11-10T10:00:00",
                 appStatus: 'approved'
-            }
+            },
+            done: false,
+            secondOne: true
         }
     },
 
     created() {
-        this.firstCase();
+        // this.firstCase();
         this.oneProp();
     },
 
@@ -132,19 +133,20 @@ export default {
 
         oneProp() {
             PropertyService.getProperty().then((e) => {
-                this.justone = e.data
+                this.justone = e.data;
+                this.done = true;
             });
         },
 
 
-        firstCase() {
-            PropertyService.getProperty().then((e) => {
-                this.justone = e.data;
-                if (this.justone.length > 0) {
-                    this.imageUrls = this.justone[0].imgString;
-                }
-            }).catch(err => console.error(err));
-        },
+        // firstCase() {
+        //     PropertyService.getProperty().then((e) => {
+        //         this.justone = e.data;
+        //         if (this.justone.length > 0) {
+        //             this.imageUrls = this.justone[0].imgString;
+        //         }
+        //     }).catch(err => console.error(err));
+        // },
       
        
         submitApp() {
@@ -152,6 +154,7 @@ export default {
                 .then(response => {
                     if (response.status == 201) {
                         alert('App submitted!')
+                        
                     }
                 })
                 .catch(e => console.log("Error creating application"))
@@ -160,10 +163,14 @@ export default {
 
 
     computed: {
+        trueOrFalse(){
+            return this.secondOne
+        },
 
         justfour(){
       let fourProp = [];
-      return fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+      fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+      return fourProp
     },
 
         justTest() {
@@ -173,12 +180,13 @@ export default {
                     return e
                 }
             })[0]
+            
             return newOne;
         },
     },
 
     components: {
-        DifferentCard
+        DifferentCard,
     }
 
 }

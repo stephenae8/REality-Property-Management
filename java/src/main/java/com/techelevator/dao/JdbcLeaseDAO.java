@@ -20,7 +20,9 @@ public class JdbcLeaseDAO implements LeaseDAO{
     private JdbcTemplate jdbcTemplate;
 
     //constructor
-    public  JdbcLeaseDAO(JdbcTemplate jdbcTemplate) {
+
+    public JdbcLeaseDAO(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 

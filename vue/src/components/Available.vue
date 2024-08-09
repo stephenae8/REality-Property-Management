@@ -64,7 +64,7 @@
         </span>
         <div id="secondMain" style="border: 1px solid black;">
             <div style="margin-bottom: 2%;"  v-for="one in getthemAll" :key="one.propId">
-            <DifferentCard  :-one-individual="one" ></DifferentCard>
+       <router-link style="text-decoration: none;" :to="{name: 'property', params: {id: one.propId}}">    <DifferentCard  :-one-individual="one" ></DifferentCard></router-link> 
             </div>
 
     </div>
