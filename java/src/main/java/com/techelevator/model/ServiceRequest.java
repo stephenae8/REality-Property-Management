@@ -15,6 +15,10 @@ public class ServiceRequest {
     private String reqDetails;
     private String issueType;
 
+    
+    //default constructor
+    public ServiceRequest (){}
+
     //constructors
     public ServiceRequest(int reqId, int userId, int propId, String reqStatus, LocalDateTime reqDate, LocalDateTime lastUpdated, String reqDetails, String issueType) {
         this.reqId = reqId;

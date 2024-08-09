@@ -5,6 +5,7 @@ import com.techelevator.model.Amenities;
 import com.techelevator.model.Images;
 import com.techelevator.model.Property;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -137,8 +138,6 @@ public class JdbcPropertyDao implements PropertyDAO {
                     newPropId,
                     images.getImageURL());
 
-
-//            newProperty = getPropertyByPropId(newPropId);
             property.setPropId(newPropId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -147,25 +146,33 @@ public class JdbcPropertyDao implements PropertyDAO {
         }
 
         return property;
-
     }
 
-
-
-
     //PUT methods
+    //POV: prop mgr/ownr is able to update prop by prop id
+    @Override
+    public Property updatePropByPropId(Property property, int propId){
+        Property updatedProp = null;
 
+        String sql = "UPDATE properties\n" +
+                     //"SET first_name = ?, last_name = ? \n" +
+                     "WHERE prop_id = ?;";
+        try {
+            int numRows = jdbcTemplate.update(sql, propId);
 
+            if (numRows == 0){
+                throw new DaoException("Zero rows affected, expected at least one");
+            } else {
+                updatedProp = getPropertyByPropId(propId);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
 
-
-
-
-
-
-
-
-
-
+        return updatedProp;
+    }
 
     //mapRowSet
     private Property mapRowToProperty(SqlRowSet rowSet) {

@@ -13,11 +13,9 @@ public interface PropertyDAO {
     Property getPropertyByPropId(int propId);
     List<Property> getPropertiesByOwnerId(int ownerId);
 
-
     //Post
     Property createProperty(Property property, Amenities amenities, Images images);
 
-
     //Put
-
+    Property updatePropByPropId(Property property, int propId);
 }
