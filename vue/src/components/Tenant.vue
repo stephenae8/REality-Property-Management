@@ -1,5 +1,4 @@
 <template>
-    <h1>{{ this.leases }}</h1>
     <div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
@@ -75,7 +74,7 @@
             <span class="secondboxset" style="height: 350px; padding: 3px;">
                 <h3 class="h3header" >Leasing Information</h3>
                 <h6 class="h6header" >Account</h6>
-                <p class="ptext">"!!AcountNumber"</p>
+                <p class="ptext">{{ leases.leaseId }}</p>
                 <h6 class="h6header" >Address</h6>
                 <p class="ptext" style="width: 35%;">"Address"</p>
                 <span style="display: block; height: 60px;;">
@@ -84,18 +83,18 @@
                 <h6 class="h6header">End Date</h6>
                 </div>
                 <div style=";display: flex;">
-                    <p class="ptext">12/10/1996</p>
-                    <p class="ptext">08/08/1996</p>
+                    <p class="ptext">{{ leases.startDate }}</p>
+                    <p class="ptext">{{ leases.endDate }}</p>
                 </div>
                 </span>
                 <span style="display: block; height: 100px;">
                 <div style="display: flex;">
                 <h6 class="h6header" >Rent </h6>
-                <h6 class="h6header">Prepayment</h6>
+                <h6 class="h6header">Lease Status</h6>
                 </div>
                 <div style=";display: flex;">
-                    <p class="ptext">$$$</p>
-                    <p class="ptext">$$$</p>
+                    <p class="ptext">${{ leases.rent }}</p>
+                    <p class="ptext">{{ leases.leaseStatus.substring(0,1).toUpperCase()+leases.leaseStatus.substring(1) }}</p>
                 </div>
 
                 </span>
