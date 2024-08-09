@@ -11,7 +11,7 @@
           placeholder="Columbus, Ohio"
           v-model="this.UserSearch"
         />
-        <button>Search</button>
+        <button @click="moveToAvailable">Search</button>
       </span>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
 
   methods: {
     moveToAvailable() {
-      this.$router.push({ name: "Available" });
+      this.$router.push({ name: "Available", query: {search: this.UserSearch}});
     },
 
   

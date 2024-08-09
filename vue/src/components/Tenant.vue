@@ -1,4 +1,5 @@
 <template>
+    <h1>{{ property }}</h1>
 <div v-if="this.leases.propId > 1">
 <div id="main">
         <span id="greeting">
@@ -145,16 +146,17 @@ export default {
           
         },
 
-        propertyinUse(){
-            PropertyService.getPropertyByid(this.leases.propId).then((e)=>{
+      
+
+        propertyOne(){
+            PropertyService.getPropertyByid(this.username.id).then((e)=>{
                 this.property = e.data
             })
-            alert(this.property)
         }
     },
 
     created(){
-        this.propertyinUse();
+        this.propertyOne();
         this.returnLease();
     }
 

@@ -70,6 +70,7 @@ const routes = [
     path: '/available',
     name: 'Available',
     component: AvailableView,
+    props: route => ({query: route.query.q}),
     meta: {
       requiresAuth: false
     }
