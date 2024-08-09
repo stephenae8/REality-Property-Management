@@ -1,6 +1,6 @@
 <template>
     <div  :class="{not: OneIndividual.vacancy , card: !OneIndividual.vacancy }">
-        <a href="#" target="_blank">
+        <a href="#" target="_blank" style="max-height: 221px; height: 100%;"> <!-- i added a max height and height 100% for card size continuity -->
     <img :src="OneIndividual.imgString[0]" alt="Apartment image">
         </a>
         <h6 style="font-size: 14px; text-align: center; margin-top: 2%;">{{OneIndividual.address}}</h6>

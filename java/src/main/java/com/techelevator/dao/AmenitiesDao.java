@@ -10,6 +10,8 @@ public interface AmenitiesDao {
 
     Amenities getAmenitiesByPropId(int propId); //get amenities by Property ID
 
+    Amenities getAmenitiesByAmenitiesId(int amenitiesId);
+
     Amenities createAmenities(Amenities amenities); //create amenities listed by the propId
 
     Amenities updateAmenities(Amenities amenities); //update the amenities by prop Id

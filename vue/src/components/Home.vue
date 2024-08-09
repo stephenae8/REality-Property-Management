@@ -19,7 +19,7 @@
 
   <div id="preview">
     <div  v-for="one in justfour" :key="one.propId">
-      <router-link :to="{name: 'property', params:{id: one.propId}}">
+      <router-link style="text-decoration: none;" :to="{name: 'property', params:{id: one.propId}}">
   <different-card :OneIndividual="one"></different-card>
 </router-link>
     </div>
@@ -33,113 +33,126 @@
       align-items: center;
     "
   >
-  <!-- <router-link :to="{name: 'Available'}">  -->
-    <button @click="moveToAvailable" id="middlebutton">Click to View More</button>
-  <!-- </router-link>  -->
+    <router-link :to="{name: 'Available'}" v-show="done"> 
+    <button id="middlebutton">
+      Click to View More
+    </button>
+    </router-link> 
   </div>
   <hr style="width: 70%; margin-left: 17%" />
 
   <h6 class="afterMain main">The Best Rental Listings</h6>
-  <h6 class="afterMain">Choose from Thousands of Apartments, Houses, Condos, and Townhouses for rent or own.</h6>
+  <h6 class="afterMain">
+    Choose from Thousands of Apartments, Houses, Condos, and Townhouses for rent
+    or own.
+  </h6>
 
-  <div id="total" > 
-    <span class="small text" >
-      <h6 style="text-align: center;margin-left: 3%;height: 50px;width: 600px;font-size: 35px; width: 50%; font-weight: bold;color: black;">Renting Made Easy</h6>
-      <p style="width: 80%;margin-left: 6%; font-size: 20px; ">Browse from our thousands of real-estates properties available all over the US. Whether you're looking for an short-term stay or potential home, we have everything you need! </p>
-      <router-link to="" style="margin-left: 6%;font-size: 20px;">Find Out More</router-link>
-
+  <div id="total">
+    <span class="small text">
+      <h6
+        style="
+          text-align: center;
+          margin-left: 3%;
+          height: 50px;
+          width: 600px;
+          font-size: 35px;
+          width: 50%;
+          font-weight: bold;
+          color: black;
+        "
+      >
+        Renting Made Easy
+      </h6>
+      <p style="width: 80%; margin-left: 6%; font-size: 20px">
+        Browse from our thousands of real-estates properties available all over
+        the US. Whether you're looking for an short-term stay or potential home,
+        we have everything you need!
+      </p>
+      <router-link to="" style="margin-left: 6%; font-size: 20px"
+        >Find Out More</router-link
+      >
     </span>
-    <span class="small image">
-    </span>
+    <span class="small image"> </span>
   </div>
-  <hr>
-
+  <hr />
 </template>
 
 <script>
 // import Navigator from '../components/Navigator.vue';
-import PropertyService from '../services/PropertyService.js';
-import PropertyCard from './PropertyCard.vue';
-import DifferentCard from './DifferentCard.vue';
+import PropertyService from "../services/PropertyService.js";
+import DifferentCard from "./DifferentCard.vue";
 export default {
   data() {
     return {
       UserSearch: "",
       apartmentdescrption: [],
-       
+      done: false
     };
   },
 
   methods: {
     moveToAvailable() {
-      this.$router.push({name: 'Available'});
-
+      this.$router.push({ name: "Available" });
     },
-    createdProp(){
-      PropertyService.getProperty().then((e)=>{
-        this.apartmentdescrption = e.data
-      })
-    }
-  }, 
-
-  computed: {
-    justfour(){
-      let fourProp = [];
-      return fourProp = [this.apartmentdescrption[0], this.apartmentdescrption[1], this.apartmentdescrption[2], this.apartmentdescrption[3]]
+    createdProp() {
+      PropertyService.getProperty().then((e) => {
+        this.apartmentdescrption = e.data;
+        this.done = true;
+      });
     },
-   
   },
 
-  created(){
-    this.createdProp()
+  computed: {
+    justfour() {
+      let fourProp = [];
+      return (fourProp = [
+        this.apartmentdescrption[0],
+        this.apartmentdescrption[1],
+        this.apartmentdescrption[2],
+        this.apartmentdescrption[3],
+      ]);
+    },
+  },
+
+  created() {
+    this.createdProp();
   },
 
   components: {
-    PropertyCard,
-    DifferentCard
-  }
-
-  
+    DifferentCard,
+  },
 };
 </script>
 
 <style scoped>
-#movetext{
+#movetext {
   margin-left: 7%;
 }
 
-
-.image{
-  background-image: url('https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4');
-  background-repeat: no-repeat ;
+.image {
+  background-image: url("https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4");
+  background-repeat: no-repeat;
 }
 
-
-
-
-#total{
+#total {
   height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-
 }
 
-.text{
+.text {
   background-color: rgba(128, 128, 128, 0.333);
 }
 
-.small{
+.small {
   display: inline-block;
   width: 700px;
   height: 300px;
   /* margin-left: 5%; */
 }
 
-
 #ownh2 {
-  
   text-align: center;
   animation: reveal 6s;
 }
@@ -277,13 +290,13 @@ h5 {
   border: 1px solid green;
 }
 
-.afterMain{
+.afterMain {
   text-align: center;
   /* border: 1px solid black; */
   font-size: 32px;
 }
 
-.main{
+.main {
   font-size: 42px;
 }
 </style>

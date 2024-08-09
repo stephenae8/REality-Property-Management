@@ -68,6 +68,25 @@ public class JdbcAmenitiesDao implements AmenitiesDao {
     }
 
     @Override
+    public Amenities getAmenitiesByAmenitiesId(int amenitiesId) {
+        Amenities amenities = null;
+
+        String sql = "SELECT amenities_id, prop_id, dishwasher, central_air, laundry, pets_allowed " +
+                "FROM amenities " +
+                "WHERE amenities_id = ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, amenitiesId);
+            if (results.next()) {
+                amenities = mapRowToAmenities(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return amenities;
+    }
+
+    @Override
     public Amenities createAmenities(Amenities amenities) {
         Amenities newAmenity = null;
 
@@ -78,7 +97,7 @@ public class JdbcAmenitiesDao implements AmenitiesDao {
                     amenities.isDishwasher(), amenities.isCentralAir(),
                     amenities.isLaundry(), amenities.isPetsAllowed());
 
-            newAmenity = getAmenitiesByPropId(newAmenityId);
+            newAmenity = getAmenitiesByAmenitiesId(newAmenityId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -90,11 +109,10 @@ public class JdbcAmenitiesDao implements AmenitiesDao {
     @Override
     public Amenities updateAmenities(Amenities amenities) {
         Amenities updatedAmenities = null;
-        String sql = "UPDATE amenities SET dishwasher = ?, central_air = ?, " +
-                "laundry = ?, pets_allowed = ? " + "WHERE prop_id = ?;";
+        String sql = "UPDATE amenities SET dishwasher = ?, central_air = ?, laundry = ?, pets_allowed = ? " + "WHERE prop_id = ?;";
         try {
             int numberOfRows = jdbcTemplate.update(sql, amenities.isDishwasher(), amenities.isCentralAir(),
-                    amenities.isLaundry(), amenities.isPetsAllowed());
+                    amenities.isLaundry(), amenities.isPetsAllowed(), amenities.getPropId());
 
             if (numberOfRows == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
