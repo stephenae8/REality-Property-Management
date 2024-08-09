@@ -26,7 +26,7 @@ import TenantView from '../views/TenantView.vue';
  */
 const routes = [
   {
-    path: '/',
+    path: '',
     name: 'home',
     component: HomeView,
     meta: {

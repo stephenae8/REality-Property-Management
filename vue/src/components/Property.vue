@@ -1,8 +1,7 @@
-<template>
-    <div class="all">
+<template >
+    <div v-show="done" class="all">
         <div class="address">
-            <header> {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
-        </div>
+            <header > {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
         <div class="sliderAndApplication">
             <div class="whole-slider">
                 <div class="slider-container">
@@ -17,6 +16,7 @@
                             <div v-for="(image, index) in imageSlider.imgString" :key="index"
                                 :class="['carousel-item', { 'active': index === 0 }]">
                                 <img :src="image" class="d-block w-100" alt="...">
+                                
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -84,32 +84,33 @@
                     style="width: 50px"> More Homes</div>
         </div>
         <div class="AllCardContainer">
-            <div class="PropertyCardContainer">
-                <div v-for="one in justfour" :key="one.propId">
-                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: one.propId } }"><different-card
+            <div class="PropertyCardContainer"  >
+                <div v-for="one in justfour" :key="one.propId" >
+                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }"><different-card
                             :OneIndividual="one"></different-card></router-link>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
 <script>
 import PropertyService from '../services/PropertyService.js'
 import DifferentCard from '../components/DifferentCard.vue'
-import ApplicationService from '../services/ApplicationService.js'
+import ApplicationService from '../services/ApplicationService.js' 
 
 
 export default {
     props:
     {
-        OneIndividual: Object
+        OneIndividual: Object,
+        id: Number
 
     },
 
     data() {
         return {
-            id: this.$route.params.id,
             justone: [],
             imageUrls: [],
             application: {
@@ -118,12 +119,14 @@ export default {
                 propId: 9020,
                 appDate: "2020-11-10T10:00:00",
                 appStatus: 'approved'
-            }
+            },
+            done: false,
+            secondOne: true
         }
     },
 
     created() {
-
+        // this.firstCase();
         this.oneProp();
 
 
@@ -133,7 +136,8 @@ export default {
 
         oneProp() {
             PropertyService.getProperty().then((e) => {
-                this.justone = e.data
+                this.justone = e.data;
+                this.done = true;
             });
         },
         submitApplication() {
@@ -149,11 +153,15 @@ export default {
 
 
     computed: {
-
-        justfour() {
-            let fourProp = [];
-            return fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+        trueOrFalse(){
+            return this.secondOne
         },
+
+        justfour(){
+      let fourProp = [];
+      fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+      return fourProp
+    },
 
         justTest() {
             let newOne = {}
@@ -162,6 +170,7 @@ export default {
                     return e
                 }
             })[0]
+            
             return newOne;
         },
         imageSlider() {
@@ -176,7 +185,7 @@ export default {
     },
 
     components: {
-        DifferentCard
+        DifferentCard,
     }
 
 }
@@ -218,14 +227,7 @@ export default {
     transition: box-shadow 0.4s;
 }
 
-.priceDetails,
-.propertyDetails {
-    display: flex;
-    font-size: 1.2em;
-    color: #333;
-    font-family: 'Roboto', sans-serif;
-    padding: 1%;
-}
+
 
 .priceDetails {
     margin-top: 10px;
@@ -244,7 +246,6 @@ export default {
 }
 
 .propertyDetails {
-    font-size: 1em;
     display: flex;
     flex-direction: row;
     gap: 25px;
