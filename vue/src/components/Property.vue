@@ -129,8 +129,6 @@ export default {
     created() {
         // this.firstCase();
         this.oneProp();
-
-
         },
 
     methods: {

@@ -19,12 +19,22 @@
   </template>
   
   <script>
+  import ApplicationService from '../services/ApplicationService.js' 
   export default {
     data() {
       return {
       
       };
     },
+    methods:{
+        oneProp() {
+            PropertyService.getProperty().then((e) => {
+                this.justone = e.data;
+                this.done = true;
+            });
+        }
+
+    }
     
   };
   </script>
