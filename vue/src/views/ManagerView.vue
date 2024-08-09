@@ -3,7 +3,7 @@
   </template>
   
   <script>
-  import Owner from '../components/Manager.vue';
+  import Manager from '../components/Manager.vue';
 
   export default {
     components: {
