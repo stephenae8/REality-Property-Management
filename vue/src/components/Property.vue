@@ -86,7 +86,7 @@
         <div class="AllCardContainer" v-if="done">
             <div class="PropertyCardContainer"  >
                 <div v-for="one in justfour" :key="one.propId" >
-                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }">
+                    <router-link @click.native="$scrollToTop()" style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }">
                         <different-card :OneIndividual="one"></different-card>
                     </router-link>
                 </div>
@@ -132,6 +132,9 @@ export default {
         },
 
     methods: {
+        scrollToTop() {
+            window.scrollTo(0, 0);
+        },
 
         oneProp() {
             PropertyService.getProperty().then((e) => {

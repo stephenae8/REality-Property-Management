@@ -1,5 +1,6 @@
 <template>
-    <div id="main">
+<div v-if="this.leases.propId > 1">
+<div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
             <p style="font-size: 12px; ">123 Wabash Ave, Chicago,Il 60601</p>
@@ -118,15 +119,18 @@
         </div>
 
     </div>
+</div>
 </template>
 
 <script>
 import LeaseService from '../services/LeaseService';
+import PropertyService from '../services/PropertyService';
 export default {
     data(){
         return{
             username: this.$store.state.user,
-            leases: {}
+            leases: {},
+            property: {}
         }
     },
 
@@ -136,14 +140,21 @@ export default {
             LeaseService.leaseById(this.username.id).then((e)=>{
                 this.leases = e.data
                 
-                console.log("asdas")
-                // alert("sadsad")
+              
             })
           
+        },
+
+        propertyinUse(){
+            PropertyService.getPropertyByid(this.leases.propId).then((e)=>{
+                this.property = e.data
+            })
+            alert(this.property)
         }
     },
 
     created(){
+        this.propertyinUse();
         this.returnLease();
     }
 
