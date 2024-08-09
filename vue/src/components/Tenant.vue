@@ -1,4 +1,5 @@
 <template>
+    <h1>{{ property }}</h1>
     <div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
@@ -122,11 +123,13 @@
 
 <script>
 import LeaseService from '../services/LeaseService';
+import PropertyService from '../services/PropertyService';
 export default {
     data(){
         return{
             username: this.$store.state.user,
-            leases: {}
+            leases: {},
+            property: {}
         }
     },
 
@@ -136,14 +139,21 @@ export default {
             LeaseService.leaseById(this.username.id).then((e)=>{
                 this.leases = e.data
                 
-                console.log("asdas")
-                // alert("sadsad")
+              
             })
           
+        },
+
+        propertyinUse(){
+            PropertyService.getPropertyByid(this.leases.propId).then((e)=>{
+                this.property = e.data
+            })
+            console.log(this.property)
         }
     },
 
     created(){
+        this.propertyinUse();
         this.returnLease();
     }
 
