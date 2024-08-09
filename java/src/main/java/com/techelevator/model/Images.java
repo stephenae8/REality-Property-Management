@@ -6,6 +6,9 @@ public class Images {
     private int propId;
     private String imageURL;
 
+    public Images () { }
+
+
     //constructor
     public Images(int imageId, int propId, String imageURL) {
         this.imageId = imageId;
@@ -23,6 +26,9 @@ public class Images {
         return imageURL;
     }
 
+    public int getPropId() {
+        return propId;
+    }
 
     //setters
     public void setImageId(int imageId) {
@@ -31,5 +37,9 @@ public class Images {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public void setPropId(int propId) {
+        this.propId = propId;
     }
 }
