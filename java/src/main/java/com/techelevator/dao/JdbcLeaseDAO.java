@@ -48,7 +48,6 @@ public class JdbcLeaseDAO implements LeaseDAO{
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-
         return getListOfLeases;
     }
 
@@ -61,6 +60,7 @@ public class JdbcLeaseDAO implements LeaseDAO{
                 "FROM leases\n" +
                 "WHERE lease_id = ?";
         try {
+
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, leaseId);
             if (rowSet.next()) {
                 getLeaseByLeaseId = mapRowToLease(rowSet);

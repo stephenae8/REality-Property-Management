@@ -213,13 +213,6 @@ public class JdbcPropertyDao implements PropertyDAO {
         return updatedProp;
     }
 
-
-    ////amenities vars
-    //    private boolean dishwasher;
-    //    private boolean centralAir;
-    //    private boolean laundry;
-    //    private boolean petsAllowed;
-
     //mapRowSet
     private Property mapRowToProperty(SqlRowSet rowSet) {
         Property property = new Property();
