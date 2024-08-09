@@ -1,5 +1,5 @@
 <template >
-    <div v-show="done" class="all">
+    <div v-if="done" class="all">
         <div class="address">
             <header > {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
         <div class="sliderAndApplication">
@@ -83,11 +83,12 @@
             <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt=""
                     style="width: 50px"> More Homes</div>
         </div>
-        <div class="AllCardContainer">
+        <div class="AllCardContainer" v-if="done">
             <div class="PropertyCardContainer"  >
                 <div v-for="one in justfour" :key="one.propId" >
-                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }"><different-card
-                            :OneIndividual="one"></different-card></router-link>
+                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }">
+                        <different-card :OneIndividual="one"></different-card>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -158,29 +159,41 @@ export default {
         },
 
         justfour(){
-      let fourProp = [];
-      fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
-      return fourProp
-    },
+            if (this.done) {
+                let fourProp = [];
+                fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+                return fourProp;
+            }
+
+            return [];
+        },
 
         justTest() {
-            let newOne = {}
-            newOne = this.justone.filter((e) => {
-                if (this.id == e.propId) {
-                    return e
-                }
-            })[0]
-            
-            return newOne;
+            if (this.done) {
+                let newOne = {}
+                newOne = this.justone.filter((e) => {
+                    if (this.id == e.propId) {
+                        return e
+                    }
+                })[0]
+                
+                return newOne;
+            }
+
+            return {};
         },
         imageSlider() {
-            let newTwo = {}
-            newTwo = this.justone.filter((e) => {
-                if (this.id == e.propId) {
-                    return e
-                }
-            })[0]
-            return newTwo;
+            if (this.done) {
+                let newTwo = {}
+                newTwo = this.justone.filter((e) => {
+                    if (this.id == e.propId) {
+                        return e
+                    }
+                })[0]
+                return newTwo;
+            }
+
+            return {};
         },
     },
 

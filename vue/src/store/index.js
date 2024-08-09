@@ -6,7 +6,13 @@ export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
       token: currentToken || '',
-      user: currentUser || {},
+      user: currentUser || {
+        authorities: [
+          {
+            name: 'ROLE_ANON'
+          }
+        ]
+      },
       property: []
     },
     mutations: {
@@ -23,12 +29,16 @@ export function createStore(currentToken, currentUser) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         state.token = '';
-        state.user = {};
+        state.user = {
+          authorities: [
+            {
+              name: 'ROLE_ANON'
+            }
+          ]
+        };
         axios.defaults.headers.common = {};
       },
-      SETPROP(){
-        
-      }
+     
       // PROPERTY(state){
       //   PropertyService.getProperty().then((e)=>{
       //     state.property = e.data;
