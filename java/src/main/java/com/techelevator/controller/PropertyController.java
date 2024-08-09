@@ -75,7 +75,7 @@ public class PropertyController {
     @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/property/create")
-    public Property createProperty (@RequestBody PropertyRequestDto prdto){
+    public Property createProperty (@Valid @RequestBody PropertyRequestDto prdto){
         Property createProperty;
         try {
             createProperty = propertyDAO.createProperty(prdto.getProperty(), prdto.getAmenities(),prdto.getImages());
@@ -86,20 +86,19 @@ public class PropertyController {
     }
 
 
-    // PUT Methods
-    //prop mgr auth reqd to update prop listings
-    //@PreAuthorize();
-    // @ResponseStatus(HttpStatus.CREATED)
-    //    @PostMapping(path = "/property/create")
-    //    public Property createProperty (@RequestBody PropertyRequestDto prdto){
-    //        Property createProperty;
-    //        try {
-    //            createProperty = propertyDAO.createProperty(prdto.getProperty(), prdto.getAmenities(),prdto.getImages());
-    //        } catch (DaoException e) {
-    //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
-    //        }
-    //        return createProperty;
-    //    }
+    // PUT Method
+    @PreAuthorize("permitAll()")
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(path = "/property/update")
+    public Property updatePropByPropId (@Valid @RequestBody Property property, @RequestBody int propId){
+            Property updatePropByPropId;
+            try {
+                updatePropByPropId = propertyDAO.updatePropByPropId(property, propId);
+            } catch (DaoException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
+            }
+            return updatePropByPropId;
+    }
 
 
 }

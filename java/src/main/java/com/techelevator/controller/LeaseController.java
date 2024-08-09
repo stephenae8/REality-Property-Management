@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
-//@PreAuthorize("isAuthenticated()") 
+//@PreAuthorize("isAuthenticated()")
 @RestController
 @CrossOrigin
 public class LeaseController {
@@ -52,7 +52,7 @@ public class LeaseController {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping(path = "lease/{userId}")
+    @GetMapping(path = "lease/user/{userId}")
     public Lease getLeaseByUserId (@PathVariable int userId){
         Lease leaseByUserId;
         try {
@@ -77,14 +77,14 @@ public class LeaseController {
         return createLease;
     }
 
-    // PUT Methods
+    // PUT Method
     @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping (path = "/lease/update")
     public Lease updateLeaseStatus (@Valid @RequestBody Lease lease){
         Lease updateLeaseStatus;
         try{
-                updateLeaseStatus = leaseDAO.updateLeaseStatus(lease);
+            updateLeaseStatus = leaseDAO.updateLeaseStatus(lease);
 
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lease Not Updated. ");
