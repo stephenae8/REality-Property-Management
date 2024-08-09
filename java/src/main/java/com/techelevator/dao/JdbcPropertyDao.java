@@ -151,19 +151,50 @@ public class JdbcPropertyDao implements PropertyDAO {
     //PUT methods
     //POV: prop mgr/ownr is able to update prop by prop id
     @Override
-    public Property updatePropByPropId(Property property, int propId){
+    public Property updatePropByPropId(Property property, Amenities amenities, Images images, int propId){
         Property updatedProp = null;
 
         String sql = "UPDATE properties\n" +
-                     //"SET first_name = ?, last_name = ? \n" +
-                     "WHERE prop_id = ?;";
-        try {
-            int numRows = jdbcTemplate.update(sql, propId);
+                    "SET address = ?, city = ?, state = ?, zip = ?, vacancy = ?, pending = ?, rent = ?, bedrooms = ?, bathrooms = ? \n" +
+                    "WHERE prop_id = ?;";
 
-            if (numRows == 0){
+        String sql2 = "UPDATE amenties\n" +
+                    "SET dishwasher = ?, central_air = ?, laundry = ?, pets_allowed = ? \n" +
+                    "WHERE prop_id = ?;";
+
+        String sql3 = "UPDATE images\n" +
+                    "SET prop_id = ?, img_url = ? \n" +
+                    "WHERE prop_id = ?;";
+
+
+        try {
+            int newPropId = jdbcTemplate.update(sql, propId,
+                            property.getOwnerId(),
+                            property.getAddress(),
+                            property.getCity(),
+                            property.getState(),
+                            property.getZipCode(),
+                            property.isVacancy(),
+                            property.isPending(),
+                            property.getRent(),
+                            property.getBedrooms(),
+                            property.getBathrooms());
+
+            jdbcTemplate.update(sql2,
+                    newPropId,
+                    amenities.isDishwasher(),
+                    amenities.isCentralAir(),
+                    amenities.isLaundry(),
+                    amenities.isPetsAllowed());
+
+            jdbcTemplate.update(sql3,
+                    newPropId,
+                    images.getImageURL());
+
+            if (newPropId == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             } else {
-                updatedProp = getPropertyByPropId(propId);
+                updatedProp = updatePropByPropId(property, amenities, images, propId);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -191,7 +222,6 @@ public class JdbcPropertyDao implements PropertyDAO {
         if (rowSet.getString("string_agg") != null){
             property.setImgString(rowSet.getString("string_agg").split("\\|"));
         }
-
         return property;
     }
 }

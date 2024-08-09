@@ -11,6 +11,9 @@ public interface LeaseDAO {
     Lease getLeaseByLeaseId(int leaseId);
     Lease getLeaseByUserId(int userId);
 
+    //potentially: get lease by prop id
+
+
     //POST
     Lease createLease(Lease lease);
 

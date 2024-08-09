@@ -17,5 +17,5 @@ public interface PropertyDAO {
     Property createProperty(Property property, Amenities amenities, Images images);
 
     //Put
-    Property updatePropByPropId(Property property, int propId);
+    Property updatePropByPropId(Property property, Amenities amenities, Images images, int propId);
 }

@@ -15,7 +15,7 @@ public class ServiceRequest {
     private String reqDetails;
     private String issueType;
 
-    
+
     //default constructor
     public ServiceRequest (){}
 

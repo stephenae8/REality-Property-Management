@@ -28,7 +28,7 @@ public class LeaseController {
 
     // GET Methods
     //@PreAuthorize()
-    @GetMapping(path = "lease/list")
+    @GetMapping(path = "lease")
     public List<Lease> getListOfLeases(){
         List<Lease> leaseList;
         try {
@@ -41,7 +41,7 @@ public class LeaseController {
 
     @PreAuthorize("permitAll()")
     @GetMapping(path = "lease/{leaseId}")
-    public Lease getLeaseByLeaseId(int leaseId){
+    public Lease getLeaseByLeaseId(@PathVariable int leaseId){
         Lease leaseByLeaseId;
         try {
             leaseByLeaseId = leaseDAO.getLeaseByLeaseId(leaseId);
