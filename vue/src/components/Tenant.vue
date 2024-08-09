@@ -1,6 +1,6 @@
 <template>
-    <h1>{{ property }}</h1>
-    <div id="main">
+<div v-if="this.leases.propId > 1">
+<div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
             <p style="font-size: 12px; ">123 Wabash Ave, Chicago,Il 60601</p>
@@ -119,6 +119,7 @@
         </div>
 
     </div>
+</div>
 </template>
 
 <script>
@@ -148,7 +149,7 @@ export default {
             PropertyService.getPropertyByid(this.leases.propId).then((e)=>{
                 this.property = e.data
             })
-            console.log(this.property)
+            alert(this.property)
         }
     },
 

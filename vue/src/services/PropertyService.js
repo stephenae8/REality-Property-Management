@@ -8,7 +8,7 @@ export default{
     },
 
     getPropertyByid(id){
-        return axios.get(`property/retrieve/${id}`)
+        return axios.get(`/property/${id}`)
     }
     
 }
