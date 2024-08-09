@@ -18,7 +18,7 @@ public class Lease {
     public Lease() {}
 
     //constructor
-    public Lease(int userId, LocalDate startDate, LocalDate endDate, double rent, String leaseStatus, int termLength) {
+    public Lease(int userId, int leaseId, int propId, LocalDate startDate, LocalDate endDate, double rent, String leaseStatus, int termLength) {
         this.leaseId = leaseId;
         this.userId = userId;
         this.propId = propId;
