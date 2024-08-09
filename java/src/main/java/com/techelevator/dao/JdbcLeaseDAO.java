@@ -17,6 +17,9 @@ public class JdbcLeaseDAO implements LeaseDAO{
 
 
     //instance variables
+
+    @Autowired
+    private LeaseDAO leaseDAO;
     private JdbcTemplate jdbcTemplate;
 
     //constructor
@@ -95,12 +98,13 @@ public class JdbcLeaseDAO implements LeaseDAO{
     //POST Methods
     @Override
     public Lease createLease(Lease lease) {
+        Lease newLease = null;
         String sql =
                 "INSERT INTO leases (user_id, prop_id, start_date, end_date, rent, lease_status, term_length)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)\n" +
                 "RETURNING lease_id";
         try {
-            jdbcTemplate.update(sql,
+            int newLeaseId = jdbcTemplate.queryForObject(sql, int.class,
                     lease.getUserId(),
                     lease.getPropId(),
                     lease.getStartDate(),
@@ -108,12 +112,14 @@ public class JdbcLeaseDAO implements LeaseDAO{
                     lease.getRent(),
                     lease.getLeaseStatus(),
                     lease.gettermLength());
+
+            newLease = getLeaseByLeaseId(newLeaseId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-        return lease;
+        return newLease;
     }
 
     //PUT Methods
@@ -128,7 +134,7 @@ public class JdbcLeaseDAO implements LeaseDAO{
             ";";
 
         try {
-           int numRows = jdbcTemplate.update(sql, lease.getLeaseStatus());
+           int numRows = jdbcTemplate.update(sql, lease.getLeaseStatus(), lease.getLeaseId());
 
            if (numRows == 0){
                throw new DaoException("Zero rows affected, expected at least one");

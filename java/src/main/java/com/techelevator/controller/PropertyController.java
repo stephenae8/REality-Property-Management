@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
-@PreAuthorize("isAuthenticated()")                                          //need authentication for the mgr & owner
+//@PreAuthorize("isAuthenticated()")                                          //need authentication for the mgr & owner
 @RestController
 @CrossOrigin
 public class PropertyController {
@@ -46,7 +46,7 @@ public class PropertyController {
     }
 
 
-    @GetMapping(path = "property/retrieve/{owner_id}")
+    @GetMapping(path = "property/owner/{ownerId}")
     public List<Property> getPropByOwnerId(@PathVariable int ownerId) {
         List<Property> propByOwnerIdList;
 
@@ -60,7 +60,7 @@ public class PropertyController {
     }
 
 
-    @GetMapping(path = "property/retrieve/{prop_id}")
+    @GetMapping(path = "property/{propId}")
     public Property getPropByPropId(@PathVariable int propId) {
         Property propByPropId;
         try {
