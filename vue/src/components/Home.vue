@@ -15,9 +15,8 @@
       </span>
     </div>
   </div>
-  <h3 id="unique">Explore Rental In Columbus, Ohio</h3>
-
-  <div id="preview">
+  <h3 id="unique">Explore Rental In Columbus</h3>  
+  <div id="preview" v-if="done">
     <div  v-for="one in justfour" :key="one.propId">
       <router-link style="text-decoration: none;" :to="{name: 'property', params:{id: one.propId}}">
   <different-card :OneIndividual="one"></different-card>
@@ -94,6 +93,8 @@ export default {
     moveToAvailable() {
       this.$router.push({ name: "Available" });
     },
+
+  
     createdProp() {
       PropertyService.getProperty().then((e) => {
         this.apartmentdescrption = e.data;

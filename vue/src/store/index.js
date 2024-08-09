@@ -6,8 +6,14 @@ export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
       token: currentToken || '',
-      user: currentUser || {},
-      property: [],
+      user: currentUser || {
+        authorities: [
+          {
+            name: 'ROLE_ANON'
+          }
+        ]
+      },
+      property: []
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -23,9 +29,16 @@ export function createStore(currentToken, currentUser) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         state.token = '';
-        state.user = {};
+        state.user = {
+          authorities: [
+            {
+              name: 'ROLE_ANON'
+            }
+          ]
+        };
         axios.defaults.headers.common = {};
       },
+     
       // PROPERTY(state){
       //   PropertyService.getProperty().then((e)=>{
       //     state.property = e.data;
