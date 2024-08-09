@@ -54,12 +54,20 @@
 export default {
   data() {
     return {
-      username: this.$store.state.user.username,
-      role: this.$store.state.user.authorities[0].name,
-      id: this.$store.state.user.id,
       mouseover: Boolean
     };
   },
+  computed: {
+    username() {
+      return this.$store.state.user.username;
+    },
+    role() {
+      return this.$store.state.user.authorities[0].name;
+    },
+    id() {
+      return this.$store.state.user.id;
+    },
+  }
 };
 </script>
 
