@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.PropertyDAO;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Amenities;
+import com.techelevator.model.Images;
 import com.techelevator.model.Property;
 import com.techelevator.model.PropertyRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,10 @@ public class PropertyController {
     @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/property/update")
-    public Property updatePropByPropId (@Valid @RequestBody Property property, @RequestBody int propId){
+    public Property updatePropByPropId (@Valid @RequestBody Property property, Amenities amenities, Images images, int propId){
             Property updatePropByPropId;
             try {
-                updatePropByPropId = propertyDAO.updatePropByPropId(property, propId);
+                updatePropByPropId = propertyDAO.updatePropByPropId(property, amenities, images, propId);
             } catch (DaoException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
             }
