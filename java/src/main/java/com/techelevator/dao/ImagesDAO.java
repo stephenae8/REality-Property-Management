@@ -10,7 +10,7 @@ public interface ImagesDAO {
 
     List<Images> getImages();
 
-    Images getImagesById(int imageId);
+    Images getImagesByImageId(int imageId);
 
     Images getImagesByPropId(int propId);
 
