@@ -8,23 +8,26 @@ public class Property {
     private String address;
     private String city;
     private String state;
-    private int zipCode;
+    private String zipCode;
     private Boolean vacancy;
     private Boolean pending;
     private double rent;
     private int bedrooms;
     private double bathrooms;
-    //prob going to need a .to<??> to cut the dec to one placeholder
 
-    private String amenString;
+    //amenities vars
+    private boolean dishwasher;
+    private boolean centralAir;
+    private boolean laundry;
+    private boolean petsAllowed;
+
     private String[] imgString;
 
 
-    //constructor
+    //default constructor
     public Property() {}
 
-    //constructor
-    public Property(int propId, int ownerId, String address, String city, String state, int zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms, String[] imgString) {
+    public Property(int propId, int ownerId, String address, String city, String state, String zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms, boolean dishwasher, boolean centralAir, boolean laundry, boolean petsAllowed, String[] imgString) {
         this.propId = propId;
         this.ownerId = ownerId;
         this.address = address;
@@ -36,9 +39,29 @@ public class Property {
         this.rent = rent;
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
+        this.dishwasher = dishwasher;
+        this.centralAir = centralAir;
+        this.laundry = laundry;
+        this.petsAllowed = petsAllowed;
         this.imgString = imgString;
-
     }
+
+    //constructor
+//    public Property(int propId, int ownerId, String address, String city, String state, String zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms, String[] imgString) {
+//        this.propId = propId;
+//        this.ownerId = ownerId;
+//        this.address = address;
+//        this.city = city;
+//        this.state = state;
+//        this.zipCode = zipCode;
+//        this.vacancy = vacancy;
+//        this.pending = pending;
+//        this.rent = rent;
+//        this.bedrooms = bedrooms;
+//        this.bathrooms = bathrooms;
+//        this.imgString = imgString;
+//
+//    }
 
 
     //getters
@@ -62,7 +85,7 @@ public class Property {
         return state;
     }
 
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
@@ -90,6 +113,24 @@ public class Property {
         return imgString;
     }
 
+    public boolean isDishwasher() {
+        return dishwasher;
+    }
+
+    public boolean isCentralAir() {
+        return centralAir;
+    }
+
+    public boolean isLaundry() {
+        return laundry;
+    }
+
+    public boolean isPetsAllowed() {
+        return petsAllowed;
+    }
+
+
+
     //setters
     public void setPropId(int propId) {
         this.propId = propId;
@@ -111,7 +152,7 @@ public class Property {
         this.state = state;
     }
 
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -137,5 +178,21 @@ public class Property {
 
     public void setImgString(String[] imgString) {
         this.imgString = imgString;
+    }
+
+    public void setDishwasher(boolean dishwasher) {
+        this.dishwasher = dishwasher;
+    }
+
+    public void setCentralAir(boolean centralAir) {
+        this.centralAir = centralAir;
+    }
+
+    public void setLaundry(boolean laundry) {
+        this.laundry = laundry;
+    }
+
+    public void setPetsAllowed(boolean petsAllowed) {
+        this.petsAllowed = petsAllowed;
     }
 }
