@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Amenities;
 import com.techelevator.model.Images;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -37,7 +38,7 @@ public class JdbcImagesDao implements ImagesDAO {
     }
 
     @Override
-    public Images getImagesById(int imageId) {
+    public Images getImagesByImageId(int imageId) {
          Images images = null;
 
         String sql = "SELECT img_id, prop_id, img_url " +
@@ -76,12 +77,43 @@ public class JdbcImagesDao implements ImagesDAO {
 
     @Override
     public Images createImages(Images images) {
-        return null;
+        Images newImage = null;
+
+        String sql = "INSERT into images (prop_id, img_url)" +
+                "VALUES (?, ?) RETURNING img_id;";
+        try {
+            int newImageId = jdbcTemplate.queryForObject(sql, int.class, images.getPropId(),
+                    images.getImageURL());
+
+            newImage = getImagesByImageId(newImageId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return newImage;
+
     }
 
     @Override
     public Images updateImages(Images images) {
-        return null;
+        Images updatedImages = null;
+        String sql = "UPDATE images SET img_url= ?" + "WHERE prop_id = ? AND img_id = ?;";
+        try {
+            int numberOfRows = jdbcTemplate.update(sql, images.getImageURL(),
+                    images.getPropId(), images.getImageId());
+
+            if (numberOfRows == 0) {
+                throw new DaoException("Zero rows affected, expected at least one");
+            } else {
+                updatedImages = getImagesByImageId(images.getImageId());
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return updatedImages;
     }
 
     private Images mapRowToImages(SqlRowSet rowSet){
