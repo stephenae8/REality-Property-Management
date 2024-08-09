@@ -1,4 +1,5 @@
 <template>
+    <h1>{{ this.leases }}</h1>
     <div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
@@ -133,11 +134,11 @@ export default {
     methods: {
         returnLease(){
             
-            LeaseService.leaseById(9001).then((e)=>{
+            LeaseService.leaseById(this.username.id).then((e)=>{
                 this.leases = e.data
                 
                 console.log("asdas")
-                alert("sadsad")
+                // alert("sadsad")
             })
           
         }
