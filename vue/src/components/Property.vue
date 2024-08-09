@@ -8,13 +8,13 @@
                 <div class="slider-container">
                     <div id="carouselExampleIndicators" class="carousel slide">
                         <div class="carousel-indicators">
-                            <button v-for="(image, index) in imageUrls" :key="index" type="button"
+                            <button v-for="(image, index) in imageSlider.imgString" :key="index" type="button"
                                 data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index"
-                                :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)"></button>
+                                :class="{ 'active': index === 0 }" :aria-label="'Slide ' + (index + 1)" ></button>
                         </div>
 
-                        <div class="carousel-inner">
-                            <div v-for="(image, index) in imageUrls" :key="index"
+                        <div class="carousel-inner" style="max-width: 650px; width: 100%; max-height: 433px; height: 100%;">
+                            <div v-for="(image, index) in imageSlider.imgString" :key="index"
                                 :class="['carousel-item', { 'active': index === 0 }]">
                                 <img :src="image" class="d-block w-100" alt="...">
                             </div>
@@ -38,13 +38,13 @@
             <form action="" class="submitApplication">
                 <div class="applicationBox">
                     <div class="firstName">
-                        <h1 style="font-size: medium;">Move In Application</h1>
-                        <p>Move In Date?</p>
+                        <h1 style="font-size: medium; text-align: center;">When are you available to move in?</h1>
+                        <p style="text-align: center; font-style: italic; padding-bottom: 0px;">Easily Apply by Choosing A Date Below</p>
                         <input v-model="application.moveInDate" type="date" default="2017-05-15" name="calendar"
                             placeholder=""><br /><br />
                     </div>
                     <div class="submitButton">
-                        <button type="submit" style="width: 100px;" @click.prevent="submitApp">Submit</button>
+                        <button type="submit" style="width: 100px;" @click.prevent="submitApplication">Submit</button>
                     </div>
                 </div>
             </form>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="propertyDetails">
-            <p>
+            
             <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt=""
                     style="width: 50px">
                 <p> {{ justTest.bedrooms }} Bed</p>
@@ -75,9 +75,9 @@
             </div>
 
 
-            </p>
-
             
+
+
         </div>
         <div class="SimilarHomes">
             <div class="pets"><img src="https://img.icons8.com/?size=100&id=uNekrpFCFbqb&format=png&color=000000" alt=""
@@ -86,7 +86,7 @@
         <div class="AllCardContainer">
             <div class="PropertyCardContainer">
                 <div v-for="one in justfour" :key="one.propId">
-                    <router-link :to="{ name: 'property', params: { id: one.propId } }"><different-card
+                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: one.propId } }"><different-card
                             :OneIndividual="one"></different-card></router-link>
                 </div>
             </div>
@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import PropertyCard from '../components/PropertyCard.vue'
 import PropertyService from '../services/PropertyService.js'
 import DifferentCard from '../components/DifferentCard.vue'
 import ApplicationService from '../services/ApplicationService.js'
@@ -124,9 +123,11 @@ export default {
     },
 
     created() {
-        this.firstCase();
+
         this.oneProp();
-    },
+
+
+        },
 
     methods: {
 
@@ -135,23 +136,11 @@ export default {
                 this.justone = e.data
             });
         },
-
-
-        firstCase() {
-            PropertyService.getProperty().then((e) => {
-                this.justone = e.data;
-                if (this.justone.length > 0) {
-                    this.imageUrls = this.justone[0].imgString;
-                }
-            }).catch(err => console.error(err));
-        },
-      
-       
-        submitApp() {
+        submitApplication() {
             ApplicationService.createApplication(this.application)
                 .then(response => {
                     if (response.status == 201) {
-                        alert('App submitted!')
+                        alert('Your Application Has Been Submitted!')
                     }
                 })
                 .catch(e => console.log("Error creating application"))
@@ -161,10 +150,10 @@ export default {
 
     computed: {
 
-        justfour(){
-      let fourProp = [];
-      return fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
-    },
+        justfour() {
+            let fourProp = [];
+            return fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+        },
 
         justTest() {
             let newOne = {}
@@ -174,6 +163,15 @@ export default {
                 }
             })[0]
             return newOne;
+        },
+        imageSlider() {
+            let newTwo = {}
+            newTwo = this.justone.filter((e) => {
+                if (this.id == e.propId) {
+                    return e
+                }
+            })[0]
+            return newTwo;
         },
     },
 
@@ -198,6 +196,7 @@ export default {
 
 .whole-slider {
     max-width: 650px;
+    width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
@@ -208,6 +207,9 @@ export default {
 
 .slider-container {
     width: 100%;
+    height: 100%;
+    max-width: 650px;
+    max-height: 600px;
     border-radius: 18px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-right: 20%;
@@ -328,4 +330,5 @@ input {
     width: 100%;
     height: 100%;
     font-size: small;
-}</style>
+}
+</style>
