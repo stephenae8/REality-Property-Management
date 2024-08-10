@@ -71,7 +71,7 @@
             </div>
             <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt=""
                     style="width: 50px">
-                <p>Pets Allowed!</p>
+                <p>Pets Allowed!</p>    
             </div>
 
 
