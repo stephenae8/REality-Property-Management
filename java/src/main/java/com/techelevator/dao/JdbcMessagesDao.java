@@ -25,9 +25,24 @@ public class JdbcMessagesDao implements MessagesDao{
     @Override
     public List<Messages> getMessagesByUserId(int userId) {
         List<Messages> messages = new ArrayList<>();
-        String sql = "SELECT msg_id, contact_type, user_to, user_from, subject, msg_body, msg_date " +
-                "FROM messages " +
-                "WHERE user_to= ? OR user_from = ?;";
+        String sql = "SELECT \n" +
+                "    m.msg_id,\n" +
+                "    m.contact_type,\n" +
+                "    m.user_to,\n" +
+                "    CONCAT(u_to.fName, ' ', u_to.lName) AS to_full_name,\n" +
+                "    m.user_from,\n" +
+                "    CONCAT(u_from.fName, ' ', u_from.lName) AS from_full_name,\n" +
+                "    m.subject,\n" +
+                "    m.msg_body,\n" +
+                "    m.msg_date\n" +
+                "FROM \n" +
+                "    messages m\n" +
+                "JOIN \n" +
+                "    users u_to ON m.user_to = u_to.user_id\n" +
+                "JOIN \n" +
+                "    users u_from ON m.user_from = u_from.user_id\n" +
+                "WHERE \n" +
+                "    m.user_to = ? OR m.user_from = ?; ";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
             while (results.next()) {
@@ -83,7 +98,9 @@ public class JdbcMessagesDao implements MessagesDao{
         messages.setMsgId(rowSet.getInt("msg_id"));
         messages.setContactType(rowSet.getString("contact_type"));
         messages.setUserTo(rowSet.getInt("user_to"));
+        messages.setUserToFullName(rowSet.getString("to_full_name"));
         messages.setUserFrom(rowSet.getInt("user_from"));
+        messages.setUserFromFullName(rowSet.getString("from_full_name"));
         messages.setSubject(rowSet.getString("subject"));
         messages.setMsgBody(rowSet.getString("msg_body"));
         messages.setMsgDate(rowSet.getTimestamp("msg_date").toLocalDateTime());

@@ -7,7 +7,9 @@ public class Messages {
     private int msgId;
     private String contactType;
     private int userTo;
+    private String userToFullName;
     private int userFrom;
+    private String userFromFullName;
     private String subject;
     private String msgBody;
     private LocalDateTime msgDate;
@@ -78,5 +80,21 @@ public class Messages {
 
     public void setMsgDate(LocalDateTime msgDate) {
         this.msgDate = msgDate;
+    }
+
+    public String getUserToFullName() {
+        return userToFullName;
+    }
+
+    public void setUserToFullName(String userToFullName) {
+        this.userToFullName = userToFullName;
+    }
+
+    public String getUserFromFullName() {
+        return userFromFullName;
+    }
+
+    public void setUserFromFullName(String userFromFullName) {
+        this.userFromFullName = userFromFullName;
     }
 }
