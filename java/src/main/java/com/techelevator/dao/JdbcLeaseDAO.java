@@ -43,8 +43,8 @@ public class JdbcLeaseDAO implements LeaseDAO{
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Leases not found.", e);
         }
         return getListOfLeases;
     }
@@ -66,8 +66,8 @@ public class JdbcLeaseDAO implements LeaseDAO{
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Lease not found.", e);
         }
         return getLeaseByLeaseId;
     }
@@ -87,8 +87,8 @@ public class JdbcLeaseDAO implements LeaseDAO{
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Lease not found.", e);
         }
         return getLeaseByUserId;
     }
