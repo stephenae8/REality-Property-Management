@@ -50,12 +50,13 @@
             <span class="secondcase" >
                 <h4 id="h4too">Message</h4>
                 <hr>
-                <div style="border: 1px solid black; height: 55px; display: flex; ;">
-                    <span style="display: block; margin-left: 2%;">
+                <div style="border: 1px solid black; height: 75px; display: flex;" v-for="mess in openingMessage" :key="mess.msgId">
+                    <span style="display: block; margin-left: 4%; height: 35px; margin-top: 2.5%;">
                         <img src="../img/socialMediaHandle/icons8-mail-50.png" style="width: 35px;margin-top: 4.5%;">
                     </span>
-                    <span style="display: block; margin-left: 5%;">
-                    <h3>hs</h3>
+                    <span style="display: block; margin-left: 5%;width: 100%; border: 1px solid black;">
+                    <h3 style="border: 1px solid black; font-size: 20px; width: 100%;margin-left: 0%;text-align: center;">{{ message.subject }}</h3>
+                    <p style="font-size: 12px;">{{ message.msgBody }}</p>
                      </span>
                 </div>
                 
@@ -173,7 +174,17 @@ export default {
             })[0]
 
             return justForFun
+        },
+        openingMessage(){
+            let messagetodisplay = []
+            if(this.message.length>1){
+                return messagetodisplay = [this.message[0], this.message[1],this.message[2]]
+            }else{
+                return this.message[0]
+            }
+    
         }
+
     }
 
 }
