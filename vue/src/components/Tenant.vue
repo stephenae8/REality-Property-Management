@@ -1,10 +1,10 @@
 <template>
-    <h1>{{ property }}</h1>
-<div v-if="this.leases.propId > 1">
+    <h1>{{ message }}</h1>
+<div v-if="this.leases.leaseStatus">
 <div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
-            <p style="font-size: 12px; ">123 Wabash Ave, Chicago,Il 60601</p>
+            <p style="font-size: 12px; ">{{ justOne.address }}, {{ justOne.city }},{{justOne.state}} {{justOne.zipCode}}</p>
         </span>
         <div id="box" >
             <div id="justcolor"></div>
@@ -48,26 +48,16 @@
 
             </span>
             <span class="secondcase" >
-                <h4 id="h4too">Announcement</h4>
+                <h4 id="h4too">Message</h4>
                 <hr>
-                <span style=" display: flex;">
-                    <img id="tinylogo" width="50px"  src="../img/socialMediaHandle/icons8-announcement-100.png" alt="">
-                   <div id="secondText">
-                    <p style="font-weight: bold; font-size: 16px; margin-left: 3%;margin-top: 2%;">Basketball Night</p>
-                    <p style=";height: 55%;border: 1px solid white; font-size: 13px; padding: 2px;border-radius: 10px; background-color: green;color: white; width: 13%; text-align: center; margin-left: 2%; margin-top: 5px">New</p>
-                   </div>
-                </span>
-                <hr>
-                <span style=" display: flex;">
-                    <img id="tinylogo" width="50px"  src="../img/socialMediaHandle/icons8-announcement-100.png" alt="">
-                   <div id="secondText">
-                    <p id="firstP" >Guitar Hero Night</p>
-                    <p id="secondP" >New</p>
-                   </div>
-                </span>
-                <span style="display: flex;margin-top: 3%;justify-content: center; ">
-                    <button class="button grey small" style="border: 1px solid grey;">Click For More Announcement</button>
-                </span>
+                <div style="border: 1px solid black; height: 55px; display: flex; ;">
+                    <span style="display: block; margin-left: 2%;">
+                        <img src="../img/socialMediaHandle/icons8-mail-50.png" style="width: 35px;margin-top: 4.5%;">
+                    </span>
+                    <span style="display: block; margin-left: 5%;">
+                    <h3>hs</h3>
+                     </span>
+                </div>
                 
             </span>
         </div>
@@ -78,7 +68,7 @@
                 <h6 class="h6header" >Account</h6>
                 <p class="ptext">{{ leases.leaseId }}</p>
                 <h6 class="h6header" >Address</h6>
-                <p class="ptext" style="width: 35%;">"Address"</p>
+                <p class="ptext" style="width: 35%;">{{ justOne.address }}</p>
                 <span style="display: block; height: 60px;;">
                 <div style="display: flex;">
                 <h6 class="h6header" >Start Date</h6>
@@ -121,17 +111,22 @@
 
     </div>
 </div>
+<div v-else>
+    <h1>Application Still Pending</h1>
+</div>
 </template>
 
 <script>
 import LeaseService from '../services/LeaseService';
 import PropertyService from '../services/PropertyService';
+import MessageService from '../services/MessageService'
 export default {
     data(){
         return{
             username: this.$store.state.user,
             leases: {},
-            property: {}
+            property: {},
+            message: []
         }
     },
 
@@ -146,18 +141,39 @@ export default {
           
         },
 
-      
-
         propertyOne(){
-            PropertyService.getPropertyByid(this.username.id).then((e)=>{
+            PropertyService.getProperty().then((e)=>{
                 this.property = e.data
             })
+
+        },
+
+        messagePort(){
+            MessageService.getMessageByUser(this.username.id).then((e)=>{
+                this.message = e.data
+            })
         }
+
     },
+
 
     created(){
         this.propertyOne();
         this.returnLease();
+        this.messagePort();
+    },
+
+    computed: {
+        justOne(){
+            let justForFun = {};
+            justForFun = this.property.filter((e)=>{
+                if(e.propId==this.leases.propId){
+                    return e
+                }
+            })[0]
+
+            return justForFun
+        }
     }
 
 }
