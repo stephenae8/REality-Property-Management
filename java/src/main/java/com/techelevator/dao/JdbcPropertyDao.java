@@ -50,7 +50,7 @@ public class JdbcPropertyDao implements PropertyDAO {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (NullPointerException e){
-            throw new DaoException("Property not found.", e);
+            throw new DaoException("Properties not found.", e);
         }
 
         return listofMultiProps;
@@ -73,8 +73,8 @@ public class JdbcPropertyDao implements PropertyDAO {
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Properties not found.", e);
         }
 
         return listofOwnedProps;
@@ -96,8 +96,8 @@ public class JdbcPropertyDao implements PropertyDAO {
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Property not found.", e);
         }
 
         return oneProp;
