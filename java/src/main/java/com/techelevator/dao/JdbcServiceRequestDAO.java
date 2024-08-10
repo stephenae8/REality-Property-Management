@@ -40,8 +40,8 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Services Request not found.", e);
         }
         return getListOfServiceReqs;
     }
@@ -63,8 +63,8 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
         return getServcieReqById;
     }
@@ -86,8 +86,8 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
         return getServcieReqByUserId;
     }
@@ -109,8 +109,8 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
         return getServcieReqByPropId;
     }
