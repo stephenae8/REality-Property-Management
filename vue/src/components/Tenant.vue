@@ -1,6 +1,5 @@
 <template>
-    <h1>{{ message }}</h1>
-<div v-if="this.leases.leaseStatus">
+<div :class="{background: go}" v-if="this.leases.leaseStatus">
 <div id="main">
         <span id="greeting">
             <h3>Hello {{ username.fName }}!</h3>
@@ -22,6 +21,30 @@
                 <button class="button grey small">Set Up AutoPay</button>
             </div>
         </div>
+        <div v-show="addRe" style="border: 1px solid white; height: 500px; display: flex; justify-content: center;" > 
+        <span style="display: block; width: 70%;  height: 400px;margin-top: 1%;">
+            <h4 style="color: white;text-align: center; margin-top: 2%;">Send A requests</h4>
+            <p style="color: white; width: 50%; margin-left: 26%;">Please provide us with the details on your property and we will have our team check it out. Please provide us with all the request details! </p>
+            <span style="display: block; width: 50%; height: 350px; margin-left:26%;">
+                <label style="color: white;display: block;">Date:</label>
+                <input style="color: white;display: inline-block;" type="date" name="" id="">
+                <label style="color: white;display: block;margin-top: 1%;">Service Type: </label>
+                <select style=" color: white;width: 20%; margin-top: .3%;" name="">
+                    <option >Dishwasher</option>
+                    <option >Central Air</option>
+                    <option >Laundry</option>
+                    <option >Bathroom</option>
+                    <option >Other...</option>
+                </select>
+                <label style="color: white;display: block;margin-top: 2%;">Description:</label>
+                <textarea name="" cols="50" rows="4" style="resize: none;" placeholder="Please Add Your Request!" ></textarea>
+                <button @click="formGood" class="button small" style="margin-top: 3%;margin-left: 40%;width: 25% ;display: block;">Submit</button>
+
+            </span>
+        </span>
+
+
+</div>
 
         <div id="secondbox" >
             <span class="secondcase" >
@@ -30,38 +53,38 @@
                 <span style=" display: flex;">
                     <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
                    <div id="divfortext">
-                    <p id="firsttext" style=" ">Visiting Boyfriend in Columbus until around August 17th</p>
-                    <p id="secondtext">Completed</p>
+                    <p id="firsttext">{{requests.reqDetails}}</p>
+                    <p id="secondtext">{{ requests.reqStatus.substring(0,1).toUpperCase() }}{{requests.reqStatus.substring(1)  }}</p>
                 </div>
                 </span>
                 <hr>
-                <span style=" display: flex;">
-                    <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
-                   <div id="divfortext">
-                    <p id="firsttext" style=" ">Visiting Boyfriend in Columbus until around August 17th</p>
-                    <p id="secondtext">Completed</p>
-                </div>
-                </span>
+               
                 <span style="display: flex;margin-top: 3%;justify-content: center; ">
-                    <button class="button small">Create an Requests</button>
+                    <button @click="displayform" class="button small">Create an Requests</button>
                 </span>
 
             </span>
             <span class="secondcase" >
                 <h4 id="h4too">Message</h4>
                 <hr>
-                <div style="border: 1px solid black; height: 75px; display: flex;" v-for="mess in openingMessage" :key="mess.msgId">
-                    <span style="display: block; margin-left: 4%; height: 35px; margin-top: 2.5%;">
-                        <img src="../img/socialMediaHandle/icons8-mail-50.png" style="width: 35px;margin-top: 4.5%;">
+                <div style=" height: 75px; display: flex;" v-for="mess in openingMessage" :key="mess.msgId">
+                    <span style="display: block; margin-left: 4%; height: 35px; ">
+                        <img src="../img/socialMediaHandle/icons8-mail-50.png" style="width: 35px;margin-top: 2.5%;">
                     </span>
-                    <span style="display: block; margin-left: 5%;width: 100%; border: 1px solid black;">
-                    <h3 style="border: 1px solid black; font-size: 20px; width: 100%;margin-left: 0%;text-align: center;">{{ message.subject }}</h3>
-                    <p style="font-size: 12px;">{{ message.msgBody }}</p>
+                    <span style="display: block; margin-left: 5%;width: 100%; ">
+                    <h3 style="border: 1px solid black; font-size: 20px; width: 100%;margin-left: 0%;text-align: center; border-radius: 10px;">{{ mess.subject }}</h3>
+                    <p style="font-size: 12px;">{{ mess.msgBody }}</p>
                      </span>
                 </div>
-                
+                <hr style="margin-top:2%;width: 50%;margin-left: 25%;">
+                <span style="display: flex; justify-content: space-evenly;">
+                <button style="width: 25%;" class="button small">Open All</button>
+                <button style="width: 25%;" class="button grey small">Send a Message</button>
+
+            </span>
             </span>
         </div>
+
 
         <div id="secondBigDiv" >
             <span class="secondboxset" style="height: 350px; padding: 3px;">
@@ -109,9 +132,15 @@
                 </span>
             </span>
         </div>
-
     </div>
+
+
+
+
 </div>
+
+
+
 <div v-else>
     <h1>Application Still Pending</h1>
 </div>
@@ -120,18 +149,28 @@
 <script>
 import LeaseService from '../services/LeaseService';
 import PropertyService from '../services/PropertyService';
-import MessageService from '../services/MessageService'
+import MessageService from '../services/MessageService';
+import RequestService from '../services/RequestService';
 export default {
     data(){
         return{
             username: this.$store.state.user,
             leases: {},
             property: {},
-            message: []
+            message: [],
+            requests: {},
+            go: false,
+            addRe: false,
         }
     },
 
     methods: {
+
+        formGood(){
+            this.go= false;
+            this.addRe= false;
+        },
+
         returnLease(){
             
             LeaseService.leaseById(this.username.id).then((e)=>{
@@ -153,12 +192,26 @@ export default {
             MessageService.getMessageByUser(this.username.id).then((e)=>{
                 this.message = e.data
             })
+        },
+
+        servicesForUser(){
+            RequestService.getRequestbyId(this.username.id).then((e)=>{
+
+                this.requests = e.data
+            })
+        },
+
+        displayform(){
+            this.go=true;
+            this.addRe = true
         }
+
 
     },
 
 
     created(){
+        this.servicesForUser();
         this.propertyOne();
         this.returnLease();
         this.messagePort();
@@ -178,7 +231,7 @@ export default {
         openingMessage(){
             let messagetodisplay = []
             if(this.message.length>1){
-                return messagetodisplay = [this.message[0], this.message[1],this.message[2]]
+                return messagetodisplay = [this.message[0], this.message[1]]
             }else{
                 return this.message[0]
             }
@@ -191,6 +244,10 @@ export default {
 </script>
 
 <style scoped>
+
+.background{
+    background: rgba(0, 0, 0, 0.988);
+}
 
 .imglogo{
     width: 25px; 
@@ -293,7 +350,7 @@ export default {
 }
 
 #firsttext{
-    padding: 2px;
+    padding: 4px;
     align-items: center;
     font-size: 14px; 
     height: 100%;
@@ -348,9 +405,18 @@ export default {
      color: white;
 }
 
+.button:hover{
+    background-color:gray ;
+
+}
+
 .grey{
     background: white;
     color: gray;
+}
+
+.grey:hover{
+    color: white;
 }
 
 

@@ -98,9 +98,13 @@ public class JdbcMessagesDao implements MessagesDao{
         messages.setMsgId(rowSet.getInt("msg_id"));
         messages.setContactType(rowSet.getString("contact_type"));
         messages.setUserTo(rowSet.getInt("user_to"));
+        if(rowSet.getString("to_full_name")!=null) {
         messages.setUserToFullName(rowSet.getString("to_full_name"));
+        }
         messages.setUserFrom(rowSet.getInt("user_from"));
+        if(rowSet.getString("full_name")!=null) {
         messages.setUserFromFullName(rowSet.getString("from_full_name"));
+        }
         messages.setSubject(rowSet.getString("subject"));
         messages.setMsgBody(rowSet.getString("msg_body"));
         messages.setMsgDate(rowSet.getTimestamp("msg_date").toLocalDateTime());
