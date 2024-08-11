@@ -116,10 +116,10 @@ export default {
             imageUrls: [],
             application: {
                 moveInDate: '',
-                userId: 9001,
+                userId: this.$store.state.user.id,
                 propId: 9020,
                 appDate: "2020-11-10T10:00:00",
-                appStatus: 'approved'
+                appStatus: 'pending'
             },
             done: false,
             secondOne: true
@@ -144,13 +144,13 @@ export default {
         },
         submitApplication() {
             ApplicationService.createApplication(this.application)
-                .then(response => {
+                .then( response => {
                     if (response.status == 201) {
                         alert('Your Application Has Been Submitted!')
                     }
                 })
                 .catch(e => console.log("Error creating application"))
-        }
+        },
     },
 
 
@@ -196,6 +196,10 @@ export default {
 
             return {};
         },
+
+        filterAppStatus(){
+            if
+        }
     },
 
     components: {
