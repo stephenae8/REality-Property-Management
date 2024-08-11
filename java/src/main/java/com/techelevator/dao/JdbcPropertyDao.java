@@ -20,6 +20,7 @@ public class JdbcPropertyDao implements PropertyDAO {
     //instance variables
     @Autowired
     private PropertyDAO propertyDAO;
+    private AmenitiesDao amenitiesDao;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -35,8 +36,11 @@ public class JdbcPropertyDao implements PropertyDAO {
     public List<Property> getProperties() {
         List<Property> listofMultiProps = new ArrayList<>();
         String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
-                "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
-                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed";
+                " FROM properties\n" +
+                " JOIN images USING(prop_id)\n" +
+                " JOIN amenities USING(prop_id)\n" +
+                " JOIN users ON users.user_id = properties.owner_id\n" +
+                " GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 
@@ -46,7 +50,7 @@ public class JdbcPropertyDao implements PropertyDAO {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (NullPointerException e){
-            throw new DaoException("Property not found.", e);
+            throw new DaoException("Properties not found.", e);
         }
 
         return listofMultiProps;
@@ -58,8 +62,9 @@ public class JdbcPropertyDao implements PropertyDAO {
         List<Property> listofOwnedProps = new ArrayList<>();
         String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '|')\n" +
                 "FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id\n" +
-                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
-                "\"WHERE owner_id = ?";
+                "WHERE owner_id = ?\n" +
+                "GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed;";
+
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, ownerId);
 
@@ -68,8 +73,8 @@ public class JdbcPropertyDao implements PropertyDAO {
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e) {
-            throw new DaoException("Property not found. :(", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Properties not found.", e);
         }
 
         return listofOwnedProps;
@@ -81,8 +86,9 @@ public class JdbcPropertyDao implements PropertyDAO {
         Property oneProp = null;
         String sql = "SELECT prop_id, address, city, owner_id, state, zip, vacancy, pending, rent, bedrooms, bathrooms, dishwasher, central_air, laundry, pets_allowed, string_agg(img_url, '\\|')\n" +
                 " FROM properties JOIN images USING(prop_id) JOIN amenities USING(prop_id) JOIN users ON users.user_id = properties.owner_id " +
-                " GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed" +
-                " WHERE prop_id = ? ;";
+                " WHERE prop_id = ?\n" +
+                " GROUP BY prop_id, dishwasher, central_air, laundry, pets_allowed;";
+
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
             if (rowSet.next()) {
@@ -90,19 +96,20 @@ public class JdbcPropertyDao implements PropertyDAO {
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e) {
-            throw new DaoException("Property not found. :(", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Property not found.", e);
         }
 
         return oneProp;
     }
 
     //POST methods
-
     @Override
     public Property createProperty(Property property, Amenities amenities, Images images) {
+        Property createProp = null;
 
-        String sql = "INSERT INTO properties (owner_id, address, city, state, zip, vacancy, pending, rent, bedrooms, bathrooms)\n" +
+        String sql = "INSERT INTO properties (owner_id, address, city, state, zip, " +
+                                             "vacancy, pending, rent, bedrooms, bathrooms)\n" +
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
         "RETURNING prop_id";
 
@@ -138,14 +145,14 @@ public class JdbcPropertyDao implements PropertyDAO {
                     newPropId,
                     images.getImageURL());
 
-            property.setPropId(newPropId);
+            createProp = getPropertyByPropId(newPropId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e) {
-            throw new DaoException("Property not found. :(", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
 
-        return property;
+        return createProp;
     }
 
     //PUT methods
@@ -158,18 +165,17 @@ public class JdbcPropertyDao implements PropertyDAO {
                     "SET address = ?, city = ?, state = ?, zip = ?, vacancy = ?, pending = ?, rent = ?, bedrooms = ?, bathrooms = ? \n" +
                     "WHERE prop_id = ?;";
 
-        String sql2 = "UPDATE amenties\n" +
+        String sql2 = "UPDATE amenities \n" +
                     "SET dishwasher = ?, central_air = ?, laundry = ?, pets_allowed = ? \n" +
                     "WHERE prop_id = ?;";
 
         String sql3 = "UPDATE images\n" +
-                    "SET prop_id = ?, img_url = ? \n" +
+                    "SET img_url = ? \n" +
                     "WHERE prop_id = ?;";
 
 
         try {
-            int newPropId = jdbcTemplate.update(sql, propId,
-                            property.getOwnerId(),
+            int RowsAffected = jdbcTemplate.update(sql,
                             property.getAddress(),
                             property.getCity(),
                             property.getState(),
@@ -178,23 +184,24 @@ public class JdbcPropertyDao implements PropertyDAO {
                             property.isPending(),
                             property.getRent(),
                             property.getBedrooms(),
-                            property.getBathrooms());
+                            property.getBathrooms(),
+                            propId);
 
             jdbcTemplate.update(sql2,
-                    newPropId,
                     amenities.isDishwasher(),
                     amenities.isCentralAir(),
                     amenities.isLaundry(),
-                    amenities.isPetsAllowed());
+                    amenities.isPetsAllowed(),
+                    propId);
 
             jdbcTemplate.update(sql3,
-                    newPropId,
-                    images.getImageURL());
+                    images.getImageURL(),
+                    propId);
 
-            if (newPropId == 0){
+            if (RowsAffected == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             } else {
-                updatedProp = updatePropByPropId(property, amenities, images, propId);
+                updatedProp = getPropertyByPropId(propId);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -213,12 +220,16 @@ public class JdbcPropertyDao implements PropertyDAO {
         property.setAddress(rowSet.getString("address"));
         property.setCity(rowSet.getString("city"));
         property.setState(rowSet.getString("state"));
-        property.setZipCode(rowSet.getInt("zip"));
+        property.setZipCode(rowSet.getString("zip"));
         property.setVacancy(rowSet.getBoolean("vacancy"));
         property.setPending((rowSet.getBoolean("pending")));
         property.setRent(rowSet.getDouble("rent"));
         property.setBedrooms(rowSet.getInt("bedrooms"));
         property.setBathrooms(rowSet.getDouble("bathrooms"));
+        property.setDishwasher(rowSet.getBoolean("dishwasher"));
+        property.setCentralAir(rowSet.getBoolean("central_air"));
+        property.setLaundry(rowSet.getBoolean("laundry"));
+        property.setPetsAllowed(rowSet.getBoolean("pets_allowed"));
         if (rowSet.getString("string_agg") != null){
             property.setImgString(rowSet.getString("string_agg").split("\\|"));
         }

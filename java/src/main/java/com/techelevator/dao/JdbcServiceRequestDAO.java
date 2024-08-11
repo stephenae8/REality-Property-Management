@@ -2,112 +2,186 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.ServiceRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcServiceRequestDAO {
+@Component
+public class JdbcServiceRequestDAO implements ServiceRequestDAO {
 
     //instance variables
+//    @Autowired
+//    private ServiceRequest serviceRequest;
     private JdbcTemplate jdbcTemplate;
-
 
     //constructor
     public JdbcServiceRequestDAO (JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     //GET Methods
+    //POV: the prop mgr/owner can retrieve all service requests
+    @Override
     public List<ServiceRequest> getListOfServiceReqs(){
         List<ServiceRequest> getListOfServiceReqs = new ArrayList<>();
-        String sql = "";
+        String sql = "SELECT * FROM service_request";
 
         try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 
+            while (rowSet.next()){
+                getListOfServiceReqs.add(mapRowToServiceRequest(rowSet));
+            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Services Request not found.", e);
         }
         return getListOfServiceReqs;
     }
 
+    @Override
     public ServiceRequest getServcieReqById(int reqId){
-        //create new variable
-        String sql = "";
+        ServiceRequest getServcieReqById = null;
+        String sql =
+                "SELECT req_id, user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type\n" +
+                "FROM service_request\n" +
+                "WHERE req_id = ?";
 
         try {
 
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, reqId);
+            if (rowSet.next()) {
+                getServcieReqById = mapRowToServiceRequest(rowSet);
+            }
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
-        return null; //return new variable
+        return getServcieReqById;
     }
 
+    @Override
     public ServiceRequest getServcieReqByUserId(int userId){
-        //create new variable
-        String sql = "";
+        ServiceRequest getServcieReqByUserId = null;
+        String sql =
+                "SELECT req_id, user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type\n" +
+                        "FROM service_request\n" +
+                        "WHERE user_id = ?";
 
         try {
 
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+            if (rowSet.next()) {
+                getServcieReqByUserId = mapRowToServiceRequest(rowSet);
+            }
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
-        return null; //return new variable
+        return getServcieReqByUserId;
     }
 
-    ServiceRequest getServcieReqByPropId(int propId) {
-        //create new variable
-        String sql = "";
+    @Override
+    public ServiceRequest getServcieReqByPropId(int propId) {
+        ServiceRequest getServcieReqByPropId = null;
+        String sql =
+                "SELECT req_id, user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type\n" +
+                        "FROM service_request\n" +
+                        "WHERE prop_id = ?";
 
         try {
 
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
+            if (rowSet.next()) {
+                getServcieReqByPropId = mapRowToServiceRequest(rowSet);
+            }
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+        } catch (NullPointerException e){
+            throw new DaoException("Service Request not found.", e);
         }
-        return null; //return new variable
+        return getServcieReqByPropId;
     }
 
 
     //POST Methods
-    ServiceRequest createServiceRequest (ServiceRequest serviceRequest){
-        //create new variable
-        String sql = "";
+    @Override
+    public ServiceRequest createServiceRequest (ServiceRequest serviceRequest){
+        ServiceRequest newServiceRequest = null;
+        String sql = "INSERT INTO service_request (user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)\n" +
+                "RETURNING req_id";
 
         try {
+            int newServiceRequestId = jdbcTemplate.queryForObject(sql, int.class,
+                    serviceRequest.getUserId(),
+                    serviceRequest.getPropId(),
+                    serviceRequest.getReqStatus(),
+                    serviceRequest.getReqDate(),
+                    serviceRequest.getLastUpdated(),
+                    serviceRequest.getReqDetails(),
+                    serviceRequest.getIssueType());
 
+            newServiceRequest = getServcieReqById(newServiceRequestId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-            return null; //return new variable
+            return newServiceRequest;
     }
 
 
     //PUT Methods
-    ServiceRequest updateServiceRequest(ServiceRequest serviceRequest){
-        //create new variable
-        String sql = "";
+    @Override
+    public ServiceRequest updateServiceRequest(ServiceRequest serviceRequest){
+        ServiceRequest updatedServiceRequest = null;
+        String sql = "UPDATE service_request\n" +
+                "SET req_status = ?, last_updated = ?\n" +
+                "WHERE req_id = ?\n" +
+                ";";
 
         try {
+            int numRows = jdbcTemplate.update(sql, serviceRequest.getReqStatus(), serviceRequest.getLastUpdated(),serviceRequest.getReqId());
+
+            if (numRows == 0){
+                throw new DaoException("Zero rows affected, expected at least one");
+            } else {
+                updatedServiceRequest = getServcieReqById(serviceRequest.getReqId());
+            }
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-                return null; //return new variable
+                return updatedServiceRequest;
+    }
+
+    //MapRowSet
+    private ServiceRequest mapRowToServiceRequest(SqlRowSet rowSet){
+        ServiceRequest serviceRequest = new ServiceRequest();
+        serviceRequest.setReqId(rowSet.getInt("req_id"));
+        serviceRequest.setUserId(rowSet.getInt("user_id"));
+        serviceRequest.setPropId(rowSet.getInt("prop_id"));
+        serviceRequest.setReqStatus(rowSet.getString("req_status"));
+        serviceRequest.setReqDate(rowSet.getTimestamp("req_date").toLocalDateTime());
+        serviceRequest.setLastUpdated(rowSet.getTimestamp("last_updated").toLocalDateTime());
+        serviceRequest.setReqDetails(rowSet.getString("req_body"));
+        serviceRequest.setIssueType(rowSet.getString("issue_type"));
+        return serviceRequest;
     }
 
 

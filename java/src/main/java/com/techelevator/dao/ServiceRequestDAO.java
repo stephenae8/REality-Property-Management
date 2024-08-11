@@ -3,9 +3,11 @@ package com.techelevator.dao;
 import com.techelevator.model.Lease;
 import com.techelevator.model.Property;
 import com.techelevator.model.ServiceRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface ServiceRequestDAO {
 
     //GET

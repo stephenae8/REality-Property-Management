@@ -1,9 +1,11 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Lease;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface LeaseDAO {
 
     //GET

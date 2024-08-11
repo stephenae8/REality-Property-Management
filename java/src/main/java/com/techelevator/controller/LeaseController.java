@@ -72,7 +72,7 @@ public class LeaseController {
         try{
             createLease = leaseDAO.createLease(lease);
         } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lease Not Found :(");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lease Not Created.");
         }
         return createLease;
     }

@@ -15,6 +15,8 @@ import OwnerView from '../views/OwnerView.vue';
 import TenantView from '../views/TenantView.vue';
 import ManagerView from '../views/ManagerView.vue';
 
+import ManagerView from '../views/ManagerView.vue'
+
 
 
 /**
@@ -71,6 +73,7 @@ const routes = [
     path: '/available',
     name: 'Available',
     component: AvailableView,
+    props: route => ({query: route.query.q}),
     meta: {
       requiresAuth: false
     }
