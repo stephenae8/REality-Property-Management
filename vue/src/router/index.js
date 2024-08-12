@@ -13,8 +13,9 @@ import AvailableView from '../views/AvailableView.vue';
 import OwnerView from '../views/OwnerView.vue';
 
 import TenantView from '../views/TenantView.vue';
+import ManagerView from '../views/ManagerView.vue';
 
-import ManagerView from '../views/ManagerView.vue'
+
 
 
 

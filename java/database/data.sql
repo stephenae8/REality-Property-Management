@@ -6,26 +6,26 @@ INSERT INTO users (user_id, username,password_hash,role) VALUES (9901, 'admin','
 
 -- Users
 INSERT INTO users (user_id, username, role, fName, lName, email, phone_number, password_hash) VALUES
-(9001, 'johndoe', 'tenant', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', 'johndoe'),
-(9002, 'janesmith', 'manager', 'Jane', 'Smith', 'jane.smith@example.com', '123-456-7891', 'janesmith'),
-(9003, 'bobjohnson', 'owner', 'Bob', 'Johnson', 'bob.johnson@example.com', '123-456-7892', 'bobjohnson'),
-(9004, 'alicebrown', 'tenant', 'Alice', 'Brown', 'alice.brown@example.com', '123-456-7893', 'alicebrown'),
-(9005, 'chrisdavis', 'tenant', 'Chris', 'Davis', 'chris.davis@example.com', '123-456-7894', 'chrisdavis'),
-(9006, 'evemiller', 'owner', 'Eve', 'Miller', 'eve.miller@example.com', '123-456-7895', 'evemiller'),
-(9007, 'frankwilson', 'tenant', 'Frank', 'Wilson', 'frank.wilson@example.com', '123-456-7896', 'frankwilson'),
-(9008, 'gracemoore', 'tenant', 'Grace', 'Moore', 'grace.moore@example.com', '123-456-7897', 'gracemoore'),
-(9009, 'henrytaylor', 'owner', 'Henry', 'Taylor', 'henry.taylor@example.com', '123-456-7898', 'henrytaylor'),
-(9010, 'ivyanderson', 'tenant', 'Ivy', 'Anderson', 'ivy.anderson@example.com', '123-456-7899', 'ivyanderson'),
-(9011, 'oliviayoung', 'tenant', 'Olivia', 'Young', 'olivia.young@example.com', '123-456-7890', 'oliviayoung'),
-(9012, 'lucasking', 'tenant', 'Lucas', 'King', 'lucas.king@example.com', '123-456-7891', 'lucasking'),
-(9013, 'miacarter', 'tenant', 'Mia', 'Carter', 'mia.carter@example.com', '123-456-7892', 'miacarter'),
-(9014, 'noahdmas', 'tenant', 'Noah', 'Adams', 'noah.adams@example.com', '123-456-7893', 'noahdmas'),
-(9015, 'emmabrown', 'tenant', 'Emma', 'Brown', 'emma.brown@example.com', '123-456-7894', 'emmabrown'),
-(9016, 'jacobmiller', 'tenant', 'Jacob', 'Miller', 'jacob.miller@example.com', '123-456-7895', 'jacobmiller'),
-(9017, 'ethandavis', 'tenant', 'Ethan', 'Davis', 'ethan.davis@example.com', '123-456-7896', 'ethandavis'),
-(9018, 'sophiajohnson', 'tenant', 'Sophia', 'Johnson', 'sophia.johnson@example.com', '123-456-7897', 'sophiajohnson'),
-(9019, 'avawilson', 'tenant', 'Ava', 'Wilson', 'ava.wilson@example.com', '123-456-7898', 'avawilson'),
-(9020, 'williamanderson', 'tenant', 'William', 'Anderson', 'william.anderson@example.com', '123-456-7899', 'williamanderson')
+(9001, 'johndoe', 'ROLE_TENANT', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9002, 'ad2s2', 'ROLE_MANAGER', 'REality', 'Manager', 'A2DS2@REality.com', '123-456-7891', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9003, 'bobjohnson', 'ROLE_OWNER', 'Bob', 'Johnson', 'bob.johnson@example.com', '123-456-7892', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9004, 'alicebrown', 'ROLE_TENANT', 'Alice', 'Brown', 'alice.brown@example.com', '123-456-7893', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9005, 'chrisdavis', 'ROLE_TENANT', 'Chris', 'Davis', 'chris.davis@example.com', '123-456-7894', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9006, 'evemiller', 'ROLE_OWNER', 'Eve', 'Miller', 'eve.miller@example.com', '123-456-7895', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9007, 'frankwilson', 'ROLE_TENANT', 'Frank', 'Wilson', 'frank.wilson@example.com', '123-456-7896', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9008, 'gracemoore', 'ROLE_TENANT', 'Grace', 'Moore', 'grace.moore@example.com', '123-456-7897', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9009, 'henrytaylor', 'ROLE_OWNER', 'Henry', 'Taylor', 'henry.taylor@example.com', '123-456-7898', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9010, 'ivyanderson', 'ROLE_TENANT', 'Ivy', 'Anderson', 'ivy.anderson@example.com', '123-456-7899', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9011, 'oliviayoung', 'ROLE_TENANT', 'Olivia', 'Young', 'olivia.young@example.com', '123-456-7890', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9012, 'lucasking', 'ROLE_TENANT', 'Lucas', 'King', 'lucas.king@example.com', '123-456-7891', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9013, 'miacarter', 'ROLE_TENANT', 'Mia', 'Carter', 'mia.carter@example.com', '123-456-7892', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9014, 'noahdmas', 'ROLE_TENANT', 'Noah', 'Adams', 'noah.adams@example.com', '123-456-7893', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9015, 'emmabrown', 'ROLE_TENANT', 'Emma', 'Brown', 'emma.brown@example.com', '123-456-7894', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9016, 'jacobmiller', 'ROLE_TENANT', 'Jacob', 'Miller', 'jacob.miller@example.com', '123-456-7895', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9017, 'ethandavis', 'ROLE_TENANT', 'Ethan', 'Davis', 'ethan.davis@example.com', '123-456-7896', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9018, 'sophiajohnson', 'ROLE_TENANT', 'Sophia', 'Johnson', 'sophia.johnson@example.com', '123-456-7897', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9019, 'avawilson', 'ROLE_TENANT', 'Ava', 'Wilson', 'ava.wilson@example.com', '123-456-7898', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'),
+(9020, 'williamanderson', 'ROLE_TENANT', 'William', 'Anderson', 'william.anderson@example.com', '123-456-7899', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC')
 ;
 
 

@@ -92,7 +92,21 @@ public class Lease {
         this.leaseStatus = leaseStatus;
     }
 
-    public void settermLength(int termLength) {
+    public void setTermLength(int termLength) {
         this.termLength = termLength;
+    }
+
+    @Override
+    public String toString() {
+        return "Lease{" +
+                "leaseId=" + leaseId +
+                ", userId=" + userId +
+                ", propId=" + propId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", rent=" + rent +
+                ", leaseStatus='" + leaseStatus + '\'' +
+                ", termLength=" + termLength +
+                '}';
     }
 }
