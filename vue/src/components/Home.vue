@@ -1,5 +1,4 @@
 <template>
-  <h1>{{ this.$store.state.user }}</h1>
   <div id="home">
     <div id="insidetext">
       <h2 id="ownh2">Discover Your New Home</h2>

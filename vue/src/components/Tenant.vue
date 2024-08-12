@@ -1,6 +1,8 @@
 <template>
-    <div :class="{background: go}" v-if="this.leases.leaseStatus = 'active' ">
-    <div id="main">
+  
+<div v-if="completed">
+    <div :class="{background: go}" v-if="this.leases.leaseStatus == 'active'" >
+     <div id="main">
             <span id="greeting">
                 <h3>Hello {{ username.fName }}!</h3>
                 <p style="font-size: 12px; ">{{ justOne.address }}, {{ justOne.city }},{{justOne.state}} {{justOne.zipCode}}</p>
@@ -179,17 +181,9 @@
                 </span>
             </div>
         </div>
+</div>
     
-    
-    
-    </div> 
-    
-    
-    
-    <div v-else>
-        
-        <h1>Application Still Pending</h1>
-    </div>
+</div>
     </template>
     
     <script>
@@ -200,8 +194,11 @@
     import axios from 'axios';
     import ApplicationService from '../services/ApplicationService';
     export default {
+
+
         data(){
             return{
+                completed: false,
                 firstOne: false,
                 otherCase: true,
                 checkCase:true,
@@ -257,13 +254,14 @@
                 this.addRe = false;
                 this.otherCase = true;
             },
+
+  
     
             returnLease(){
                 
                 LeaseService.leaseById(this.username.id).then((e)=>{
-                    
                     this.leases = e.data
-                    this.firstOne = true
+                    this.completed = true
                 })
               
             },
@@ -349,6 +347,7 @@
             this.propertyOne();
             this.returnLease();
             this.messagePort();
+            this.completed =true
         },
     
         computed: {
