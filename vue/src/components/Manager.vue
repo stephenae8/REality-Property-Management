@@ -5,49 +5,75 @@
             <h1>Hello {{ this.$store.state.user.fName }}</h1>
         </span>
         <div class="container">
-            <div class="top-section" style=" margin-top: 25%; margin-bottom: 25%; ">
+            <div class="top-section" style=" margin-top: 10%; margin-bottom: 10%; ">
+
                 <div class="revenue-box" style="border: 1px solid black;">
-                    <h1>Current Applications</h1>
-                    <div class="money-counter">
-                        money money money
+                    <div class="scroll">
+                        <li v-for="(services, index) in services" :key="index" class="property-card">
+                            <p><strong>Property Id:</strong> {{ services.propId }} </p>
+                            <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
+                            <p><strong>Service Status:</strong> {{ services.reqStatus }}
+                                <div class="allButtons" style="display: flex;">
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #fcc82cea; border-color: white; color: white;"
+                                            @click.prevent="setInProgress(inProgress.reqId)">In Progress</button>
+                                    </div>
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #058805ea; rgba(15, 179, 102, 0.776): white; color: white;"
+                                            @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
+                                    </div>
+                                </div>
+                            </p>
+                        </li>
                     </div>
                 </div>
-                <form @submit.prevent="addProperty" class="property-form" style="border: 1px solid black;">
-                    <div class="form-fields">
-                        <input v-model="property.city" type="text" placeholder="City" required>
-                        <input v-model="property.state" type="text" placeholder="State" required>
-                        <input v-model="property.address" type="text" placeholder="Address" required>
-                        <input v-model="property.zipcode" type="text" placeholder="Zipcode" required>
-                        <input v-model="property.rent" type="number" placeholder="Rent" required>
-                        <input v-model="property.bed" type="number" placeholder="Bed" required>
-                        <input v-model="property.bath" type="number" placeholder="Bath" required>
-                    </div>
-                    <div class="upload-box">
-                        <h3>Upload Property Image</h3>
-                        <input type="file" id="image-upload" @change="handleImageUpload">
-                    </div>
+
+
+
+                <form @submit.prevent="submitMessage" class="message-form" style="border: 1px solid black;">
+                    <h1 style="font-size: 30px; margin-bottom: auto;">Send a Message to a Tenant</h1>
+
+                    <input v-model="message.user_to" type="number" placeholder="Enter Tenant's User ID" required
+                        style="font-size: large; margin-bottom: 15px;" />
+
+                    <textarea v-model="message.msg_body" class="messageBox" name="text" cols="25" rows="5"
+                        style="font-size: large;" placeholder="Enter your message" required></textarea>
                     <div class="submit-button">
                         <button type="submit"
-                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;">Submit</button>
+                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
+                            @click.prevent="submitMessage">Submit</button>
                     </div>
                 </form>
+
             </div>
-            <div class="bottom-section" style=" min-width: 1560px; margin-bottom: 25%;">
+            <div class="bottom-section" style=" max-width: 1560px; margin-bottom: 25%; width: 100%;">
                 <div class="properties-box" style="border: 1px solid black;">
                     <h1>All Applications</h1>
                     <ul>
                         <div class="scroll">
-                        {{ applications[0].user_id }}
-                        <li v-for="(applications, index) in applications" :key="index" class="property-card">
-                            <p><strong>UserId:</strong> {{ applications.userId }}</p>
-                            <p><strong>Move In Date:</strong> {{ applications.movieInDate}}</p>
-                            <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
-                            <img v-if="property.image" :src="property.image" alt="Property Image" class="property-image"
-                                style="max-width: 300px; width: 100%; max-height: 200px; height: 100%;" />
-                        </li>
-                    </div>
+                            <li v-for="(applications, index) in applications" :key="index" class="property-card">
+                                <p><strong>UserId:</strong> {{ applications.userId }}</p>
+                                <p><strong>Move In Date:</strong> {{ applications.movieInDate }}</p>
+                                <p><strong>Application Status:</strong> {{ applications.appStatus }}
+                                <div class="allButtons" style="display: flex;">
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
+                                            @click.prevent="setApprovedUser(applications.userId)">Approve</button>
+                                    </div>
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #901818c6; border-color: white; color: white;"
+                                            @click.prevent="setDeniedUser(applications.userId)">Deny</button>
+                                    </div>
+                                </div>
+                                </p>
+                            </li>
+                        </div>
                     </ul>
-                    
+
                 </div>
             </div>
         </div>
@@ -55,68 +81,134 @@
 </template>
     
 <script>
-import ApplicationService from '../services/ApplicationService';
+import MessageService from '../services/MessageService.js';
+import ApplicationService from '../services/ApplicationService.js';
+import ServiceRequestService from '../services/ServiceRequestService.js';
+
 export default {
     data() {
         return {
+            message: {
 
-          applications: [],
-
-            property: {
-                city: '',
-                state: '',
-                address: '',
-                zipcode: '',
-                rent: '',
-                bed: '',
-                bath: '',
-                image: null,
+                contactType: 'email',
+                userTo: 9010,
+                userFrom: this.$store.state.user.id,
+                subject: 'Message from Manager',
+                msgBody: 'hello there',
+                msgDate: "2020-11-10T10:00:00"
             },
-            properties: [],
+            services: [],
+            applications: [],
+            approved: {
+                "userId": '',
+                "appStatus": "approved"
+            },
+            denied: {
+                "userId": '',
+                "appStatus": "denied"
+            },
+            inProgress: {
+                "userId": '',
+                "reqStatus": "in_progress"
+            },
+            serviceComplete: {
+                "userId": '',
+                "reqStatus": "complete"
+            },
+
         };
     },
 
     created() {
-        this.ApproveOrDeny();
+        this.loadApplications();
+        this.loadServiceRequests();
     },
+
     methods: {
-        addProperty() {
-            this.properties.push({ ...this.property });
-            this.resetForm();
+        submitMessage() {
+            MessageService.createMessage(this.message)
+                .then(response => {
+                    alert('Message sent successfully!');
+                    this.resetMessageForm();
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    alert('Failed to send message.');
+                });
         },
-        resetForm() {
-            this.property = {
-                city: '',
-                state: '',
-                address: '',
-                zipcode: '',
-                rent: '',
-                bed: '',
-                bath: '',
-                image: null,
-            };
-            document.getElementById('image-upload').value = null;
+
+        resetMessageForm() {
+            this.message.userTo = '';
+            this.message.msgBody = '';
         },
-        handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.property.image = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+        loadServiceRequests() {
+            ServiceRequestService.getServiceRequest().then((e) => {
+                this.services = e.data;
+            });
         },
-        ApproveOrDeny() {
+
+        loadApplications() {
             ApplicationService.getApplication().then((e) => {
                 this.applications = e.data;
             });
         },
-    },
-    computed: {
+        setApprovedUser(userId) {
+            this.approved.userId = userId;
+            this.approveApplication();
+        },
+        approveApplication() {
+            ApplicationService.updateApplication(this.approved)
+                .then(response => {
+                    alert('Application Approved Successfully');
+                })
+                .catch(error => {
+                    console.error('Error Updating Application:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setDeniedUser(userId) {
+            this.denied.userId = userId;
+            this.deniedApplication();
+        },
+        deniedApplication() {
+            ApplicationService.updateApplication(this.denied)
+                .then(response => {
+                    alert('Application Denied Successfully');
+                })
+                .catch(error => {
+                    console.error('Error Updating Application:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setInProgress(userId) {
+            this.inProgress.userId = userId;
+            this.inProgressServiceRequest();
+        },
+        inProgressServiceRequest() {
+            ServiceRequestService.updateServiceRequest(this.inProgress)
+                .then(response => {
+                    alert('Service Request Set To "In Progress"');
+                })
+                .catch(error => {
+                    console.error('Error Updating Service Request:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setComplete(userId) {
+            this.serviceComplete.userId = userId;
+            this.completeServiceRequest();
+        },
+        completeServiceRequest() {
+            ServiceRequestService.updateServiceRequest(this.serviceComplete)
+                .then(response => {
+                    alert('Service Request Set To "Complete"');
+                })
+                .catch(error => {
+                    console.error('Error Updating Service Request:', error);
+                    alert('Failed to approve application.');
+                });
+        },
 
-
-        
     }
 }
 </script>
@@ -154,16 +246,23 @@ export default {
     padding: 20px;
 }
 
-.property-form {
+.message-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 650px;
-    width: 100%;
+    min-height: 400px;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
-    padding: 20px;
+    padding: 35px;
+
+    .messageBox {
+        border-radius: 8px;
+        margin: auto;
+        height: 50%;
+        width: 80%;
+    }
 }
 
 .form-fields {
@@ -194,6 +293,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
 }
 
 .property-card p {
@@ -212,12 +312,12 @@ h3 {
 
 
 div.scroll {
-            margin: 4px, 4px;
-            padding: 4px;
-            height: 500px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            text-align: justify;
-        }
+    margin: 4px, 4px;
+    padding: 4px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
 </style>
     

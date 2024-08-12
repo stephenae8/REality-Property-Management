@@ -7,5 +7,8 @@ export default {
     getApplication(data) {
         return axios.get('/applications', data);
     },
+    updateApplication(data) {
+        return axios.put('/applications/update', data);
+    },
     
 }
