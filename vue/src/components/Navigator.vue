@@ -40,7 +40,7 @@
         >Available Properties</router-link
       >
       <router-link to="#" >About Us</router-link> 
-      <router-link class="portal" :to="{name: 'Tenant'}" v-show="role == 'ROLE_USER'"
+      <router-link class="portal" :to="{name: 'Tenant'}" v-show="role == 'ROLE_TENANT'"
         >Tenant Portal</router-link
       >
       <router-link class="portal" to="#" v-show="role == 'ROLE_MANAGER'"
