@@ -46,22 +46,6 @@ public class Property {
         this.imgString = imgString;
     }
 
-    //constructor
-//    public Property(int propId, int ownerId, String address, String city, String state, String zipCode, Boolean vacancy, Boolean pending, double rent, int bedrooms, double bathrooms, String[] imgString) {
-//        this.propId = propId;
-//        this.ownerId = ownerId;
-//        this.address = address;
-//        this.city = city;
-//        this.state = state;
-//        this.zipCode = zipCode;
-//        this.vacancy = vacancy;
-//        this.pending = pending;
-//        this.rent = rent;
-//        this.bedrooms = bedrooms;
-//        this.bathrooms = bathrooms;
-//        this.imgString = imgString;
-//
-//    }
 
 
     //getters
