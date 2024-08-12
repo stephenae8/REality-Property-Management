@@ -10,5 +10,8 @@ export default {
     updateApplication(data) {
         return axios.put('/applications/update', data);
     },
+    getApplicationById(id){
+        return axios.get(`/applications/user/${id}`)
+    }
     
 }
