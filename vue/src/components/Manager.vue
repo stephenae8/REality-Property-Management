@@ -35,10 +35,10 @@
                 <form @submit.prevent="submitMessage" class="message-form" style="border: 1px solid black;">
                     <h1 style="font-size: 30px; margin-bottom: auto;">Send a Message to a Tenant</h1>
 
-                    <input v-model="message.user_to" type="number" placeholder="Enter Tenant's User ID" required
+                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
                         style="font-size: large; margin-bottom: 15px;" />
 
-                    <textarea v-model="message.msg_body" class="messageBox" name="text" cols="25" rows="5"
+                    <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
                         style="font-size: large;" placeholder="Enter your message" required></textarea>
                     <div class="submit-button">
                         <button type="submit"
@@ -91,10 +91,10 @@ export default {
             message: {
 
                 contactType: 'email',
-                userTo: 9010,
+                userTo: "",
                 userFrom: this.$store.state.user.id,
                 subject: 'Message from Manager',
-                msgBody: 'hello there',
+                msgBody: "",
                 msgDate: "2020-11-10T10:00:00"
             },
             services: [],
@@ -134,6 +134,7 @@ export default {
                 .catch(error => {
                     console.error('Error sending message:', error);
                     alert('Failed to send message.');
+                    this.resetMessageForm();
                 });
         },
 
