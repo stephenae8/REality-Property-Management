@@ -1,5 +1,5 @@
 <template>
-<h1>{{ message }}</h1>
+<h1>{{ leases }}</h1>
 <div :class="{background: go}" v-if="this.leases.leaseStatus = 'active' ">
 <div id="main">
         <span id="greeting">
