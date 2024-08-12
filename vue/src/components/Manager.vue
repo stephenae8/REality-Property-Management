@@ -1,100 +1,291 @@
 <template>
-    <div class="container">
-      <div class="top-section">
-        <div class="revenue-box">
-          <h1>Revenue So Far</h1>
-          <div class="money-counter">
-            money money money
-          </div>
+    <div class="all"
+        style="width: 100%; border: 1px solid black; height: 100%; max-width: 2300px; display: flex; flex-direction: column; margin: auto; background-color: rgba(158,158,158,.137);">
+        <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; font-size: larger;">
+            <h1>Hello {{ this.$store.state.user.fName }}</h1>
+        </span>
+        <div class="container">
+            <div class="top-section" style=" margin-top: 10%; margin-bottom: 10%; ">
+
+                <div class="revenue-box" style="border: 1px solid black;">
+                    <div class="scroll">
+                        <li v-for="(services, index) in services" :key="index" class="property-card">
+                            <p><strong>Property Id:</strong> {{ services.propId }} </p>
+                            <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
+                            <p><strong>Service Status:</strong> {{ services.reqStatus }}
+                                <div class="allButtons" style="display: flex;">
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #fcc82cea; border-color: white; color: white;"
+                                            @click.prevent="setInProgress(inProgress.reqId)">In Progress</button>
+                                    </div>
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #058805ea; rgba(15, 179, 102, 0.776): white; color: white;"
+                                            @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
+                                    </div>
+                                </div>
+                            </p>
+                        </li>
+                    </div>
+                </div>
+
+
+
+                <form @submit.prevent="submitMessage" class="message-form" style="border: 1px solid black;">
+                    <h1 style="font-size: 30px; margin-bottom: auto;">Send a Message to a Tenant</h1>
+
+                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
+                        style="font-size: large; margin-bottom: 15px;" />
+
+                    <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
+                        style="font-size: large;" placeholder="Enter your message" required></textarea>
+                    <div class="submit-button">
+                        <button type="submit"
+                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
+                            @click.prevent="submitMessage">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="bottom-section" style=" max-width: 1560px; margin-bottom: 25%; width: 100%;">
+                <div class="properties-box" style="border: 1px solid black;">
+                    <h1>All Applications</h1>
+                    <ul>
+                        <div class="scroll">
+                            <li v-for="(applications, index) in applications" :key="index" class="property-card">
+                                <p><strong>UserId:</strong> {{ applications.userId }}</p>
+                                <p><strong>Move In Date:</strong> {{ applications.movieInDate }}</p>
+                                <p><strong>Application Status:</strong> {{ applications.appStatus }}
+                                <div class="allButtons" style="display: flex;">
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
+                                            @click.prevent="setApprovedUser(applications.userId)">Approve</button>
+                                    </div>
+                                    <div class="submit-button">
+                                        <button type="submit"
+                                            style="border-radius: 10px; background-color: #901818c6; border-color: white; color: white;"
+                                            @click.prevent="setDeniedUser(applications.userId)">Deny</button>
+                                    </div>
+                                </div>
+                                </p>
+                            </li>
+                        </div>
+                    </ul>
+
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="bottom-section">
-        <div class="properties-box">
-          <h1>Owned Properties</h1>
-          <ul>
-          </ul>
-        </div>
-      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-      
-      };
-    },
+</template>
     
-  };
-  </script>
-  
-  <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-  
-  .container {
+<script>
+import MessageService from '../services/MessageService.js';
+import ApplicationService from '../services/ApplicationService.js';
+import ServiceRequestService from '../services/ServiceRequestService.js';
+
+export default {
+    data() {
+        return {
+            message: {
+
+                contactType: 'email',
+                userTo: "",
+                userFrom: this.$store.state.user.id,
+                subject: 'Message from Manager',
+                msgBody: "",
+                msgDate: "2020-11-10T10:00:00"
+            },
+            services: [],
+            applications: [],
+            approved: {
+                "userId": '',
+                "appStatus": "approved"
+            },
+            denied: {
+                "userId": '',
+                "appStatus": "denied"
+            },
+            inProgress: {
+                "userId": '',
+                "reqStatus": "in_progress"
+            },
+            serviceComplete: {
+                "userId": '',
+                "reqStatus": "complete"
+            },
+
+        };
+    },
+
+    created() {
+        this.loadApplications();
+        this.loadServiceRequests();
+    },
+
+    methods: {
+        submitMessage() {
+            MessageService.createMessage(this.message)
+                .then(response => {
+                    alert('Message sent successfully!');
+                    this.resetMessageForm();
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    alert('Failed to send message.');
+                    this.resetMessageForm();
+                });
+        },
+
+        resetMessageForm() {
+            this.message.userTo = '';
+            this.message.msgBody = '';
+        },
+        loadServiceRequests() {
+            ServiceRequestService.getServiceRequest().then((e) => {
+                this.services = e.data;
+            });
+        },
+
+        loadApplications() {
+            ApplicationService.getApplication().then((e) => {
+                this.applications = e.data;
+            });
+        },
+        setApprovedUser(userId) {
+            this.approved.userId = userId;
+            this.approveApplication();
+        },
+        approveApplication() {
+            ApplicationService.updateApplication(this.approved)
+                .then(response => {
+                    alert('Application Approved Successfully');
+                })
+                .catch(error => {
+                    console.error('Error Updating Application:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setDeniedUser(userId) {
+            this.denied.userId = userId;
+            this.deniedApplication();
+        },
+        deniedApplication() {
+            ApplicationService.updateApplication(this.denied)
+                .then(response => {
+                    alert('Application Denied Successfully');
+                })
+                .catch(error => {
+                    console.error('Error Updating Application:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setInProgress(userId) {
+            this.inProgress.userId = userId;
+            this.inProgressServiceRequest();
+        },
+        inProgressServiceRequest() {
+            ServiceRequestService.updateServiceRequest(this.inProgress)
+                .then(response => {
+                    alert('Service Request Set To "In Progress"');
+                })
+                .catch(error => {
+                    console.error('Error Updating Service Request:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+        setComplete(userId) {
+            this.serviceComplete.userId = userId;
+            this.completeServiceRequest();
+        },
+        completeServiceRequest() {
+            ServiceRequestService.updateServiceRequest(this.serviceComplete)
+                .then(response => {
+                    alert('Service Request Set To "Complete"');
+                })
+                .catch(error => {
+                    console.error('Error Updating Service Request:', error);
+                    alert('Failed to approve application.');
+                });
+        },
+
+    }
+}
+</script>
+    
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Roboto', sans-serif;
     padding: 0 20%;
-  }
-  
-  .top-section {
+}
+
+.top-section {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 20px;
+    gap: 250px;
     margin-bottom: 20px;
-  }
-  
-  .bottom-section {
+}
+
+.bottom-section {
     width: 850px;
-  }
-  
-  .revenue-box,
-  .properties-box {
+}
+
+.revenue-box,
+.properties-box {
     place-content: center;
-    min-width: 400px;
+    min-width: 650px;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
     padding: 20px;
-  }
-  
-  .property-form {
+}
+
+.message-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
-    min-width: 400px;
-    width: 100%;
+    min-width: 650px;
+    min-height: 400px;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
-    padding: 20px;
-  }
-  
-  .form-fields {
+    padding: 35px;
+
+    .messageBox {
+        border-radius: 8px;
+        margin: auto;
+        height: 50%;
+        width: 80%;
+    }
+}
+
+.form-fields {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
-  }
-  
-  .upload-box {
+}
+
+.upload-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 10px;
     width: 100%;
-  }
-  
-  .submit-button {
+}
+
+.submit-button {
     margin-top: 10px;
-  }
-  
-  .property-card {
+}
+
+.property-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
@@ -103,20 +294,31 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-  
-  .property-card p {
+
+}
+
+.property-card p {
     margin: 5px 0;
-  }
-  
-  .property-image {
+}
+
+.property-image {
     max-width: 100%;
     height: auto;
     margin-top: 10px;
-  }
-  
-  h3 {
+}
+
+h3 {
     text-align: center;
-  }
-  </style>
-  
+}
+
+
+div.scroll {
+    margin: 4px, 4px;
+    padding: 4px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+</style>
+    

@@ -1,13 +1,17 @@
 <template>
-  <div class="container">
-    <div class="top-section">
-      <div class="revenue-box">
+<div class="all" style="width: 100%; border: 1px solid black; height: 100%; max-width: 2300px; display: flex; flex-direction: column; margin: auto; background-color: rgba(158,158,158,.137);"> 
+  <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; font-size: larger;" > 
+    <h1>Hello {{ this.$store.state.user.fName }}</h1>
+     </span>
+<div class="container">
+    <div class="top-section" style=" margin-top: 25%; margin-bottom: 25%; ">
+      <div class="revenue-box" style="border: 1px solid black;">
         <h1>Revenue So Far</h1>
         <div class="money-counter">
           money money money
         </div>
       </div>
-      <form @submit.prevent="addProperty" class="property-form">
+      <form @submit.prevent="addProperty" class="property-form" style="border: 1px solid black;">
         <div class="form-fields">
           <input v-model="property.city" type="text" placeholder="City" required>
           <input v-model="property.state" type="text" placeholder="State" required>
@@ -22,12 +26,12 @@
           <input type="file" id="image-upload" @change="handleImageUpload">
         </div>
         <div class="submit-button">
-          <button type="submit">Submit</button>
+          <button type="submit" style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;">Submit</button>
         </div>
       </form>
     </div>
-    <div class="bottom-section">
-      <div class="properties-box">
+    <div class="bottom-section" style=" min-width: 1560px; margin-bottom: 25%;">
+      <div class="properties-box" style="border: 1px solid black;">
         <h1>Owned Properties</h1>
         <ul>
           <li v-for="(property, index) in properties" :key="index" class="property-card">
@@ -44,6 +48,7 @@
       </div>
     </div>
   </div>
+</div> 
 </template>
 
 <script>
@@ -110,7 +115,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 20px;
+  gap: 250px;
   margin-bottom: 20px;
 }
 
@@ -121,7 +126,7 @@ export default {
 .revenue-box,
 .properties-box {
   place-content: center;
-  min-width: 400px;
+  min-width: 650px;
   border-radius: 16px;
   border: 1px solid rgba(126, 126, 126, 0.473);
   background-color: rgba(204, 204, 204, 0.295);
@@ -132,8 +137,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 400px;
-  min-width: 400px;
+  min-width: 650px;
   width: 100%;
   border-radius: 16px;
   border: 1px solid rgba(126, 126, 126, 0.473);
