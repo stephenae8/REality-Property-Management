@@ -1,13 +1,13 @@
 <template>
     <div class="all"
         style="width: 100%; border: 1px solid black; height: 100%; max-width: 2300px; display: flex; flex-direction: column; margin: auto; background-color: rgba(158,158,158,.137);">
-        <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; font-size: larger;">
-            <h1>Hello {{ this.$store.state.user.fName }}</h1>
+        <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; border-bottom: 1px solid black;">
+            <h1 style="font-size: 60px" >Welcome {{ this.$store.state.user.fName }}</h1>
         </span>
         <div class="container">
             <div class="top-section" style=" margin-top: 10%; margin-bottom: 10%; ">
 
-                <div class="revenue-box" style="border: 1px solid black;">
+                <div class="service-box" style="border: 1px solid black;">
                     <div class="scroll">
                         <li v-for="(services, index) in services" :key="index" class="property-card">
                             <p><strong>Property Id:</strong> {{ services.propId }} </p>
@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="submit-button">
                                         <button type="submit"
-                                            style="border-radius: 10px; background-color: #058805ea; rgba(15, 179, 102, 0.776): white; color: white;"
+                                            style="border-radius: 10px; background-color: #6ab46aea; rgba(15, 179, 102, 0.776): white; color: white;"
                                             @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
                                     </div>
                                 </div>
@@ -32,7 +32,7 @@
 
 
 
-                <form @submit.prevent="submitMessage" class="message-form" style="border: 1px solid black;">
+                <form @submit.prevent="submitMessage" class="message-form" >
                     <h1 style="font-size: 30px; margin-bottom: auto;">Send a Message to a Tenant</h1>
 
                     <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
@@ -48,8 +48,8 @@
                 </form>
 
             </div>
-            <div class="bottom-section" style=" max-width: 1560px; margin-bottom: 25%; width: 100%;">
-                <div class="properties-box" style="border: 1px solid black;">
+            <div class="bottom-section">
+                <div class="applications-box" style="border: 1px solid black;">
                     <h1>All Applications</h1>
                     <ul>
                         <div class="scroll">
@@ -60,12 +60,12 @@
                                 <div class="allButtons" style="display: flex;">
                                     <div class="submit-button">
                                         <button type="submit"
-                                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
+                                            
                                             @click.prevent="setApprovedUser(applications.userId)">Approve</button>
                                     </div>
                                     <div class="submit-button">
                                         <button type="submit"
-                                            style="border-radius: 10px; background-color: #901818c6; border-color: white; color: white;"
+                                            style="border-radius: 10px; background-color: #a53d3dc6; border-color: white; color: white;"
                                             @click.prevent="setDeniedUser(applications.userId)">Deny</button>
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Failed to approve application.');
+                    alert('Error changing status');
                 });
         },
         setComplete(userId) {
@@ -206,7 +206,7 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Failed to approve application.');
+                    alert('Error changing status');
                 });
         },
 
@@ -226,21 +226,36 @@ export default {
 }
 
 .top-section {
+    width: 2000px;
     display: flex;
     flex-direction: row;
+    align-content: center;
     justify-content: center;
-    gap: 250px;
-    margin-bottom: 20px;
+    gap: 10%;
+    padding-bottom: 10%;
+    border: 1px solid black
 }
 
 .bottom-section {
-    width: 850px;
+    display: flex;
+    justify-content: left;
+    border: 1px solid black;
+    width: 2000px;
+    margin-bottom: 25%;
 }
 
-.revenue-box,
-.properties-box {
+.service-box{
     place-content: center;
-    min-width: 650px;
+    width: 30%;
+    border-radius: 16px;
+    border: 1px solid rgba(126, 126, 126, 0.473);
+    background-color: rgba(204, 204, 204, 0.295);
+    padding: 20px;
+}
+
+.applications-box {
+    place-content: center;
+    width: 20%;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
@@ -251,7 +266,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 650px;
+    width: 30%;
     min-height: 400px;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
@@ -319,6 +334,15 @@ div.scroll {
     overflow-x: hidden;
     overflow-y: auto;
     text-align: justify;
+}
+button{
+    border-radius: 10px;
+    display: block;
+     width: 100%;
+     padding: 10px;
+     background: #73b680;
+     color: white;
+     gap: 10px;
 }
 </style>
     
