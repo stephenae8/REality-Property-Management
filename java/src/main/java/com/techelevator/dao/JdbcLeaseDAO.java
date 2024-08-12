@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +148,25 @@ public class JdbcLeaseDAO implements LeaseDAO{
         }
         return updatedLease;
     }
+
+    @Override
+    public BigDecimal getTotal(int id) {
+        BigDecimal resultEd = null;
+        String getSql = "SELECT SUM(l.rent)  FROM leases as l\n" +
+                "join properties AS p ON l.prop_id = p.prop_id\n" +
+                "WHERE p.owner_id = ? and l.lease_status = 'active'\n" +
+                "GROUP BY p.owner_id;";
+        SqlRowSet getValue = jdbcTemplate.queryForRowSet(getSql, id);
+        if(!getValue.wasNull()){
+            if(getValue.next()){
+                resultEd = getValue.getBigDecimal("sum");
+            }
+        }
+        return resultEd;
+    }
+
+
+
 
     //MapRowSet
     private Lease mapRowToLease(SqlRowSet rowSet) {

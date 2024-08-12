@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.model.Lease;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -21,6 +22,10 @@ public interface LeaseDAO {
 
     //PUT
     Lease updateLeaseStatus(Lease lease);
+
+    BigDecimal getTotal(int id);
+
+    
 
 
 
