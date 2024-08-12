@@ -55,25 +55,25 @@ public class ServiceRequestController {
     }
     @PreAuthorize("permitAll()")
     @GetMapping(path = "service-request/user/{userId}")
-    public ServiceRequest getServcieReqByUserId(@PathVariable int userId){
-        ServiceRequest ServcieReqByUserId;
+    public List<ServiceRequest> getServcieReqsByUserId(@PathVariable int userId){
+        List<ServiceRequest> ServcieReqsByUserId;
         try {
-            ServcieReqByUserId = serviceRequestDAO.getServcieReqByUserId(userId);
+            ServcieReqsByUserId = serviceRequestDAO.getServcieReqsByUserId(userId);
         } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service Request Not Found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service Requests Not Found.");
         }
-        return ServcieReqByUserId;
+        return ServcieReqsByUserId;
     }
     @PreAuthorize("permitAll()")
     @GetMapping(path = "service-request/prop/{propId}")
-    public ServiceRequest getServcieReqByPropId(@PathVariable int propId){
-        ServiceRequest ServcieReqByPropId;
+    public List<ServiceRequest> getServcieReqByPropId(@PathVariable int propId){
+        List<ServiceRequest> ServcieReqsByPropId;
         try {
-            ServcieReqByPropId = serviceRequestDAO.getServcieReqByPropId(propId);
+            ServcieReqsByPropId = serviceRequestDAO.getServcieReqsByPropId(propId);
         } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service Request Not Found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service Requests Not Found.");
         }
-        return ServcieReqByPropId;
+        return ServcieReqsByPropId;
     }
 
 

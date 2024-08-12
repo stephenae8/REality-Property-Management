@@ -13,8 +13,8 @@ public interface ServiceRequestDAO {
     //GET
     List<ServiceRequest> getListOfServiceReqs();
     ServiceRequest getServcieReqById(int reqId);
-    ServiceRequest getServcieReqByUserId(int userId);
-    ServiceRequest getServcieReqByPropId(int propId);
+    List<ServiceRequest> getServcieReqsByUserId(int userId);
+    List<ServiceRequest> getServcieReqsByPropId(int propId);
 
     //POST
     ServiceRequest createServiceRequest (ServiceRequest serviceRequest);
