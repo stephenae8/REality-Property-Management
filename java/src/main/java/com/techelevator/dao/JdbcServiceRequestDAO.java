@@ -70,49 +70,49 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
     }
 
     @Override
-    public ServiceRequest getServcieReqByUserId(int userId){
-        ServiceRequest getServcieReqByUserId = null;
+    public List<ServiceRequest> getServcieReqsByUserId(int userId){
+        List<ServiceRequest> getServcieReqsByUserId = new ArrayList<>();
         String sql =
                 "SELECT req_id, user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type\n" +
                         "FROM service_request\n" +
                         "WHERE user_id = ?";
 
         try {
-
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
-            if (rowSet.next()) {
-                getServcieReqByUserId = mapRowToServiceRequest(rowSet);
+
+            while (rowSet.next()) {
+                getServcieReqsByUserId.add(mapRowToServiceRequest(rowSet));
             }
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (NullPointerException e){
-            throw new DaoException("Service Request not found.", e);
+            throw new DaoException("Service Requests not found.", e);
         }
-        return getServcieReqByUserId;
+        return getServcieReqsByUserId;
     }
 
     @Override
-    public ServiceRequest getServcieReqByPropId(int propId) {
-        ServiceRequest getServcieReqByPropId = null;
+    public List<ServiceRequest> getServcieReqsByPropId(int propId) {
+        List<ServiceRequest> getServcieReqsByPropId = new ArrayList<>();
         String sql =
                 "SELECT req_id, user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type\n" +
                         "FROM service_request\n" +
                         "WHERE prop_id = ?";
 
         try {
-
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
-            if (rowSet.next()) {
-                getServcieReqByPropId = mapRowToServiceRequest(rowSet);
+
+            while (rowSet.next()) {
+                getServcieReqsByPropId.add(mapRowToServiceRequest(rowSet));
             }
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (NullPointerException e){
-            throw new DaoException("Service Request not found.", e);
+            throw new DaoException("Service Requests not found.", e);
         }
-        return getServcieReqByPropId;
+        return getServcieReqsByPropId;
     }
 
 
