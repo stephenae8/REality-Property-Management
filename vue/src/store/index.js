@@ -1,6 +1,9 @@
 import { createStore as _createStore } from 'vuex';
 import axios from 'axios';
 import PropertyService from '../services/PropertyService.js';
+import LeaseService from '../services/LeaseService.js';
+import MessageService from '../services/MessageService.js';
+import RequestService from '../services/RequestService.js'
 
 export function createStore(currentToken, currentUser) {
   let store = _createStore({
@@ -13,7 +16,11 @@ export function createStore(currentToken, currentUser) {
           }
         ]
       },
-      property: []
+      property: [],
+      lease: {},
+      message: [],
+      request: {}
+
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -38,6 +45,33 @@ export function createStore(currentToken, currentUser) {
         };
         axios.defaults.headers.common = {};
       },
+
+      SET_LEASE(state){
+        LeaseService.leaseById(state.user.id).then((e)=>{
+          
+          state.lease = e.data
+        })
+      },
+
+      SET_PROPERTY(state){
+          PropertyService.getProperty().then((e)=>{
+            state.property = e.data
+          })
+      },
+
+      SET_MESSAGE(state){
+        MessageService.getMessageByUser(state.user.id).then((e)=>{
+          state.message = e.data
+        })
+      },
+
+      SET_REQUEST(state){
+        RequestService.getRequestbyId(state.user.id).then((e)=>{
+          state.request = e.data
+        })
+      }
+
+
      
       // PROPERTY(state){
       //   PropertyService.getProperty().then((e)=>{

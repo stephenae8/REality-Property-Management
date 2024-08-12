@@ -1,7 +1,9 @@
 <template>
   
-<div v-if="completed">
-    <div :class="{background: go}" v-if="this.leases.leaseStatus == 'active'" >
+  <div>
+<div v-if="completed && secondCheck && thirdCheck && fourCheck">
+    <div :class="{background: go}" v-if="leases.leaseStatus == 'active'" >
+     
      <div id="main">
             <span id="greeting">
                 <h3>Hello {{ username.fName }}!</h3>
@@ -54,7 +56,7 @@
                         <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
                        <div id="divfortext">
                         <p id="firsttext">{{requests.reqDetails}}</p>
-                        <p id="secondtext">{{ requests.reqStatus.substring(0,1).toUpperCase() }}{{requests.reqStatus.substring(1)  }}</p>
+                        <p id="secondtext" v-if="requests.reqStatus">{{ requests.reqStatus.substring(0,1).toUpperCase() }}{{requests.reqStatus.substring(1)  }}</p>
                     </div>
                     </span>
                     <hr>
@@ -183,6 +185,7 @@
         </div>
 </div>
     
+</div> -->
 </div>
     </template>
     
@@ -198,14 +201,15 @@
 
         data(){
             return{
+                fourCheck: false,
+                thirdCheck: false,
+                secondCheck : false,
                 completed: false,
                 firstOne: false,
                 otherCase: true,
                 checkCase:true,
                 username: this.$store.state.user,
-                leases: {
-                    leaseStatus: false
-                },
+                leases: {},
                 property: [],
                 message: [],
                 requests: {},
@@ -254,14 +258,15 @@
                 this.addRe = false;
                 this.otherCase = true;
             },
+         
 
-  
+ 
     
             returnLease(){
                 
                 LeaseService.leaseById(this.username.id).then((e)=>{
                     this.leases = e.data
-                    this.completed = true
+                   this.completed = true
                 })
               
             },
@@ -269,6 +274,7 @@
             propertyOne(){
                 PropertyService.getProperty().then((e)=>{
                     this.property = e.data
+                    this.secondCheck =true
                 })
     
             },
@@ -277,6 +283,7 @@
                 MessageService.getMessageByUser(this.username.id).then((e)=>{
             
                     this.message = e.data
+                    this.thirdCheck = true
                 })
             },
     
@@ -284,8 +291,10 @@
                 RequestService.getRequestbyId(this.username.id).then((e)=>{
     
                     this.requests = e.data
+                    this.fourCheck = true
                 })
             },
+
     
             displayform(){
                 this.go=true;
@@ -343,11 +352,12 @@
     
     
         created(){
-            this.servicesForUser();
             this.propertyOne();
+            this.servicesForUser();
             this.returnLease();
-            this.messagePort();
-            this.completed =true
+            this.messagePort()
+
+        
         },
     
         computed: {

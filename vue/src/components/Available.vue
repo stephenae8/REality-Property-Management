@@ -79,7 +79,7 @@ export default {
     data(){
         return{
             allProperty: [],
-            searchTerm: this.$route.query.search,
+            searchTerm: this.$route.query.search ? this.$route.query.search : '',
             available: '',
             willNumber: '',
             priceup: '',
