@@ -60,18 +60,15 @@
 
         <div class="propertyDetails">
             
-            <div class="bedrooms"> <img src="https://img.icons8.com/?size=100&id=561&format=png&color=000000" alt=""
-                    style="width: 50px">
-                <p> {{ justTest.bedrooms }} Bed</p>
-            </div>
+            <div class="Amenities" style="display: flex; flex-direction: row; gap: 50px; " > 
+                <p> <img src="https://img.icons8.com/?size=100&id=LuG23LXvoO4t&format=png&color=000000" alt="" class="Amenities" > <h1> {{ justTest.bedrooms }} Bed </h1> </p>
+                <p> <img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" class="Amenities"> <h1>{{ justTest.bathrooms }} Bath </h1> </p>
+                <p> <img src="https://img.icons8.com/?size=100&id=ZDR4vMNuubY1&format=png&color=000000" alt="" class="Amenities" ><h1> Dish washer: {{ amenities.dishwasher }} </h1> </p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=10013&format=png&color=000000" alt="" class="Amenities" ><h1> Air conditioning? {{ amenities.centralAir}} </h1> </p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=BpWRdkvhcXWs&format=png&color=000000" alt="" class="Amenities" ><h1> Laundry? {{ amenities.laundry }} </h1> </p>  
+                <p> <img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" class="Amenities"><h1> Pets? {{ amenities.petsAllowed }} </h1></p>    
+  
 
-            <div class="bathrooms"><img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt=""
-                    style="width: 50px">
-                <p> {{ justTest.bathrooms }} Bath</p>
-            </div>
-            <div class="pets"><img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt=""
-                    style="width: 50px">
-                <p>Pets Allowed!</p>    
             </div>
 
 
@@ -86,7 +83,7 @@
         <div class="AllCardContainer" v-if="done">
             <div class="PropertyCardContainer"  >
                 <div v-for="one in justfour" :key="one.propId" >
-                    <router-link @click.native="$scrollToTop()" style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }">
+                    <router-link style="text-decoration: none;" :to="{ name: 'property', params: { id: parseInt(one.propId) } }">
                         <different-card :OneIndividual="one"></different-card>
                     </router-link>
                 </div>
@@ -100,18 +97,21 @@
 import PropertyService from '../services/PropertyService.js'
 import DifferentCard from '../components/DifferentCard.vue'
 import ApplicationService from '../services/ApplicationService.js' 
+import AmenitiesService from '../services/AmenitiesService.js'
 
 
 export default {
     props:
     {
         OneIndividual: Object,
-        id: Number
+        id: Number,
 
     },
 
     data() {
         return {
+            idProp: this.$route.params.id,
+            amenities: [],
             justone: [],
             imageUrls: [],
             application: {
@@ -127,13 +127,17 @@ export default {
     },
 
     created() {
-        // this.firstCase();
         this.oneProp();
+        this.amenitiesData();
         },
 
     methods: {
-        scrollToTop() {
-            window.scrollTo(0, 0);
+
+    
+        amenitiesData(){
+            AmenitiesService.getAmenities(this.idProp).then((e) => {
+                    this.amenities = e.data
+            });
         },
 
         oneProp() {
@@ -155,6 +159,11 @@ export default {
 
 
     computed: {
+
+
+
+
+
         trueOrFalse(){
             return this.secondOne
         },
@@ -183,6 +192,7 @@ export default {
 
             return {};
         },
+      
         imageSlider() {
             if (this.done) {
                 let newTwo = {}
@@ -193,6 +203,8 @@ export default {
                 })[0]
                 return newTwo;
             }
+
+            
 
             return {};
         },
@@ -254,6 +266,7 @@ export default {
     border-radius: 16px;
     padding-bottom: 0px;
     margin-bottom: 10px;
+    
 }
 
 .SimilarHomes {
@@ -269,13 +282,7 @@ export default {
     text-align: center;
     padding-bottom: 0px;
 
-    p {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        gap: 10%;
-        margin-bottom: auto;
-    }
+   
 }
 
 .PropertyCardContainer {
@@ -348,4 +355,26 @@ input {
     height: 100%;
     font-size: small;
 }
+
+.Amenities{
+    display: flex;
+    justify-content: center;
+    gap: 400px;
+    width: 70px;
+    justify-content: space-evenly;
+    h1{
+        font-size: 20px;
+
+    }
+
+    p{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+
+}
+
 </style>
