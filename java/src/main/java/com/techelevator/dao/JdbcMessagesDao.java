@@ -61,7 +61,7 @@ public class JdbcMessagesDao implements MessagesDao{
         String sql = "INSERT into messages (contact_type, user_to, user_from, subject, msg_body, msg_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?) RETURNING msg_id;";
         try {
-            int newMessagesId = jdbcTemplate.queryForObject(sql, int.class, messages.getContactType(),
+            int newMessagesId = jdbcTemplate.queryForObject(sql,int.class,messages.getContactType(),
                     messages.getUserTo(), messages.getUserFrom(),
                     messages.getSubject(), messages.getMsgBody(), messages.getMsgDate());
 
@@ -98,13 +98,13 @@ public class JdbcMessagesDao implements MessagesDao{
         messages.setMsgId(rowSet.getInt("msg_id"));
         messages.setContactType(rowSet.getString("contact_type"));
         messages.setUserTo(rowSet.getInt("user_to"));
-        if(rowSet.getString("to_full_name")!=null) {
-        messages.setUserToFullName(rowSet.getString("to_full_name"));
-        }
+//        if(rowSet.getString("to_full_name")!=null) {
+//        messages.setUserToFullName(rowSet.getString("to_full_name"));
+//        }
         messages.setUserFrom(rowSet.getInt("user_from"));
-        if(rowSet.getString("full_name")!=null) {
-        messages.setUserFromFullName(rowSet.getString("from_full_name"));
-        }
+//        if(rowSet.getString("full_name")!=null) {
+//        messages.setUserFromFullName(rowSet.getString("from_full_name"));
+//        }
         messages.setSubject(rowSet.getString("subject"));
         messages.setMsgBody(rowSet.getString("msg_body"));
         messages.setMsgDate(rowSet.getTimestamp("msg_date").toLocalDateTime());

@@ -17,29 +17,28 @@
             </span>
             </div>
             <div style="height: 50%; margin-top: 1%; margin-left: 30%;">
-                <button class="button small">Make a Payment</button><br>
-                <button class="button grey small">Set Up AutoPay</button>
+                <button v-show="checkCase" class="button small">Make a Payment</button><br>
+                <button v-show="checkCase" class="button grey small">Set Up AutoPay</button>
             </div>
         </div>
-        <div v-show="addRe" style="border: 1px solid white; height: 500px; display: flex; justify-content: center;" > 
+        <div v-if="addRe" style="border: 1px solid white; height: 500px; display: flex; justify-content: center;" > 
         <span style="display: block; width: 70%;  height: 400px;margin-top: 1%;">
             <h4 style="color: white;text-align: center; margin-top: 2%;">Send A requests</h4>
             <p style="color: white; width: 50%; margin-left: 26%;">Please provide us with the details on your property and we will have our team check it out. Please provide us with all the request details! </p>
             <span style="display: block; width: 50%; height: 350px; margin-left:26%;">
                 <label style="color: white;display: block;">Date:</label>
-                <input style="color: white;display: inline-block;" type="date" name="" id="">
+                <input v-model="this.request.date" style="color: white;display: inline-block; color: black;" type="date" name="" id="">
                 <label style="color: white;display: block;margin-top: 1%;">Service Type: </label>
-                <select style=" color: white;width: 20%; margin-top: .3%;" name="">
-                    <option >Dishwasher</option>
-                    <option >Central Air</option>
-                    <option >Laundry</option>
-                    <option >Bathroom</option>
-                    <option >Other...</option>
+                <select v-model="this.request.service" style=" color: black;width: 20%; margin-top: .3%;" name="">
+                    <option v-for="twocase in ">dishwasher</option>
+                    
                 </select>
                 <label style="color: white;display: block;margin-top: 2%;">Description:</label>
-                <textarea name="" cols="50" rows="4" style="resize: none;" placeholder="Please Add Your Request!" ></textarea>
-                <button @click="formGood" class="button small" style="margin-top: 3%;margin-left: 40%;width: 25% ;display: block;">Submit</button>
-
+                <textarea v-model="this.request.description" name="" cols="50" rows="4" style="resize: none;" placeholder="Please Add Your Request!" ></textarea>
+               <span style="display: flex;margin-top: 3%;justify-content: space-evenly;">
+                <button @click="formGood"  class="button small" style= "width: 33%" >Submit</button>
+                <button @click="closeForm" class="button grey small" style=";width: 33% ;">Close</button>
+            </span>
             </span>
         </span>
 
@@ -60,7 +59,7 @@
                 <hr>
                
                 <span style="display: flex;margin-top: 3%;justify-content: center; ">
-                    <button @click="displayform" class="button small">Create an Requests</button>
+                    <button v-show="checkCase" @click="displayform" class="button small">Create an Requests</button>
                 </span>
 
             </span>
@@ -78,12 +77,60 @@
                 </div>
                 <hr style="margin-top:2%;width: 50%;margin-left: 25%;">
                 <span style="display: flex; justify-content: space-evenly;">
-                <button style="width: 25%;" class="button small">Open All</button>
-                <button style="width: 25%;" class="button grey small">Send a Message</button>
+                <button v-show="otherCase" @click="checkMessage" style="width: 25%;" class="button small">Open All</button>
+
+                <button v-show="otherCase" @click="openSendMessage" style="width: 25%;" class="button grey small">Send a Message</button>
 
             </span>
             </span>
         </div>
+        <div v-if="createMessage" style="border: 1px solid white; height: 500px; display: flex; justify-content: center;" > 
+        <span style="display: block; width: 70%;  height: 400px;margin-top: 1%;">
+            <h4 style="color: white;text-align: center; margin-top: 2%;">Send A Message</h4>
+            <p style="color: white; width: 50%; margin-left: 26%; text-align: center;">Please fill out all the required section in order to send a message!</p>
+            <span style="display: block; width: 50%; height: 350px; margin-left:26%;">
+                <label style="color: white;display: block;">Contact</label>
+                <select  style=" color: black;width: 20%; margin-top: .3%;" name="">
+                    <option >dishwasher</option>
+                    <option >central Air</option>
+                    <option >laundry</option>
+                    <option >bathroom</option>
+                    <option >Other...</option>
+                </select>
+                <label style="color: white;display: block;margin-top: 1%;">Subject: </label>
+               <input v-model="this.oneMessage.subject" type="text" style="width: 45%;" required>
+                <label style="color: white;display: block;margin-top: 2%;">Message:</label>
+                <textarea v-model="this.oneMessage.msgBody" name="" cols="50" rows="4" style="resize: none;" placeholder="Send your message!" ></textarea>
+               <span style="display: flex;margin-top: 3%;justify-content: space-evenly;">
+                <button @click="goodMes"  class="button small" style= "width: 33%" >Submit</button>
+                <button @click="closeMes" class="button grey small" style=";width: 33% ;">Close</button>
+            </span>
+            </span>
+        </span>
+
+
+</div>
+
+
+
+
+
+        <div v-if="getMessage" >
+        <div style=" border: 1px solid white; width: 100%;">
+    <h4 style="text-align: center;border: 1px solid white;margin-top: 3%; color: white">Messages</h4>
+
+    <div v-for="one in messagestoReturn" :key="one.msgId">
+    <h4 style="text-align: center;margin-top: 3%; color: white">{{ one.subject }}</h4>
+    <hr style="color: white;width: 50%; margin-left: 22%;border:1.5px solid white ;">
+    <div >
+        <h6 style=" height: 50px;width:max-content; width: 100%;height: 85px; text-align: center;color: white;">{{ one.msgBody }}</h6>
+    </div>
+        <p style="width: 15%; display: inline-block; margin-left: 85%;margin-bottom: 0%; color: white; font-size: 12px;">{{one.msgDate.split("-")[0]}}/{{ one.msgDate.split("-")[1]}}/{{ one.msgDate.split("-")[2].split("T")[0] }}</p>
+    </div>
+    </div>
+    <button @click="closeMessage" style="width: 25%;margin-left: 37%;margin-top: 2%;"  class="button small grey">Close Message</button>
+</div>
+
 
 
         <div id="secondBigDiv" >
@@ -136,7 +183,6 @@
 
 
 
-
 </div>
 
 
@@ -151,9 +197,12 @@ import LeaseService from '../services/LeaseService';
 import PropertyService from '../services/PropertyService';
 import MessageService from '../services/MessageService';
 import RequestService from '../services/RequestService';
+import axios from 'axios';
 export default {
     data(){
         return{
+            otherCase: true,
+            checkCase:true,
             username: this.$store.state.user,
             leases: {},
             property: {},
@@ -161,21 +210,54 @@ export default {
             requests: {},
             go: false,
             addRe: false,
+            request: {
+                date: '',
+                service: '',
+                description: '',
+            },
+            posted: false,
+            getMessage: false,
+            createMessage: false,
+            oneMessage: {
+                userTo: '',
+                subject: '',
+                msgBody: ''
+            }
         }
     },
 
     methods: {
 
         formGood(){
+        let objectToPost = {
+                userId: this.username.id,
+                propId: this.leases.propId,
+                reqStatus: "pending",
+                reqDate: new Date(this.request.date),
+                lastUpdated: new Date(this.request.date),
+                reqDetails: this.request.description,
+                issueType: this.request.service
+
+            }
+            axios.post("/service-request/create", objectToPost).then((e)=>{
+                this.posted = true
+            })
+          
             this.go= false;
             this.addRe= false;
+            this.otherCase = true;
+
+        },
+        closeForm(){
+            this.go= false;
+            this.addRe = false;
+            this.otherCase = true;
         },
 
         returnLease(){
             
             LeaseService.leaseById(this.username.id).then((e)=>{
                 this.leases = e.data
-                
               
             })
           
@@ -204,7 +286,53 @@ export default {
         displayform(){
             this.go=true;
             this.addRe = true
+            this.otherCase =false
+        },
+
+        checkMessage(){
+            this.go =true,
+            this.getMessage = true
+            this.checkCase =false
+        },
+        closeMessage(){
+            this.go =false;
+            this.getMessage = false;
+            this.checkCase = true;
+        },
+        
+        openSendMessage(){
+            this.createMessage = true;
+            this.checkCase =false;
+            this.go = true;
+        },
+
+        closeMes(){
+            this.createMessage = false;
+            this.checkCase =  false;
+            this.go = false;
+        },
+        goodMes(){
+            let messagetoGreat = {
+                contactType: "email",
+                userTo: 1,
+                userFrom: this.username.id,
+                subject: this.oneMessage.subject,
+                msgBody: this.oneMessage.msgBody,
+                msgDate: new Date(Date.now())
+            }
+            axios.post('/messages/create', messagetoGreat).then((e)=>{
+
+            });
+            this.oneMessage.subject = '';
+            this.oneMessage.msgBody =  '';
+            this.createMessage =false;
+            this.checkCase =false;
+            this.go =false;
+
         }
+
+
+      
 
 
     },
@@ -236,7 +364,18 @@ export default {
                 return this.message[0]
             }
     
-        }
+        },
+
+        messagestoReturn(){
+            let newMessage = [];
+            newMessage = this.message.filter((e)=>{
+                if(e.userTo == this.username.id){
+                    return e
+                }
+            })
+            return newMessage;
+        },
+        
 
     }
 
@@ -246,7 +385,7 @@ export default {
 <style scoped>
 
 .background{
-    background: rgba(0, 0, 0, 0.988);
+    background: rgb(0, 0, 0);
 }
 
 .imglogo{
