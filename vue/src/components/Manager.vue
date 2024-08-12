@@ -9,6 +9,7 @@
 
                 <div class="service-box" style="border: 1px solid black;">
                     <div class="scroll">
+                        <h1 style="border-bottom: 1px solid black;">Service Requests</h1>
                         <li v-for="(services, index) in services" :key="index" class="property-card">
                             <p><strong>Property Id:</strong> {{ services.propId }} </p>
                             <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
@@ -17,12 +18,12 @@
                                     <div class="submit-button">
                                         <button type="submit"
                                             style="border-radius: 10px; background-color: #fcc82cea; border-color: white; color: white;"
-                                            @click.prevent="setInProgress(inProgress.reqId)">In Progress</button>
+                                            @click.prevent="setInProgress(services.reqId)">In Progress</button>
                                     </div>
                                     <div class="submit-button">
                                         <button type="submit"
                                             style="border-radius: 10px; background-color: #6ab46aea; rgba(15, 179, 102, 0.776): white; color: white;"
-                                            @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
+                                            @click.prevent="setComplete(services.reqId)">Complete</button>
                                     </div>
                                 </div>
                             </p>
@@ -33,7 +34,7 @@
 
 
                 <form @submit.prevent="submitMessage" class="message-form" >
-                    <h1 style="font-size: 30px; margin-bottom: auto;">Send a Message to a Tenant</h1>
+                    <h1 style="font-size: 30px; margin-bottom: auto; border-bottom: 1px solid black;"  >Send a Message to a Tenant</h1>
 
                     <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
                         style="font-size: large; margin-bottom: 15px;" />
@@ -50,7 +51,7 @@
             </div>
             <div class="bottom-section">
                 <div class="applications-box" style="border: 1px solid black;">
-                    <h1>All Applications</h1>
+                    <h1 style="border-bottom: 1px solid black;">All Applications</h1>
                     <ul>
                         <div class="scroll">
                             <li v-for="(applications, index) in applications" :key="index" class="property-card">
@@ -108,12 +109,14 @@ export default {
                 "appStatus": "denied"
             },
             inProgress: {
-                "userId": '',
-                "reqStatus": "in_progress"
+                "reqId": '',
+                "reqStatus": "in_progress",
+                "lastUpdated": "2024-03-16T10:30:00",
             },
             serviceComplete: {
-                "userId": '',
-                "reqStatus": "complete"
+                "reqId": '',
+                "reqStatus": "complete",
+                "lastUpdated": "2024-03-16T10:30:00",
             },
 
         };
@@ -181,8 +184,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        setInProgress(userId) {
-            this.inProgress.userId = userId;
+        setInProgress(reqId) {
+            this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
         },
         inProgressServiceRequest() {
@@ -195,8 +198,8 @@ export default {
                     alert('Error changing status');
                 });
         },
-        setComplete(userId) {
-            this.serviceComplete.userId = userId;
+        setComplete(reqId) {
+            this.serviceComplete.reqId = reqId;
             this.completeServiceRequest();
         },
         completeServiceRequest() {
@@ -209,6 +212,7 @@ export default {
                     alert('Error changing status');
                 });
         },
+        
 
     }
 }
@@ -233,13 +237,11 @@ export default {
     justify-content: center;
     gap: 10%;
     padding-bottom: 10%;
-    border: 1px solid black
 }
 
 .bottom-section {
     display: flex;
-    justify-content: left;
-    border: 1px solid black;
+    justify-content: center;
     width: 2000px;
     margin-bottom: 25%;
 }
@@ -255,7 +257,7 @@ export default {
 
 .applications-box {
     place-content: center;
-    width: 20%;
+    width: 30%;
     border-radius: 16px;
     border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
