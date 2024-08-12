@@ -158,7 +158,7 @@ public class JdbcLeaseDAO implements LeaseDAO{
         lease.setEndDate(rowSet.getDate("end_date").toLocalDate());
         lease.setRent(rowSet.getDouble("rent"));
         lease.setLeaseStatus(rowSet.getString("lease_status"));
-        lease.settermLength(rowSet.getInt("term_length"));
+        lease.setTermLength(rowSet.getInt("term_length"));
         return lease;
     }
 
