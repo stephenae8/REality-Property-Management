@@ -28,7 +28,7 @@ public class LeaseController {
 
     // GET Methods
     //@PreAuthorize()
-    @GetMapping(path = "lease")
+    @GetMapping("lease")
     public List<Lease> getListOfLeases(){
         List<Lease> leaseList;
         try {

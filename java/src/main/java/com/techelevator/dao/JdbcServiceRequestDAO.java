@@ -178,7 +178,9 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
         serviceRequest.setPropId(rowSet.getInt("prop_id"));
         serviceRequest.setReqStatus(rowSet.getString("req_status"));
         serviceRequest.setReqDate(rowSet.getTimestamp("req_date").toLocalDateTime());
-        serviceRequest.setLastUpdated(rowSet.getTimestamp("last_updated").toLocalDateTime());
+        if (rowSet.getTimestamp("last_updated") != null) {
+            serviceRequest.setLastUpdated(rowSet.getTimestamp("last_updated").toLocalDateTime());
+        }
         serviceRequest.setReqDetails(rowSet.getString("req_body"));
         serviceRequest.setIssueType(rowSet.getString("issue_type"));
         return serviceRequest;
