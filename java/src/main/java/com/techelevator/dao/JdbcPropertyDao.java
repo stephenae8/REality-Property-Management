@@ -20,6 +20,7 @@ public class JdbcPropertyDao implements PropertyDAO {
     //instance variables
     @Autowired
     private PropertyDAO propertyDAO;
+    @Autowired
     private AmenitiesDao amenitiesDao;
 
     private JdbcTemplate jdbcTemplate;
@@ -93,11 +94,11 @@ public class JdbcPropertyDao implements PropertyDAO {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, propId);
             if (rowSet.next()) {
                 oneProp = mapRowToProperty(rowSet);
+            } else{
+                throw new DaoException("Property not found.");
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e){
-            throw new DaoException("Property not found.", e);
         }
 
         return oneProp;
@@ -158,8 +159,9 @@ public class JdbcPropertyDao implements PropertyDAO {
     //PUT methods
     //POV: prop mgr/ownr is able to update prop by prop id
     @Override
-    public Property updatePropByPropId(Property property, Amenities amenities, Images images, int propId){
+    public Property updatePropByPropId(Property property, Amenities amenities, Images images){
         Property updatedProp = null;
+        int propId = property.getPropId();
 
         String sql = "UPDATE properties\n" +
                     "SET address = ?, city = ?, state = ?, zip = ?, vacancy = ?, pending = ?, rent = ?, bedrooms = ?, bathrooms = ? \n" +
