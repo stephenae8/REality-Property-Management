@@ -1,86 +1,51 @@
 <template>
-    <div class="all"
-        style="width: 100%; border: 1px solid black; height: 100%; max-width: 2300px; display: flex; flex-direction: column; margin: auto; background-color: rgba(158,158,158,.137);">
-        <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; border-bottom: 1px solid black;">
-            <h1 style="font-size: 60px" >Welcome {{ this.$store.state.user.fName }}</h1>
+    <div class="all">
+        <span class="welcome-message">
+            <h1>Welcome {{ this.$store.state.user.fName }}</h1>
         </span>
         <div class="container">
-            <div class="top-section" style=" margin-top: 10%; margin-bottom: 10%; ">
-
-                <div class="service-box" style="border: 1px solid black;">
+            <div class="top-section">
+                <div class="service-box">
                     <div class="scroll">
-                        <h1 style="border-bottom: 1px solid black;">Service Requests</h1>
+                        <h1>Service Requests</h1>
                         <li v-for="(services, index) in services" :key="index" class="property-card">
                             <p><strong>Property Id:</strong> {{ services.propId }} </p>
-                            <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
-                            <p><strong>Service Status:</strong> {{ services.reqStatus }}
-                                <div class="allButtons" style="display: flex;">
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #fcc82cea; border-color: white; color: white;"
-                                            @click.prevent="setInProgress(services.reqId)">In Progress</button>
-                                    </div>
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #6ab46aea; rgba(15, 179, 102, 0.776): white; color: white;"
-                                            @click.prevent="setComplete(services.reqId)">Complete</button>
-                                    </div>
-                                </div>
-                            </p>
+                            <p><strong>Service Issue:</strong> {{ services.reqDetails }} </p>
+                            <p><strong>Service Status:</strong> {{ services.reqStatus }}</p>
+                            <div class="allButtons">
+                                <button @click.prevent="setInProgress(services.reqId)">In Progress</button>
+                                <button @click.prevent="setComplete(services.reqId)">Complete</button>
+                            </div>
                         </li>
                     </div>
                 </div>
-
-
-
-                <form @submit.prevent="submitMessage" class="message-form" >
-                    <h1 style="font-size: 30px; margin-bottom: auto; border-bottom: 1px solid black;"  >Send a Message to a Tenant</h1>
-
-                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
-                        style="font-size: large; margin-bottom: 15px;" />
-
-                    <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
-                        style="font-size: large;" placeholder="Enter your message" required></textarea>
-                    <div class="submit-button">
-                        <button type="submit"
-                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
-                            @click.prevent="submitMessage">Submit</button>
-                    </div>
+                <form @submit.prevent="submitMessage" class="message-form">
+                    <h1>Send A Message To A User</h1>
+                    <input v-model="message.userTo" type="number" placeholder="Enter User ID" required />
+                    <textarea v-model="message.msgBody" class="messageBox" placeholder="Enter Your Message" required></textarea>
+                    <button @click.prevent="submitMessage">Submit</button>
                 </form>
-
             </div>
             <div class="bottom-section">
-                <div class="applications-box" style="border: 1px solid black;">
-                    <h1 style="border-bottom: 1px solid black;">All Applications</h1>
-                    <ul>
-                        <div class="scroll">
-                            <li v-for="(applications, index) in applications" :key="index" class="property-card">
-                                <p><strong>UserId:</strong> {{ applications.userId }}</p>
-                                <p><strong>Move In Date:</strong> {{ applications.movieInDate }}</p>
-                                <p><strong>Application Status:</strong> {{ applications.appStatus }}
-                                <div class="allButtons" style="display: flex;">
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            
-                                            @click.prevent="setApprovedUser(applications.userId)">Approve</button>
-                                    </div>
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #a53d3dc6; border-color: white; color: white;"
-                                            @click.prevent="setDeniedUser(applications.userId)">Deny</button>
-                                    </div>
-                                </div>
-                                </p>
-                            </li>
-                        </div>
-                    </ul>
-
+                <div class="applications-box">
+                    <h1>All Applications</h1>
+                    <div class="scroll">
+                        <li v-for="(applications, index) in applications" :key="index" class="property-card">
+                            <p><strong>UserId:</strong> {{ applications.userId }}</p>
+                            <p><strong>Move In Date:</strong> {{ applications.moveInDate }}</p>
+                            <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
+                            <div class="allButtons">
+                                <button @click.prevent="setApprovedUser(applications.userId)">Approve</button>
+                                <button @click.prevent="setDeniedUser(applications.userId)">Deny</button>
+                            </div>
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-    
+
 <script>
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
@@ -145,7 +110,7 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error sending message:', error);
-                    alert('Failed to send message.');
+                    alert('Message Sent');
                     this.resetMessageForm();
                 });
         },
@@ -168,7 +133,7 @@ export default {
         setApprovedUser(userId) {
             this.approved.userId = userId;
             this.approveApplication();
-            // this.createLease();
+            
         },
         approveApplication() {
             ApplicationService.updateApplication(this.approved)
@@ -239,9 +204,27 @@ export default {
     }
 }
 </script>
-    
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.all {
+    width: 100%;
+    border: 1px solid black;
+    max-width: 2300px;
+    margin: auto;
+    background-color: rgba(158, 158, 158, 0.137);
+    padding: 2%;
+}
+
+.welcome-message {
+    height: 6%;
+    width: 80%;
+    margin: 2% auto;
+    border-bottom: 1px solid black;
+    font-size: 60px;
+    text-align: center;
+}
 
 .container {
     display: flex;
@@ -251,24 +234,17 @@ export default {
     padding: 0 20%;
 }
 
-.top-section {
+.top-section, .bottom-section {
     width: 2000px;
     display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
     gap: 10%;
-    padding-bottom: 10%;
+    margin-bottom: 5%;
 }
 
-.bottom-section {
-    display: flex;
-    justify-content: center;
-    width: 2000px;
-    margin-bottom: 25%;
-}
-
-.service-box{
+.service-box, .applications-box, .message-form {
     place-content: center;
     width: 30%;
     border-radius: 16px;
@@ -277,51 +253,10 @@ export default {
     padding: 20px;
 }
 
-.applications-box {
-    place-content: center;
-    width: 30%;
-    border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
-    background-color: rgba(204, 204, 204, 0.295);
-    padding: 20px;
-}
-
-.message-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30%;
-    min-height: 400px;
-    border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
-    background-color: rgba(204, 204, 204, 0.295);
-    padding: 35px;
-
-    .messageBox {
-        border-radius: 8px;
-        margin: auto;
-        height: 50%;
-        width: 80%;
-    }
-}
-
-.form-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
-
-.upload-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-    width: 100%;
-}
-
-.submit-button {
-    margin-top: 10px;
+.scroll {
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .property-card {
@@ -330,43 +265,66 @@ export default {
     padding: 15px;
     margin-bottom: 15px;
     background-color: #f9f9f9;
+}
+
+.allButtons {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-}
-
-.property-card p {
-    margin: 5px 0;
-}
-
-.property-image {
-    max-width: 100%;
-    height: auto;
+    gap: 10px;
     margin-top: 10px;
 }
 
-h3 {
-    text-align: center;
-}
-
-
-div.scroll {
-    margin: 4px, 4px;
-    padding: 4px;
-    height: 500px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: justify;
-}
-button{
+button {
     border-radius: 10px;
-    display: block;
-     width: 100%;
-     padding: 10px;
-     background: #73b680;
-     color: white;
-     gap: 10px;
+    padding: 10px;
+    background: #73b680;
+    color: white;
+    width: 100%;
+    max-width: 150px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #5a8f60;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: large;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.messageBox{
+    min-height: 300px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 5%;
+    }
+
+    .top-section, .bottom-section {
+        width: 100%;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .service-box, .applications-box, .message-form {
+        width: 100%;
+        max-width: 600px;
+        padding: 15px;
+    }
+
+    .scroll {
+        height: 200px;
+    }
+
+    .welcome-message {
+        font-size: 5vw;
+    }
 }
 </style>
-    
