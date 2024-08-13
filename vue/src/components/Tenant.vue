@@ -5,7 +5,7 @@
      
      <div id="main">
             <span id="greeting">
-                <h3>Hello {{ username.fName }}!</h3>
+                <h3>Hello {{ username.fName.substring(0,1).toUpperCase()+username.fName.substring(1) }}!</h3>
                 <p style="font-size: 12px; ">{{ justOne.address }}, {{ justOne.city }},{{justOne.state}} {{justOne.zipCode}}</p>
             </span>
             <div id="box" >
@@ -55,11 +55,11 @@
                 <span class="secondcase" >
                     <h6 id="h6first" >Open requests</h6>
                     <hr>
-                    <span style=" display: flex;">
+                    <span v-for="king in requestLoop" :key="king.reqId" style=" display: flex;">
                         <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
                        <div id="divfortext">
-                        <p id="firsttext">{{requests[0].reqDetails}}</p>
-                        <p id="secondtext" >{{ requests[0].reqStatus.substring(0,1).toUpperCase() }}{{requests[0].reqStatus.substring(1)  }}</p>
+                        <p id="firsttext" >{{king.reqDetails}}</p>
+                        <p id="secondtext" >{{ king.reqStatus.substring(0,1).toUpperCase() }}{{king.reqStatus.substring(1)  }}</p>
                     </div>
                     </span>
                     <hr>
@@ -382,6 +382,16 @@
                     return messagetodisplay = this.message
                 }
         
+            },
+
+            requestLoop(){
+                let hero = [];
+                if(this.requests.length>=2){
+                    return hero = [this.requests[0],this.requests[1]]
+                }else{
+                    return hero = this.requests
+                }
+
             },
 
     
