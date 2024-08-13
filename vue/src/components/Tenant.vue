@@ -376,10 +376,10 @@
             },
             openingMessage(){
                 let messagetodisplay = []
-                if(this.message.length>1){
+                if(this.message.length>=2){
                     return messagetodisplay = [this.message[0], this.message[1]]
                 }else{
-                    return this.message[0]
+                    return messagetodisplay = this.message
                 }
         
             },

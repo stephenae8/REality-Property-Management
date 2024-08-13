@@ -16,13 +16,19 @@
           </span>
           <hr>
           <span>
+          
           <h6 style="text-align: center; font-size: 18px; font-weight: bold;">Vacancy</h6>
-          <p style="margin-top: 2%;border: 1px solid black;">HERE ARE ALL YOUR AVAILABLE PROPERTY</p>
+          <span style="display:flex; justify-content: space-evenly;">
+            <img src="../img/icons8-building-100 (1).png" alt="" style="width: 50px;">
+          <p style="margin-top: 2%;border: 1px solid black; width: 80%;">HERE ARE ALL YOUR AVAILABLE PROPERTY</p>
+          </span>
           <hr style="width: 50%; margin-left: 25%;">
           <h6 style="font-weight: bold; font-size: 18px; text-align: center;">Property Owned</h6>
-          <p style="border: 1px solid black;">HERE IS ALL YOUR OWN PROPERTY</p>
+          <span style="display: flex; justify-content: space-evenly;">
+            <img src="../img/icons8-property-50.png" alt="" style="width: 50px;">
+          <p style="border: 1px solid black;width: 80%;">HERE IS ALL YOUR OWN PROPERTY</p>
+        </span>
           <hr style="width: 50%; margin-left: 25%;">
-          <h6></h6>
 
         </span>
         </span>
@@ -72,7 +78,6 @@ canvas{
 
 #welcome{
   display: flex; 
-  border: 1px solid black;
    justify-content: space-between; 
    background-color: rgba(211, 211, 211, 0.849);
    align-items: center;height: 50px;
