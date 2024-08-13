@@ -118,15 +118,15 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     @Override
     public Applications updateApplication(Applications applications) {
         Applications updatedApplications = null;
-        String sql = "UPDATE applications SET app_status = ? " + "WHERE user_id = ?;";
+        String sql = "UPDATE applications SET app_status = ? " + "WHERE app_id = ?;";
 
         try {
-            int numberOfRows = jdbcTemplate.update(sql, applications.getAppStatus(), applications.getUserId());
+            int numberOfRows = jdbcTemplate.update(sql, applications.getAppStatus(), applications.getAppId());
 
             if (numberOfRows == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             } else {
-                updatedApplications = getApplicationsByUserId(applications.getUserId());
+                updatedApplications = getApplicationsByAppId(applications.getAppId());
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

@@ -58,15 +58,15 @@
             </p>
         </div>
 
-        <div class="propertyDetails">
+        <div class="propertyDetails" style="border-bottom: 1px solid black; border-top: 1px solid black;">
             
             <div class="Amenities" style="display: flex; flex-direction: row; gap: 50px; " > 
-                <p> <img src="https://img.icons8.com/?size=100&id=LuG23LXvoO4t&format=png&color=000000" alt="" class="Amenities" > <h1> {{ justTest.bedrooms }} Bed </h1> </p>
-                <p> <img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" class="Amenities"> <h1>{{ justTest.bathrooms }} Bath </h1> </p>
-                <p> <img src="https://img.icons8.com/?size=100&id=ZDR4vMNuubY1&format=png&color=000000" alt="" class="Amenities" ><h1> Dish washer: {{ amenities.dishwasher }} </h1> </p>    
-                <p> <img src="https://img.icons8.com/?size=100&id=10013&format=png&color=000000" alt="" class="Amenities" ><h1> Air conditioning? {{ amenities.centralAir}} </h1> </p>    
-                <p> <img src="https://img.icons8.com/?size=100&id=BpWRdkvhcXWs&format=png&color=000000" alt="" class="Amenities" ><h1> Laundry? {{ amenities.laundry }} </h1> </p>  
-                <p> <img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" class="Amenities"><h1> Pets? {{ amenities.petsAllowed }} </h1></p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=LuG23LXvoO4t&format=png&color=000000" alt="" class="Amenity" > <h1> Bedrooms: <p style="font-weight: bold;">{{ justTest.bedrooms }}</p> </h1> </p>
+                <p> <img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" class="Amenity"> <h1>Bathrooms<p style="font-weight: bold;">{{ justTest.bathrooms }}</p>  </h1> </p>
+                <p> <img src="https://img.icons8.com/?size=100&id=ZDR4vMNuubY1&format=png&color=000000" alt="" class="Amenity" ><h1> Dishwasher: <p style="font-weight: bold;">{{ justTest.dishwasher }}</p> </h1> </p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=10013&format=png&color=000000" alt="" class="Amenity" ><h1> Air Conditioning: <p style="font-weight: bold;">{{ justTest.centralAir }}</p> </h1> </p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=BpWRdkvhcXWs&format=png&color=000000" alt="" class="Amenity" ><h1> Laundry: <p style="font-weight: bold;">{{ justTest.laundry }}</p> </h1> </p>  
+                <p> <img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" class="Amenity"><h1> Pets: <p style="font-weight: bold;">{{ justTest.petsAllowed }}</p> </h1></p>    
   
 
             </div>
@@ -160,10 +160,6 @@ export default {
 
     computed: {
 
-
-
-
-
         trueOrFalse(){
             return this.secondOne
         },
@@ -171,7 +167,7 @@ export default {
         justfour(){
             if (this.done) {
                 let fourProp = [];
-                fourProp = [this.justone[0], this.justone[1], this.justone[2], this.justone[3]]
+                fourProp = [this.justone[0], this.justone[8], this.justone[9], this.justone[10]]
                 return fourProp;
             }
 
@@ -275,12 +271,13 @@ export default {
 }
 
 .propertyDetails {
+    border-bottom: 1px solid black;
     display: flex;
     flex-direction: row;
     gap: 25px;
-    border: 1px solid #eaeaea;
     text-align: center;
-    padding-bottom: 0px;
+    
+    
 
    
 }
@@ -358,23 +355,36 @@ input {
 
 .Amenities{
     display: flex;
-    justify-content: center;
-    gap: 400px;
-    width: 70px;
+    padding-top: 10px;
     justify-content: space-evenly;
+    width: 1000px;
+
+
     h1{
+        
         font-size: 20px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        
 
     }
 
     p{
+        width: 100px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        
     }
 
 
 }
+.Amenity{
+        display: flex;
+        width: 70px;
+        
+    }
 
 </style>

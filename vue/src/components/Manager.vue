@@ -1,92 +1,90 @@
 <template>
-    <div class="all"
-        style="width: 100%; border: 1px solid black; height: 100%; max-width: 2300px; display: flex; flex-direction: column; margin: auto; background-color: rgba(158,158,158,.137);">
-        <span style="display: block;  height: 6%; width: 80%; margin-top: 2%; margin-left: 10%; border-bottom: 1px solid black;">
-            <h1 style="font-size: 60px" >Welcome {{ this.$store.state.user.fName }}</h1>
+    <div class="all">
+        <span class="greeting">
+            <h1>Hello {{ this.$store.state.user.fName }}</h1>
         </span>
         <div class="container">
-            <div class="top-section" style=" margin-top: 10%; margin-bottom: 10%; ">
-
-                <div class="service-box" style="border: 1px solid black;">
+            <div class="top-section">
+                <div class="revenue-box">
                     <div class="scroll">
-                        <h1 style="border-bottom: 1px solid black;">Service Requests</h1>
+                        <h2>Service Requests</h2>
                         <li v-for="(services, index) in services" :key="index" class="property-card">
                             <p><strong>Property Id:</strong> {{ services.propId }} </p>
                             <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
-                            <p><strong>Service Status:</strong> {{ services.reqStatus }}
-                                <div class="allButtons" style="display: flex;">
+                            <strong>Service Status:</strong> {{ services.reqStatus }}
+                                <div class="allButtons">
                                     <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #fcc82cea; border-color: white; color: white;"
-                                            @click.prevent="setInProgress(services.reqId)">In Progress</button>
+                                        <button type="submit" class="in-progress-button" @click.prevent="setInProgress(inProgress.reqId)">In Progress</button>
                                     </div>
                                     <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #6ab46aea; rgba(15, 179, 102, 0.776): white; color: white;"
-                                            @click.prevent="setComplete(services.reqId)">Complete</button>
+                                        <button type="submit" class="complete-button" @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
                                     </div>
                                 </div>
-                            </p>
+                            
                         </li>
                     </div>
                 </div>
 
+                <form @submit.prevent="submitMessage" class="message-form">
+                    <h1>Send a Message to a Tenant</h1>
 
-
-                <form @submit.prevent="submitMessage" class="message-form" >
-                    <h1 style="font-size: 30px; margin-bottom: auto; border-bottom: 1px solid black;"  >Send a Message to a Tenant</h1>
-
-                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required
-                        style="font-size: large; margin-bottom: 15px;" />
+                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required />
 
                     <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
-                        style="font-size: large;" placeholder="Enter your message" required></textarea>
+                        placeholder="Enter your message" required></textarea>
                     <div class="submit-button">
-                        <button type="submit"
-                            style="border-radius: 10px; background-color: #058805ea; border-color: white; color: white;"
-                            @click.prevent="submitMessage">Submit</button>
+                        <button type="submit" class="submit-message-button" @click.prevent="submitMessage">Submit</button>
                     </div>
                 </form>
-
             </div>
+            
             <div class="bottom-section">
-                <div class="applications-box" style="border: 1px solid black;">
-                    <h1 style="border-bottom: 1px solid black;">All Applications</h1>
-                    <ul>
-                        <div class="scroll">
-                            <li v-for="(applications, index) in applications" :key="index" class="property-card">
-                                <p><strong>UserId:</strong> {{ applications.userId }}</p>
-                                <p><strong>Move In Date:</strong> {{ applications.movieInDate }}</p>
-                                <p><strong>Application Status:</strong> {{ applications.appStatus }}
-                                <div class="allButtons" style="display: flex;">
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            
-                                            @click.prevent="setApprovedUser(applications.userId)">Approve</button>
-                                    </div>
-                                    <div class="submit-button">
-                                        <button type="submit"
-                                            style="border-radius: 10px; background-color: #a53d3dc6; border-color: white; color: white;"
-                                            @click.prevent="setDeniedUser(applications.userId)">Deny</button>
-                                    </div>
+                <div class="properties-box">
+                    <h1>Application Status</h1>
+                    <div class="accordion">
+                        <div class="accordion-item" v-for="status in ['pending', 'approved', 'denied', 'all']" :key="status">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#${status}Collapse`">
+                                    {{ status.charAt(0).toUpperCase() + status.slice(1) }} Applications
+                                </button>
+                            </h2>
+                            <div :id="`${status}Collapse`" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <div class="scroll">
+                                            <li v-for="(application, index) in filterApplications(status)" :key="index" class="property-card">
+                                                <p><strong>UserId:</strong> {{ application.userId }}</p>
+                                                <p><strong>Move In Date:</strong> {{ application.moveInDate }}</p>
+                                                <strong>Application Status:</strong> {{ application.appStatus }}
+                                                <div class="allButtons">
+                                                    <div class="submit-button">
+                                                        <button type="submit" class="approve-button" @click.prevent="setApprovedUser(application.appId)">Approve</button>
+                                                    </div>
+                                                    <div class="submit-button">
+                                                        <button type="submit" class="deny-button" @click.prevent="setDeniedUser(application.appId)">Deny</button>
+                                                    </div>
+                                                </div>
+                                                
+                                            </li>
+                                        </div>
+                                    </ul>
                                 </div>
-                                </p>
-                            </li>
+                            </div>
                         </div>
-                    </ul>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-    
+
+
+
 <script>
+// ... (script section remains the same)
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
 import ServiceRequestService from '../services/ServiceRequestService.js';
-
-
 export default {
     data() {
         return {
@@ -102,22 +100,20 @@ export default {
             services: [],
             applications: [],
             approved: {
-                "userId": '',
+                "appId": '',
                 "appStatus": "approved"
             },
             denied: {
-                "userId": '',
+                "appId": '',
                 "appStatus": "denied"
             },
             inProgress: {
-                "reqId": '',
-                "reqStatus": "in_progress",
-                "lastUpdated": "2024-03-16T10:30:00",
+                "appId": '',
+                "reqStatus": "in_progress"
             },
             serviceComplete: {
-                "reqId": '',
-                "reqStatus": "complete",
-                "lastUpdated": "2024-03-16T10:30:00",
+                "userId": '',
+                "reqStatus": "complete"
             },
 
         };
@@ -157,8 +153,8 @@ export default {
                 this.applications = e.data;
             });
         },
-        setApprovedUser(userId) {
-            this.approved.userId = userId;
+        setApprovedUser(appId) {
+            this.approved.appId = appId;
             this.approveApplication();
         },
         approveApplication() {
@@ -171,9 +167,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-
-        setDeniedUser(userId) {
-            this.denied.userId = userId;
+        setDeniedUser(appId) {
+            this.denied.appId = appId;
             this.deniedApplication();
         },
         deniedApplication() {
@@ -186,8 +181,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        setInProgress(reqId) {
-            this.inProgress.reqId = reqId;
+        setInProgress(userId) {
+            this.inProgress.userId = userId;
             this.inProgressServiceRequest();
         },
         inProgressServiceRequest() {
@@ -197,11 +192,11 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Error changing status');
+                    alert('Failed to approve application.');
                 });
         },
-        setComplete(reqId) {
-            this.serviceComplete.reqId = reqId;
+        setComplete(userId) {
+            this.serviceComplete.userId = userId;
             this.completeServiceRequest();
         },
         completeServiceRequest() {
@@ -211,17 +206,42 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Error changing status');
+                    alert('Failed to approve application.');
                 });
         },
-        
-
+        filterApplications(status) {
+            if (status === 'all') return this.applications;
+            return this.applications.filter(app => app.appStatus.toLowerCase() === status);
+        }
     }
+
+    
 }
 </script>
-    
+
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.all {
+    width: 100%;
+    border: 1px solid black;
+    height: 100%;
+    max-width: 2300px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background-color: rgba(158,158,158,.137);
+}
+
+.greeting {
+    display: block;
+    height: 6%;
+    width: 80%;
+    margin-top: 2%;
+    margin-left: 10%;
+    font-size: larger;
+}
 
 .container {
     display: flex;
@@ -232,36 +252,27 @@ export default {
 }
 
 .top-section {
-    width: 2000px;
     display: flex;
     flex-direction: row;
-    align-content: center;
     justify-content: center;
-    gap: 10%;
-    padding-bottom: 10%;
+    gap: 250px;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 .bottom-section {
-    display: flex;
-    justify-content: center;
-    width: 2000px;
+    max-width: 1560px;
     margin-bottom: 25%;
+    width: 100%;
 }
 
-.service-box{
+.revenue-box,
+.properties-box,
+.message-form {
     place-content: center;
-    width: 30%;
+    min-width: 650px;
     border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
-    background-color: rgba(204, 204, 204, 0.295);
-    padding: 20px;
-}
-
-.applications-box {
-    place-content: center;
-    width: 30%;
-    border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
+    border: 3px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
     padding: 20px;
 }
@@ -270,34 +281,26 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
     min-height: 400px;
-    border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
-    background-color: rgba(204, 204, 204, 0.295);
     padding: 35px;
-
-    .messageBox {
-        border-radius: 8px;
-        margin: auto;
-        height: 50%;
-        width: 80%;
-    }
 }
 
-.form-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+.message-form h1 {
+    font-size: 30px;
+    margin-bottom: auto;
 }
 
-.upload-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-    width: 100%;
+.message-form input,
+.message-form textarea {
+    font-size: large;
+    margin-bottom: 15px;
+}
+
+.messageBox {
+    border-radius: 8px;
+    margin: auto;
+    height: 50%;
+    width: 80%;
 }
 
 .submit-button {
@@ -313,25 +316,40 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
 }
 
 .property-card p {
     margin: 5px 0;
 }
 
-.property-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
+.allButtons {
+    display: flex;
 }
 
-h3 {
-    text-align: center;
+.in-progress-button {
+    border-radius: 10px;
+    background-color: #fcc82cea;
+    border-color: white;
+    color: white;
 }
 
+.complete-button,
+.submit-message-button,
+.approve-button {
+    border-radius: 10px;
+    background-color: #058805ea;
+    border-color: white;
+    color: white;
+}
 
-div.scroll {
+.deny-button {
+    border-radius: 10px;
+    background-color: #901818c6;
+    border-color: white;
+    color: white;
+}
+
+.scroll {
     margin: 4px, 4px;
     padding: 4px;
     height: 500px;
@@ -339,14 +357,25 @@ div.scroll {
     overflow-y: auto;
     text-align: justify;
 }
-button{
-    border-radius: 10px;
-    display: block;
-     width: 100%;
-     padding: 10px;
-     background: #73b680;
-     color: white;
-     gap: 10px;
+
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accordion-body {
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 0 0 5px 5px;
 }
 </style>
-    

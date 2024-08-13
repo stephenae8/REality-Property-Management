@@ -1,4 +1,6 @@
 <template>
+    <div class="backgroundImage" style="background-image: url('https://as1.ftcdn.net/v2/jpg/02/82/39/92/1000_F_282399227_V7C6up0mpGZm7fTJtBBSFhgbjtf0kMQ5.jpg'); background-repeat: no-repeat; background-size: cover;">
+
     <div id="register" class="register-container">
       <form @submit.prevent="register" class="register-form">
         <h1 class="form-title">Create Account</h1>
@@ -27,6 +29,8 @@
         </p>
       </form>
     </div>
+  </div>
+
   </template>
   
   <script>
@@ -100,7 +104,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f5f5f5;
+    backdrop-filter: blur(8px);
   }
   
   .register-form {
