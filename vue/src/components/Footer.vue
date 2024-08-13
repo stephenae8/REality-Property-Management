@@ -1,100 +1,144 @@
 <template>
-    <div id="footer" >
-        <span class="mside" >
-            <!-- <img style="margin-left: 35%; width: 110px; display: inline; margin-top: 4%;" src="../img/icons8-real-estate-100.png" alt=""> -->
-
-            <h4 style=" text-align: center;font-size: 60px; font-family:'Times New Roman', Times, serif;margin-top: 6%;">A2DS2.com</h4>
-            <p style=" display: flex;justify-content: flex-end;width: 50%;margin-left: 32%; font-weight: 700;">&copy;2024 DreamStar Group, Inc.</p>
-            <span style="display: block; height: 50px;   width: 65%;margin-left: 23%; ">
-             <a href="#"> <img style="width: 40px;" src="../img/socialMediaHandle/icons8-facebook-100.png" alt=""></a> 
-             <a href="#"><img style="width: 40px;" src="../img/socialMediaHandle/icons8-instagram-100.png" alt=""></a>
-             <a href="#"><img style="width: 40px;" src="../img/socialMediaHandle/icons8-linkedin-100.png" alt=""></a> 
-             <a href="#"><img style="width: 40px;" src="../img/socialMediaHandle/icons8-tiktok-100.png" alt=""></a> 
-              <a href="#"><img style="width: 40px;" src="../img/socialMediaHandle/icons8-twitterx-100.png" alt=""></a>
-              <a href="#"><img style="width: 40px;" src="../img/socialMediaHandle/icons8-youtube-100.png" alt=""></a> 
-              <a href="#"><img style="width: 37px;" src="../img/socialMediaHandle/icons8-about-us-100.png" alt=""></a>
-            </span>
-            <span style="display: flex; justify-content: flex-end; width: 81%;"><em>Equal Housing Opportunity </em></span>
-        </span>
-        <span class="rest" style="display:flex ;">
-            <span class="oneside">
-                <h4 style="margin-top: 15%;text-align: center;font-size: 17px;font-weight: bold;">Advertiser</h4>
-                <span style="display: block; text-align: center; margin-top: 3%;">
-                   <router-link to="" style="display: block;color: black;text-decoration: none;font-size: 15px;"> Advertise</router-link>
-                  <router-link to="" style="display: block;color: black;text-decoration: none;"> Customer Portal</router-link> 
-                 <router-link to="" style="color: black;text-decoration: none;">Community Voice</router-link>
-                </span>
-            </span>
-        <span class="oneside">
-            
-                <h4 style="margin-top: 15%;text-align: center;font-size: 17px;font-weight: bold;">ABOUT US</h4>
-                <span style="display: block; text-align: center; margin-top: 3%;">
-                   <router-link to="" style="display: block;color: black;text-decoration: none;font-size: 15px;"> About Us</router-link>
-                  <router-link to="" style="display: block;color: black;text-decoration: none;"> Contact Us</router-link> 
-                 <router-link to="" style="display: block;color: black;text-decoration: none;">Legal Notices</router-link>
-                 <router-link to="" style="display: block;color: black;text-decoration: none;">Private Notice</router-link>
-                 <router-link to="" style="display: block; color: black;text-decoration: none;">Avoid Scams</router-link>
-
-
-                
-            </span>
-        </span>
-        <span class="oneside">
-            
-                <h4 style="margin-top: 15%;text-align: center;font-size: 17px;font-weight: bold;">CITY</h4>
-                <span style="display: block; text-align: center; margin-top: 3%;">
-                   <router-link to="#" style="display: block;color: black;text-decoration: none;font-size: 15px;">New York</router-link>
-                  <router-link to="#" style="display: block;color: black;text-decoration: none;">Philadelphia</router-link> 
-                 <router-link to="#" style="color: black;text-decoration: none;">Austin</router-link>
-                 <router-link to="#" style="display: block;color: black;text-decoration: none;font-size: 15px;">Tulsa</router-link>
-                  <router-link to="#" style="display: block;color: black;text-decoration: none;">Atlanta</router-link> 
-                 <router-link to="#" style="color: black;text-decoration: none;">New Jersey</router-link>
-             
-            </span>
-
-        </span>
-
-    </span>
-   </div>
+    <footer id="footer">
+      <div class="footer-content">
+        <div class="main-info">
+          <h4 class="company-name">A2DS2.com</h4>
+          <p class="copyright">&copy;2024 DreamStar Group, Inc.</p>
+          <div class="social-icons">
+            <a href="#"><img src="../img/socialMediaHandle/icons8-facebook-100.png" alt="Facebook"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-instagram-100.png" alt="Instagram"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-linkedin-100.png" alt="LinkedIn"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-tiktok-100.png" alt="TikTok"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-twitterx-100.png" alt="Twitter"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-youtube-100.png" alt="YouTube"></a>
+            <a href="#"><img src="../img/socialMediaHandle/icons8-about-us-100.png" alt="About Us"></a>
+          </div>
+          <p class="equal-housing">Equal Housing Opportunity</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-section">
+            <h4>Advertiser</h4>
+            <router-link to="">Advertise</router-link>
+            <router-link to="">Customer Portal</router-link>
+            <router-link to="">Community Voice</router-link>
+          </div>
+          <div class="footer-section">
+            <h4>About Us</h4>
+            <router-link to="">About Us</router-link>
+            <router-link to="">Contact Us</router-link>
+            <router-link to="">Legal Notices</router-link>
+            <router-link to="">Private Notice</router-link>
+            <router-link to="">Avoid Scams</router-link>
+          </div>
+          <div class="footer-section">
+            <h4>City</h4>
+            <router-link to="#">New York</router-link>
+            <router-link to="#">Philadelphia</router-link>
+            <router-link to="#">Austin</router-link>
+            <router-link to="#">Tulsa</router-link>
+            <router-link to="#">Atlanta</router-link>
+            <router-link to="#">New Jersey</router-link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </template>
   
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style scoped>
-#footer{
-    padding: 30px;
+  <script>
+  export default {
+    name: 'Footer'
+  }
+  </script>
+  
+  <style scoped>
+  #footer {
+    background-color: lightgray;
+    padding: 2rem;
+  }
+  
+  .footer-content {
     display: flex;
-    height: 300px;
-    background-color: lightgray;
-}
-
-.mside{
-    margin-left: 3px;
-    width: 25%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .main-info {
+    flex: 1 1 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .company-name {
+    font-size: 2.5rem;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 0.5rem;
+  }
+  
+  .copyright {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .social-icons img {
+    width: 30px;
+    height: auto;
+  }
+  
+  .equal-housing {
+    font-style: italic;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .footer-section {
+    flex: 1 1 200px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section h4 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-section a {
     display: block;
-}
-
-.rest{
-    /* border: 1px solid black; */
-    width: 75%;
-}
-
-.oneside{
-    margin-left: 5px;
-    width: 33%;
-    /* border: 1px solid black; */
-
-}
-
-#whole{
-    background-color: lightgray;
-
-}
-
-
-</style>
+    color: black;
+    text-decoration: none;
+    margin-bottom: 0.3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .main-info {
+      flex: 0 1 25%;
+      text-align: left;
+    }
+  
+    .footer-links {
+      flex: 0 1 70%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .social-icons img {
+      width: 25px;
+    }
+  
+    .company-name {
+      font-size: 2rem;
+    }
+  }
+  </style>

@@ -2,43 +2,31 @@
   <div id="home">
     <div id="insidetext">
       <h2 id="ownh2">Discover Your New Home</h2>
-      <h4>Helping Thousands Across the World Find Their Next Home!</h4>
-      <span id="movetext" style="display: block">
+      <h4>Find What Comforts You!</h4>
+      <div id="search-container">
         <input
           type="text"
-          name=""
-          id=""
-          placeholder="Columbus, Ohio"
-          v-model="this.UserSearch"
+          placeholder="Search"
+          v-model="UserSearch"
         />
         <button @click="moveToAvailable">Search</button>
-      </span>
+      </div>
     </div>
   </div>
-  <h3 id="unique">Explore Rental In Columbus</h3>  
+  <h3 id="unique">Explore Rentals</h3>  
   <div id="preview" v-if="done">
-    <div  v-for="one in justfour" :key="one.propId">
-      <router-link style="text-decoration: none; color: black;" :to="{name: 'property', params:{id: one.propId}}">
-  <different-card :OneIndividual="one"></different-card>
-</router-link>
+    <div v-for="one in justfour" :key="one.propId">
+      <router-link class="property-link" :to="{name: 'property', params:{id: one.propId}}">
+        <different-card :OneIndividual="one"></different-card>
+      </router-link>
     </div>
   </div>
-  <div
-    style="
-      margin-top: 2%;
-      display: flex;
-      justify-content: center;
-      height: 70px;
-      align-items: center;
-    "
-  >
+  <div class="view-more-container">
     <router-link :to="{name: 'Available'}" v-show="done"> 
-    <button id="middlebutton">
-      Click to View More
-    </button>
+      <button id="middlebutton">Click to View More</button>
     </router-link> 
   </div>
-  <hr style="width: 70%; margin-left: 17%" />
+  <hr class="divider" />
 
   <h6 class="afterMain main">The Best Rental Listings</h6>
   <h6 class="afterMain">
@@ -47,31 +35,16 @@
   </h6>
 
   <div id="total">
-    <span class="small text">
-      <h6
-        style="
-          text-align: center;
-          margin-left: 3%;
-          height: 50px;
-          width: 600px;
-          font-size: 35px;
-          width: 50%;
-          font-weight: bold;
-          color: black;
-        "
-      >
-        Renting Made Easy
-      </h6>
-      <p style="width: 80%; margin-left: 6%; font-size: 20px">
+    <div class="text-content">
+      <h6 class="renting-made-easy">Renting Made Easy</h6>
+      <p class="description">
         Browse from our thousands of real-estates properties available all over
         the US. Whether you're looking for an short-term stay or potential home,
         we have everything you need!
       </p>
-      <router-link to="" style="margin-left: 6%; font-size: 20px"
-        >Find Out More</router-link
-      >
-    </span>
-    <span class="small image"> </span>
+      <router-link to="" class="find-out-more">Find Out More</router-link>
+    </div>
+    <div class="image-content"></div>
   </div>
   <hr />
 </template>
@@ -107,10 +80,12 @@ export default {
     justfour() {
       let fourProp = [];
       return (fourProp = [
-        this.apartmentdescrption[0],
-        this.apartmentdescrption[1],
-        this.apartmentdescrption[2],
-        this.apartmentdescrption[3],
+        this.apartmentdescrption[20],
+        this.apartmentdescrption[28],
+        this.apartmentdescrption[12],
+        this.apartmentdescrption[13],
+        this.apartmentdescrption[22],
+        this.apartmentdescrption[33],
       ]);
     },
   },
@@ -126,178 +101,223 @@ export default {
 </script>
 
 <style scoped>
-#movetext {
-  margin-left: 7%;
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
-.image {
-  background-image: url("https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4");
-  background-repeat: no-repeat;
-}
-
-#total {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.text {
-  background-color: rgba(128, 128, 128, 0.333);
-}
-
-.small {
-  display: inline-block;
-  width: 700px;
-  height: 300px;
-  /* margin-left: 5%; */
-}
-
-#ownh2 {
-  text-align: center;
-  animation: reveal 6s;
-}
-
-@keyframes reveal {
-  0% {
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 0;
-  }
-
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-#bodydiv {
-  border: 1px solid black;
-  height: 300px;
-  display: flex;
-}
-
-#first {
-  width: 759px;
-  height: 300px;
-  background-color: burlywood;
-  border: 1px solid black;
-}
-
-#second {
-  background-color: blanchedalmond;
-  width: 759px;
-  height: 300px;
-  border: 1px solid black;
-}
-
+/* Responsive styles */
 #home {
   height: 400px;
   background-image: url("https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-position: center;
+  background-size: cover;
 }
 
 #insidetext {
   background-color: rgba(0, 0, 0, 0.342);
-
-  border: 1px solid black;
-  height: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-h2 {
-  margin-top: 100px;
-  text-align: center;
+#ownh2 {
   color: white;
-  font-size: 65px;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 3rem;
+  text-align: center;
+  animation: reveal 6s;
+  margin-bottom: 10px;
 }
 
 h4 {
-  text-align: center;
   color: white;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-span {
-  height: 100px;
+#search-container {
   display: flex;
   justify-content: center;
-  align-content: center;
+  width: 100%;
+  max-width: 800px;
 }
 
 input {
-  font-size: 20px;
-  text-align: center;
-  margin-left: 22%;
-  width: 800px;
-  height: 50px;
+  font-size: 1rem;
+  padding: 10px;
+  width: 70%;
   border-radius: 6px;
   border: 1px solid white;
 }
 
+input, input[placeholder] {
+  text-align: center;
+}
 button {
-  height: 50px;
-  padding: 12px;
+  padding: 10px;
   border-radius: 6px;
-  width: 100px;
-  margin-left: 20px;
   background-color: green;
   color: white;
   border: 1px solid green;
+  cursor: pointer;
 }
 
 #unique {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  margin-top: 1%;
   text-align: center;
-  font-size: 35px;
+  font-size: 2rem;
+  margin: 20px 0;
 }
 
 #preview {
-  margin-top: 3%;
   display: flex;
-  margin-left: 9%;
-  width: 85%;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
 }
 
-.photo {
-  border: 1px solid black;
-  height: 200px;
-  width: 250px;
+.property-link {
+  text-decoration: none;
+  color: black;
 }
-h5 {
-  display: inline;
-  width: 250px;
-  text-align: center;
-  /* border: 1px solid black; */
-  /* border: 2px solid grey; */
 
-  border-radius: 3px;
+.view-more-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 #middlebutton {
-  height: 60px;
-  padding: 12px;
-  border-radius: 6px;
-  width: 180px;
-  margin-left: 20px;
-  background-color: green;
-  color: white;
-  border: 1px solid green;
+  padding: 15px 30px;
+  font-size: 1rem;
+}
+
+.divider {
+  width: 70%;
+  margin: 20px auto;
 }
 
 .afterMain {
   text-align: center;
-  /* border: 1px solid black; */
-  font-size: 32px;
+  font-size: 1.5rem;
+  margin: 10px 0;
 }
 
 .main {
-  font-size: 42px;
+  font-size: 2rem;
+}
+
+#total {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.text-content, .image-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.renting-made-easy {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.find-out-more {
+  font-size: 1rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.image-content {
+  background-image: url("https://indulge.digital/sites/default/files/styles/blog_lead/public/new-apartment-happy-african-american-family-having-fun-celebrating-moving-day-excited-brother-riding-his-sister-cardboard-box-parents-hugging-while-sitting-couch-background-2.jpg?itok=DylOc9-4");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  #ownh2 {
+    font-size: 2rem;
+  }
+
+  input {
+    width: 60%;
+  }
+
+  #unique {
+    font-size: 1.5rem;
+  }
+
+  .afterMain {
+    font-size: 1.2rem;
+  }
+
+  .main {
+    font-size: 1.5rem;
+  }
+
+  .renting-made-easy {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #ownh2 {
+    font-size: 1.5rem;
+  }
+
+  #search-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  #unique {
+    font-size: 1.2rem;
+  }
+
+  .afterMain {
+    font-size: 1rem;
+  }
+
+  .main {
+    font-size: 1.2rem;
+  }
+
+  .renting-made-easy {
+    font-size: 1.2rem;
+  }
+}
+
+@keyframes reveal {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  80% { opacity: 1; }
+  100% { opacity: 1; }
 }
 </style>
