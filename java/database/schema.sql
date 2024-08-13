@@ -96,19 +96,4 @@ CREATE TABLE messages (
 	msg_date TIMESTAMP NOT NULL
 );
 
--- Function to set payment_period
-CREATE OR REPLACE FUNCTION set_payment_period()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.pay_period := DATE_TRUNC('month', NEW.pay_date);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to update payment_period before insert on payments table
-CREATE TRIGGER set_payment_period_trigger
-BEFORE INSERT ON payments
-FOR EACH ROW
-EXECUTE FUNCTION set_payment_period();
-
 COMMIT TRANSACTION;

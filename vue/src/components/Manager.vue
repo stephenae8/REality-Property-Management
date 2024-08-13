@@ -168,7 +168,7 @@ export default {
         setApprovedUser(userId) {
             this.approved.userId = userId;
             this.approveApplication();
-            this.createLease();
+            // this.createLease();
         },
         approveApplication() {
             ApplicationService.updateApplication(this.approved)
