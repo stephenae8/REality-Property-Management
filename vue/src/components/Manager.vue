@@ -85,7 +85,7 @@
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
 import ServiceRequestService from '../services/ServiceRequestService.js';
-import LeaseService from '../services/LeaseService.js';
+
 
 export default {
     data() {
@@ -101,14 +101,6 @@ export default {
             },
             services: [],
             applications: [],
-            newLease: {
-                userId: this.$store.state.user.id,
-                propId: this.$store.state.propId,
-                startDate: '2020-11-10',
-                endDate: '2020-11-10',
-                rent: this.$store.state.property.rent,
-                termLength: '12',
-            },
             approved: {
                 "userId": '',
                 "appStatus": "approved"
@@ -168,7 +160,6 @@ export default {
         setApprovedUser(userId) {
             this.approved.userId = userId;
             this.approveApplication();
-            // this.createLease();
         },
         approveApplication() {
             ApplicationService.updateApplication(this.approved)
@@ -179,17 +170,6 @@ export default {
                     console.error('Error Updating Application:', error);
                     alert('Failed to approve application.');
                 });
-        },
-
-        createLease(newLease) {
-            LeaseService.createLease(newLease)
-            .then(response => {
-                alert('New lease created', newLease);
-            })
-            .catch(error => {
-                console.error('Error Updating Application:', error);
-                alert('Failed to approve application.');                
-            });
         },
 
         setDeniedUser(userId) {

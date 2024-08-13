@@ -80,10 +80,10 @@ export default {
         return{
             allProperty: [],
             searchTerm: this.$route.query.search ? this.$route.query.search : '',
-            available: '',
+            available: 'Available',
             willNumber: '',
             priceup: '',
-            bedroom: '',
+            bedroom: 'Bedroom',
             amenities: '',
             
         }
@@ -116,6 +116,8 @@ export default {
             if(this.searchTerm != ''){
                 newList = newList.filter((e)=>{
                     if(e.city.toLowerCase().match(this.searchTerm.toLowerCase())){
+                        return e
+                    } else if(e.state.toLowerCase().match(this.searchTerm.toLowerCase())){
                         return e
                     }
                 })
