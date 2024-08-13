@@ -1,5 +1,4 @@
 <template>
-  
   <div>
 <div v-if="completed && secondCheck && thirdCheck && fourCheck">
     <div :class="{background: go}" v-if="leases.leaseStatus == 'active'" >
@@ -34,7 +33,11 @@
                     <input v-model="this.request.date" style="color: white;display: inline-block; color: black;" type="date" name="" id="">
                     <label style="color: white;display: block;margin-top: 1%;">Service Type: </label>
                     <select v-model="this.request.service" style=" color: black;width: 20%; margin-top: .3%;" name="">
-                        
+                        <option >dishwasher</option>
+                         <option >central Air</option>
+                        <option >laundry</option>
+                        <option >bathroom</option>
+                        <option >Other...</option>    
                     </select>
                     <label style="color: white;display: block;margin-top: 2%;">Description:</label>
                     <textarea v-model="this.request.description" name="" cols="50" rows="4" style="resize: none;" placeholder="Please Add Your Request!" ></textarea>
@@ -55,8 +58,8 @@
                     <span style=" display: flex;">
                         <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
                        <div id="divfortext">
-                        <p id="firsttext">{{requests.reqDetails}}</p>
-                        <p id="secondtext" v-if="requests.reqStatus">{{ requests.reqStatus.substring(0,1).toUpperCase() }}{{requests.reqStatus.substring(1)  }}</p>
+                        <p id="firsttext">{{requests[0].reqDetails}}</p>
+                        <p id="secondtext" >{{ requests[0].reqStatus.substring(0,1).toUpperCase() }}{{requests[0].reqStatus.substring(1)  }}</p>
                     </div>
                     </span>
                     <hr>
@@ -185,7 +188,7 @@
         </div>
 </div>
     
-</div> -->
+</div> 
 </div>
     </template>
     
@@ -212,7 +215,7 @@
                 leases: {},
                 property: [],
                 message: [],
-                requests: {},
+                requests: [],
                 go: false,
                 addRe: false,
                 request: {
@@ -373,13 +376,15 @@
             },
             openingMessage(){
                 let messagetodisplay = []
-                if(this.message.length>1){
+                if(this.message.length>=2){
                     return messagetodisplay = [this.message[0], this.message[1]]
                 }else{
-                    return this.message[0]
+                    return messagetodisplay = this.message
                 }
         
             },
+
+    
     
             messagestoReturn(){
                 let newMessage = [];
