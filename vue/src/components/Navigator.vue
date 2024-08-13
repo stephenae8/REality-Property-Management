@@ -43,8 +43,8 @@
       <router-link class="portal" :to="{name: 'Tenant'}" v-show="role == 'ROLE_TENANT'"
         >Tenant Portal</router-link
       >
-      <router-link class="portal" to="#" v-show="role == 'ROLE_MANAGER'"
-        >Landlord Portal</router-link
+      <router-link class="portal" :to="{name: 'manager'}" v-show="role == 'ROLE_MANAGER'"
+        >Manager Portal</router-link
       >
     </nav>
   </div>

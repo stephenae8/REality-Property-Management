@@ -1,5 +1,3 @@
-Certainly! I'll reformat the API documentation according to the structure you've provided. Here's the reformatted version:
-
 # API Documentation
 
 ## Endpoints and HTTP Methods
