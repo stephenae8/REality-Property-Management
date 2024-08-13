@@ -63,12 +63,12 @@ public class JdbcLeaseDAO implements LeaseDAO{
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, leaseId);
             if (rowSet.next()) {
                 getLeaseByLeaseId = mapRowToLease(rowSet);
+            } else {
+                throw new DaoException("Lease not found.");
             }
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e){
-            throw new DaoException("Lease not found.", e);
         }
         return getLeaseByLeaseId;
     }
@@ -85,11 +85,11 @@ public class JdbcLeaseDAO implements LeaseDAO{
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
             if (rowSet.next()) {
                 getLeaseByUserId = mapRowToLease(rowSet);
+            } else {
+                throw new DaoException("Lease not found.");
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (NullPointerException e){
-            throw new DaoException("Lease not found.", e);
         }
         return getLeaseByUserId;
     }
@@ -124,7 +124,7 @@ public class JdbcLeaseDAO implements LeaseDAO{
     //PUT Methods
     //POV: prop mgr can update the lease status
     @Override
-    public Lease updateLeaseStatus(Lease lease) {
+    public Lease updateLeaseStatus(Lease lease) {           //theoretically all pieces of an object should be passed in to updadte
         Lease updatedLease = null;
                 String sql =
             "UPDATE leases\n" +

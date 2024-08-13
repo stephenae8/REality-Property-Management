@@ -94,7 +94,7 @@ public class PropertyController {
     public Property updatePropByPropId (@Valid @RequestBody PropertyRequestDto prdto){
             Property updatePropByPropId;
             try {
-                updatePropByPropId = propertyDAO.updatePropByPropId(prdto.getProperty(), prdto.getAmenities(),prdto.getImages(), prdto.getProperty().getPropId());
+                updatePropByPropId = propertyDAO.updatePropByPropId(prdto.getProperty(), prdto.getAmenities(),prdto.getImages());
             } catch (DaoException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property Not Updated :(");
             }
