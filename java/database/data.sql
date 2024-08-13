@@ -613,7 +613,7 @@ INSERT INTO payments (user_id, prop_id, lease_id, pay_period, pay_date, amount, 
 
 -- Service Requests
 INSERT INTO service_request (user_id, prop_id, req_status, req_date, last_updated, req_body, issue_type) VALUES
-(9001, 9001, 'complete', '2024-03-15 10:30:00', '2024-03-16 10:30:00', 'Dishwasher not draining properly', 'dishwasher'),
+            (9001, 9001, 'complete', '2024-03-15 10:30:00', '2024-03-16 10:30:00', 'Dishwasher not draining properly', 'dishwasher'),
 (9005, 9003, 'complete', '2024-05-20 14:45:00', '2024-05-21 09:15:00', 'Central air not cooling effectively', 'central_air'),
 (9008, 9005, 'complete', '2024-06-10 11:00:00', '2024-06-12 16:30:00', 'Washing machine leaking', 'laundry'),
 (9011, 9007, 'complete', '2024-07-05 09:30:00', '2024-07-06 09:30:00', 'Bathroom sink clogged', 'bathroom'),
