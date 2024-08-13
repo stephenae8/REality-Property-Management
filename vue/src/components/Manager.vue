@@ -1,95 +1,59 @@
 <template>
     <div class="all">
-        <span class="greeting">
-            <h1>Hello {{ this.$store.state.user.fName }}</h1>
+        <span class="welcome-message">
+            <h1>Welcome {{ this.$store.state.user.fName }}</h1>
         </span>
         <div class="container">
             <div class="top-section">
-                <div class="revenue-box">
+                <div class="service-box">
                     <div class="scroll">
-                        <h2>Service Requests</h2>
+                        <h1>Service Requests</h1>
                         <li v-for="(services, index) in services" :key="index" class="property-card">
                             <p><strong>Property Id:</strong> {{ services.propId }} </p>
-                            <p><strong>Service Issue:</strong>  {{ services.reqDetails }} </p>
-                            <strong>Service Status:</strong> {{ services.reqStatus }}
-                                <div class="allButtons">
-                                    <div class="submit-button">
-                                        <button type="submit" class="in-progress-button" @click.prevent="setInProgress(inProgress.reqId)">In Progress</button>
-                                    </div>
-                                    <div class="submit-button">
-                                        <button type="submit" class="complete-button" @click.prevent="setComplete(serviceComplete.reqId)">Complete</button>
-                                    </div>
-                                </div>
-                            
+                            <p><strong>Service Issue:</strong> {{ services.reqDetails }} </p>
+                            <p><strong>Service Status:</strong> {{ services.reqStatus }}</p>
+                            <div class="allButtons">
+                                <button @click.prevent="setInProgress(services.reqId)">In Progress</button>
+                                <button @click.prevent="setComplete(services.reqId)">Complete</button>
+                            </div>
                         </li>
                     </div>
                 </div>
-
                 <form @submit.prevent="submitMessage" class="message-form">
-                    <h1>Send a Message to a Tenant</h1>
-
-                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required />
-
-                    <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
-                        placeholder="Enter your message" required></textarea>
-                    <div class="submit-button">
-                        <button type="submit" class="submit-message-button" @click.prevent="submitMessage">Submit</button>
-                    </div>
+                    <h1>Send A Message To A User</h1>
+                    <input v-model="message.userTo" type="number" placeholder="Enter User ID" required />
+                    <textarea v-model="message.msgBody" class="messageBox" placeholder="Enter Your Message" required></textarea>
+                    <button @click.prevent="submitMessage">Submit</button>
                 </form>
             </div>
-            
             <div class="bottom-section">
-                <div class="properties-box">
-                    <h1>Application Status</h1>
-                    <div class="accordion">
-                        <div class="accordion-item" v-for="status in ['pending', 'approved', 'denied', 'all']" :key="status">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#${status}Collapse`">
-                                    {{ status.charAt(0).toUpperCase() + status.slice(1) }} Applications
-                                </button>
-                            </h2>
-                            <div :id="`${status}Collapse`" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <div class="scroll">
-                                            <li v-for="(application, index) in filterApplications(status)" :key="index" class="property-card">
-                                                <p><strong>UserId:</strong> {{ application.userId }}</p>
-                                                <p><strong>Move In Date:</strong> {{ application.moveInDate }}</p>
-                                                <strong>Application Status:</strong> {{ application.appStatus }}
-                                                <div class="allButtons">
-                                                    <div class="submit-button">
-                                                        <button type="submit" class="approve-button" @click.prevent="setApprovedUser(application.appId)">Approve</button>
-                                                    </div>
-                                                    <div class="submit-button">
-                                                        <button type="submit" class="deny-button" @click.prevent="setDeniedUser(application.appId)">Deny</button>
-                                                    </div>
-                                                </div>
-                                                
-                                            </li>
-                                        </div>
-                                    </ul>
-                                </div>
+                <div class="applications-box">
+                    <h1>All Applications</h1>
+                    <div class="scroll">
+                        <li v-for="(applications, index) in applications" :key="index" class="property-card">
+                            <p><strong>UserId:</strong> {{ applications.userId }}</p>
+                            <p><strong>Move In Date:</strong> {{ applications.moveInDate }}</p>
+                            <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
+                            <div class="allButtons">
+                                <button @click.prevent="setApprovedUser(applications.userId)">Approve</button>
+                                <button @click.prevent="setDeniedUser(applications.userId)">Deny</button>
                             </div>
-                        </div>
+                        </li>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
-
-
 <script>
-// ... (script section remains the same)
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
 import ServiceRequestService from '../services/ServiceRequestService.js';
+import LeaseService from '../services/LeaseService.js';
 export default {
     data() {
         return {
             message: {
-
                 contactType: 'email',
                 userTo: "",
                 userFrom: this.$store.state.user.id,
@@ -99,31 +63,38 @@ export default {
             },
             services: [],
             applications: [],
+            newLease: {
+                userId: this.$store.state.user.id,
+                propId: this.$store.state.propId,
+                startDate: '2020-11-10',
+                endDate: '2020-11-10',
+                rent: this.$store.state.property.rent,
+                termLength: '12',
+            },
             approved: {
-                "appId": '',
+                "userId": '',
                 "appStatus": "approved"
             },
             denied: {
-                "appId": '',
+                "userId": '',
                 "appStatus": "denied"
             },
             inProgress: {
-                "appId": '',
-                "reqStatus": "in_progress"
+                "reqId": '',
+                "reqStatus": "in_progress",
+                "lastUpdated": "2024-03-16T10:30:00",
             },
             serviceComplete: {
-                "userId": '',
-                "reqStatus": "complete"
+                "reqId": '',
+                "reqStatus": "complete",
+                "lastUpdated": "2024-03-16T10:30:00",
             },
-
         };
     },
-
     created() {
         this.loadApplications();
         this.loadServiceRequests();
     },
-
     methods: {
         submitMessage() {
             MessageService.createMessage(this.message)
@@ -133,11 +104,10 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error sending message:', error);
-                    alert('Failed to send message.');
+                    alert('Message Sent');
                     this.resetMessageForm();
                 });
         },
-
         resetMessageForm() {
             this.message.userTo = '';
             this.message.msgBody = '';
@@ -147,14 +117,13 @@ export default {
                 this.services = e.data;
             });
         },
-
         loadApplications() {
             ApplicationService.getApplication().then((e) => {
                 this.applications = e.data;
             });
         },
-        setApprovedUser(appId) {
-            this.approved.appId = appId;
+        setApprovedUser(userId) {
+            this.approved.userId = userId;
             this.approveApplication();
         },
         approveApplication() {
@@ -167,8 +136,18 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        setDeniedUser(appId) {
-            this.denied.appId = appId;
+        createLease(newLease) {
+            LeaseService.createLease(newLease)
+            .then(response => {
+                alert('New lease created', newLease);
+            })
+            .catch(error => {
+                console.error('Error Updating Application:', error);
+                alert('Failed to approve application.');
+            });
+        },
+        setDeniedUser(userId) {
+            this.denied.userId = userId;
             this.deniedApplication();
         },
         deniedApplication() {
@@ -181,8 +160,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        setInProgress(userId) {
-            this.inProgress.userId = userId;
+        setInProgress(reqId) {
+            this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
         },
         inProgressServiceRequest() {
@@ -192,11 +171,11 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Failed to approve application.');
+                    alert('Error changing status');
                 });
         },
-        setComplete(userId) {
-            this.serviceComplete.userId = userId;
+        setComplete(reqId) {
+            this.serviceComplete.reqId = reqId;
             this.completeServiceRequest();
         },
         completeServiceRequest() {
@@ -206,43 +185,32 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Failed to approve application.');
+                    alert('Error changing status');
                 });
         },
-        filterApplications(status) {
-            if (status === 'all') return this.applications;
-            return this.applications.filter(app => app.appStatus.toLowerCase() === status);
-        }
     }
-
-    
 }
 </script>
 
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
 .all {
     width: 100%;
     border: 1px solid black;
-    height: 100%;
     max-width: 2300px;
-    display: flex;
-    flex-direction: column;
     margin: auto;
-    background-color: rgba(158,158,158,.137);
+    background-color: rgba(158, 158, 158, 0.137);
+    padding: 2%;
 }
-
-.greeting {
-    display: block;
+.welcome-message {
     height: 6%;
     width: 80%;
-    margin-top: 2%;
-    margin-left: 10%;
-    font-size: larger;
+    margin: 2% auto;
+    border-bottom: 1px solid black;
+    font-size: 60px;
+    text-align: center;
 }
-
 .container {
     display: flex;
     flex-direction: column;
@@ -250,132 +218,84 @@ export default {
     font-family: 'Roboto', sans-serif;
     padding: 0 20%;
 }
-
-.top-section {
+.top-section, .bottom-section {
+    width: 2000px;
     display: flex;
     flex-direction: row;
+    align-content: center;
     justify-content: center;
-    gap: 250px;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    gap: 10%;
+    margin-bottom: 5%;
 }
-
-.bottom-section {
-    max-width: 1560px;
-    margin-bottom: 25%;
-    width: 100%;
-}
-
-.revenue-box,
-.properties-box,
-.message-form {
+.service-box, .applications-box, .message-form {
     place-content: center;
-    min-width: 650px;
+    width: 30%;
     border-radius: 16px;
-    border: 3px solid rgba(126, 126, 126, 0.473);
+    border: 1px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
     padding: 20px;
 }
-
-.message-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 400px;
-    padding: 35px;
+.scroll {
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
-
-.message-form h1 {
-    font-size: 30px;
-    margin-bottom: auto;
-}
-
-.message-form input,
-.message-form textarea {
-    font-size: large;
-    margin-bottom: 15px;
-}
-
-.messageBox {
-    border-radius: 8px;
-    margin: auto;
-    height: 50%;
-    width: 80%;
-}
-
-.submit-button {
-    margin-top: 10px;
-}
-
 .property-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    background-color: #F9F9F9;
 }
-
-.property-card p {
-    margin: 5px 0;
-}
-
 .allButtons {
     display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
-
-.in-progress-button {
+button {
     border-radius: 10px;
-    background-color: #fcc82cea;
-    border-color: white;
+    padding: 10px;
+    background: #73B680;
     color: white;
-}
-
-.complete-button,
-.submit-message-button,
-.approve-button {
-    border-radius: 10px;
-    background-color: #058805ea;
-    border-color: white;
-    color: white;
-}
-
-.deny-button {
-    border-radius: 10px;
-    background-color: #901818c6;
-    border-color: white;
-    color: white;
-}
-
-.scroll {
-    margin: 4px, 4px;
-    padding: 4px;
-    height: 500px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: justify;
-}
-
-.accordion-item {
-    margin-bottom: 10px;
-}
-
-.accordion-button {
     width: 100%;
-    text-align: left;
-    padding: 10px;
-    background-color: #f8f9fa;
+    max-width: 150px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
-
-.accordion-body {
+button:hover {
+    background: #5A8F60;
+}
+input, textarea {
+    width: 100%;
     padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 0 0 5px 5px;
+    font-size: large;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.messageBox{
+    min-height: 300px;
+}
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 5%;
+    }
+    .top-section, .bottom-section {
+        width: 100%;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .service-box, .applications-box, .message-form {
+        width: 100%;
+        max-width: 600px;
+        padding: 15px;
+    }
+    .scroll {
+        height: 200px;
+    }
+    .welcome-message {
+        font-size: 5vw;
+    }
 }
 </style>
