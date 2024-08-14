@@ -14,6 +14,8 @@ import OwnerView from '../views/OwnerView.vue';
 
 import TenantView from '../views/TenantView.vue';
 import ManagerView from '../views/ManagerView.vue';
+import AboutUsView from '../views/AboutUsView.vue';
+
 
 
 
@@ -100,7 +102,15 @@ const routes = [
     meta: {
       requiresAuth: false
     }
-  }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutUsView,
+    meta: {
+      requiresAuth: false
+    }
+  },
 
 ];
 
