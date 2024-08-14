@@ -1,7 +1,6 @@
 <template>
   <div id="main">
     <span class="header-span">
-      <section id="filter-bar">
       <div id="opt">
         <div class="filter-item">
           <input
@@ -138,7 +137,6 @@
           </div>
         </div>
       </div>
-    </section>
     </span>
     <div id="main">
       <div id="propertyList">
@@ -428,5 +426,33 @@ input:focus {
 
 .dropdown:hover .dropbtn {
   background-color: rgb(114, 160, 103);
+}
+@media (max-width: 1200px) {
+  #main-container {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  #opt {
+    flex-wrap: wrap;
+  }
+
+  .filter-item {
+    flex-basis: calc(33.333% - 10px);
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-item {
+    flex-basis: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-item {
+    flex-basis: 100%;
+  }
 }
 </style>
