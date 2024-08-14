@@ -3,7 +3,7 @@
     <div class="navigator-content">
       <div class="logo">
         <router-link :to="{ name: 'home' }">
-          <img src="RE-logo.png" alt="Logo" />
+          <img src="/RE-logo.png" alt="Logo" />
         </router-link>
       </div>
       <div class="nav-items">

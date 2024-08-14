@@ -294,13 +294,18 @@ export default {
   border-bottom: 1px solid rgb(231, 231, 231);
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 10px;
 }
 
 .filter-item {
+  flex: 1 1 auto;
+  min-width: 120px;
+  max-width: 200px;
   margin: 0 5px;
 }
 
@@ -315,25 +320,28 @@ export default {
 }
 
 .filter-input {
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
 }
 
 .dropdown {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 
 .dropbtn {
   cursor: pointer;
-  width: 120px;
-  text-align: left;
+  width: 100%;
+  text-align: center;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  width: 100%;
+  left: 0;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 4px;
@@ -372,7 +380,8 @@ export default {
 #secondMain {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 20px;
 }
 
 #propertyList {
@@ -383,6 +392,12 @@ export default {
   margin: 1% 0 0 3%;
   width: 95%;
   padding: 10px;
+}
+
+#propertyList > div,
+#secondMain > div {
+  flex: 1 1 300px;
+  max-width: 100%;
 }
 
 a {
@@ -427,6 +442,7 @@ input:focus {
 .dropdown:hover .dropbtn {
   background-color: rgb(114, 160, 103);
 }
+
 @media (max-width: 1200px) {
   #main-container {
     padding: 0 10px;
@@ -448,11 +464,23 @@ input:focus {
   .filter-item {
     flex-basis: calc(50% - 10px);
   }
+  
+  #opt {
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 576px) {
   .filter-item {
     flex-basis: 100%;
   }
+  
+  .filter-input {
+    width: 100%;
+  }
+  #secondMain {
+    padding-top: 40px;
+  }
 }
+
 </style>
