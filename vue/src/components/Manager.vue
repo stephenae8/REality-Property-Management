@@ -35,8 +35,8 @@
                             <p><strong>Move In Date:</strong> {{ applications.moveInDate }}</p>
                             <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
                             <div class="allButtons">
-                                <button @click.prevent="setApprovedUser(applications.userId)">Approve</button>
-                                <button @click.prevent="setDeniedUser(applications.userId)">Deny</button>
+                                <button @click.prevent="setApprovedUser(applications.appId)">Approve</button>
+                                <button @click.prevent="setDeniedUser(applications.appId)">Deny</button>
                             </div>
                         </li>
                     </div>
