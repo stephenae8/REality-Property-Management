@@ -177,7 +177,7 @@ export default {
       available: "Available",
       willNumber: "",
       priceup: "",
-      bedroom: "Bedroom",
+      bedroom: "",
       amenities: "",
     };
   },
@@ -297,13 +297,7 @@ export default {
         });
       }
 
-      if (this.priceup == "$1300+") {
-        newList = newList.filter((e) => {
-          if (e.rent > 1300) {
-            return e;
-          }
-        });
-      }
+
 
       if (this.bedroom == "2 Bedroom") {
         newList = newList.filter((e) => {

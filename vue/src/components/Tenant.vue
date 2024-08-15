@@ -55,7 +55,7 @@
                 <span class="secondcase" >
                     <h6 id="h6first" >Open requests</h6>
                     <hr>
-                    <span v-for="king in requestLoop" :key="king.reqId" style=" display: flex;">
+                    <span v-for="king in requestLoop" :key="king.reqId" style=" display: flex;margin-top: 2%;">
                         <img id="tinylogo"  src="../img/socialMediaHandle/icons8-repair-32.png" alt="">
                        <div id="divfortext">
                         <p id="firsttext" >{{king.reqDetails}}</p>
@@ -77,7 +77,7 @@
                             <img src="../img/socialMediaHandle/icons8-mail-50.png" style="width: 35px;margin-top: 2.5%;">
                         </span>
                         <span style="display: block; margin-left: 5%;width: 100%; ">
-                        <h3 style="border: 1px solid black; font-size: 20px; width: 100%;margin-left: 0%;text-align: center; border-radius: 10px;">{{ mess.subject }}</h3>
+                        <h3 style="border: 1px solid darkgray; font-size: 20px; width: 100%;margin-left: 0%;text-align: center; border-radius: 5px;">{{ mess.subject }}</h3>
                         <p style="font-size: 12px;">{{ mess.msgBody }}</p>
                          </span>
                     </div>
@@ -97,11 +97,7 @@
                 <span style="display: block; width: 50%; height: 350px; margin-left:26%;">
                     <label style="color: white;display: block;">Contact</label>
                     <select  style=" color: black;width: 20%; margin-top: .3%;" name="">
-                        <option >dishwasher</option>
-                        <option >central Air</option>
-                        <option >laundry</option>
-                        <option >bathroom</option>
-                        <option >Other...</option>
+                        <option >a2ds2</option>
                     </select>
                     <label style="color: white;display: block;margin-top: 1%;">Subject: </label>
                    <input v-model="this.oneMessage.subject" type="text" style="width: 45%;" required>
@@ -254,7 +250,7 @@
                 this.go= false;
                 this.addRe= false;
                 this.otherCase = true;
-    
+                this.$router.go(0)
             },
             closeForm(){
                 this.go= false;
@@ -330,7 +326,7 @@
             goodMes(){
                 let messagetoGreat = {
                     contactType: "email",
-                    userTo: 1,
+                    userTo: 9002,
                     userFrom: this.username.id,
                     subject: this.oneMessage.subject,
                     msgBody: this.oneMessage.msgBody,

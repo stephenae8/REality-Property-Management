@@ -84,8 +84,8 @@ export default {
         this.apartmentdescrption[28],
         this.apartmentdescrption[12],
         this.apartmentdescrption[13],
-        this.apartmentdescrption[22],
-        this.apartmentdescrption[33],
+        // this.apartmentdescrption[22],
+        // this.apartmentdescrption[33],
       ]);
     },
   },

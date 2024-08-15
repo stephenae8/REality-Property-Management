@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 //@PreAuthorize("isAuthenticated()")
@@ -90,6 +91,33 @@ public class LeaseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lease Not Updated. ");
         }
         return updateLeaseStatus;
+    }
+
+
+    @PreAuthorize("permitAll()")
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "lease/getTotal/{userId}", method = RequestMethod.GET)
+    public BigDecimal getTotal(@PathVariable int userId){
+        return leaseDAO.getTotal(userId);
+
+    }
+
+    @PreAuthorize("permitAll()")
+    @RequestMapping(path = "lease/vacancy/{userId}", method = RequestMethod.GET)
+    public int getVacancy(@PathVariable int userId){
+        return leaseDAO.availableVacancy(userId);
+    }
+
+    @PreAuthorize("permitAll()")
+    @RequestMapping(path = "lease/revenue/{userId}", method = RequestMethod.GET)
+    public BigDecimal getRevenues(@PathVariable int userId){
+        return leaseDAO.totalRevenue(userId);
+    }
+
+    @PreAuthorize("permitAll()")
+    @RequestMapping(path = "lease/netprofit/{userId}")
+    public BigDecimal profitReturn(@PathVariable int userId){
+        return leaseDAO.netProfit(userId);
     }
 
 

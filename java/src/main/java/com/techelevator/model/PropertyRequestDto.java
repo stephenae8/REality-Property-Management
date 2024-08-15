@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 public class PropertyRequestDto {
+
     private Property property;
     private Amenities amenities;
     private Images images;

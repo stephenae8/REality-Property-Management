@@ -25,7 +25,11 @@ public interface LeaseDAO {
 
     BigDecimal getTotal(int id);
 
-    
+    int availableVacancy(int id);
+
+    BigDecimal totalRevenue(int id);
+
+    BigDecimal netProfit(int id);
 
 
 

@@ -105,5 +105,11 @@ public class ServiceRequestController {
         return updateServiceRequest;
     }
 
+    @PreAuthorize("permitAll()")
+    @RequestMapping(path = "service/owner-update/{userId}")
+    public List<ServiceRequest> allService(@PathVariable int userId){
+        return serviceRequestDAO.listForOwner(userId);
+    }
+
 
 }

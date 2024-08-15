@@ -22,5 +22,7 @@ public interface ServiceRequestDAO {
     //PUT
     ServiceRequest updateServiceRequest(ServiceRequest serviceRequest);
 
+    List<ServiceRequest>listForOwner(int id);
+
 
 }

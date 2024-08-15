@@ -116,6 +116,25 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     }
 
     @Override
+    public List<Applications> statusOwnerByID(int id) {
+
+        List<Applications> newAppl = new ArrayList<>();
+        String sqlStuff = "SELECT a.prop_id, a.app_status, a.app_date FROM applications as a \n" +
+                "JOIN properties as p ON a.prop_id = p.prop_id\n" +
+                "WHERE p.owner_id = ? AND app_status ILIKE '%approved%'\n" +
+                "ORDER BY app_date DESC;";
+
+        SqlRowSet newSearch = jdbcTemplate.queryForRowSet(sqlStuff, id);
+        if(!newSearch.wasNull()){
+            while(newSearch.next()){
+                Applications newOne = mapRow(newSearch);
+                newAppl.add(newOne);
+            }
+        }
+        return newAppl;
+    }
+
+    @Override
     public Applications updateApplication(Applications applications) {
         Applications updatedApplications = null;
         String sql = "UPDATE applications SET app_status = ? " + "WHERE app_id = ?;";
@@ -137,6 +156,8 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     }
 
 
+
+
     private Applications mapRowToApplications(SqlRowSet rowSet){
         Applications applications = new Applications();
         applications.setAppId(rowSet.getInt("app_id"));
@@ -147,6 +168,15 @@ public class JdbcApplicationsDao implements ApplicationsDao {
         applications.setAppDate(rowSet.getTimestamp("app_date").toLocalDateTime());
 
         return applications;
+
+    }
+
+    public Applications mapRow(SqlRowSet sql){
+        Applications newOne = new Applications();
+        newOne.setAppStatus(sql.getString("app_status"));
+        newOne.setAppDate(sql.getTimestamp("app_date").toLocalDateTime());
+        newOne.setPropId(sql.getInt("prop_id"));
+        return newOne;
 
     }
 }

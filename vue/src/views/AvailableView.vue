@@ -6,11 +6,12 @@
 
 <script>
 import Available from '../components/Available.vue';
+import AvailableCopy from '../components/Available copy.vue';
 export default {
 
 
     components: {
-        Available
+        Available,
     }
     
 }

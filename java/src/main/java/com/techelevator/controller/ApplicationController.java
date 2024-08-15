@@ -77,4 +77,10 @@ public class ApplicationController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/applications/newfeed/{ownerId}")
+    public List<Applications> getApplicationByOwner (@PathVariable int ownerId){
+        return applicationsDao.statusOwnerByID(ownerId);
+    }
+
 }

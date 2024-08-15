@@ -5,5 +5,9 @@ export default {
         return axios.get(`/service-request/user/${id}`)
     },
 
+    getRequestByOwnerId(id){
+        return axios.get(`/service/owner-update/${id}`)
+    }
+
     
 }

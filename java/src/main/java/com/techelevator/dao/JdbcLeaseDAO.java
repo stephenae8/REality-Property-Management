@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,13 +160,68 @@ public class JdbcLeaseDAO implements LeaseDAO{
         SqlRowSet getValue = jdbcTemplate.queryForRowSet(getSql, id);
         if(!getValue.wasNull()){
             if(getValue.next()){
-                resultEd = getValue.getBigDecimal("sum");
+                resultEd =getValue.getBigDecimal("sum");
             }
         }
         return resultEd;
     }
 
+    @Override
+    public int availableVacancy(int id) {
+        Double endResult = null;
+        Double bigVersion = null;
+        Double smallVersion = null;
+        int firstHalf = 0;
+        int secondHalf = 0;
+        String firstValue = "SELECT COUNT(vacancy) FROM properties WHERE owner_id = ?;\n";
+        String secondValue = "SELECT COUNT(vacancy) FROM properties WHERE owner_id = ? and vacancy = false;\n";
+        SqlRowSet getFirst = jdbcTemplate.queryForRowSet(firstValue, id);
+        if(!getFirst.wasNull()){
+            if(getFirst.next()){
+                firstHalf = getFirst.getInt("count");
+                bigVersion = Double.valueOf(firstHalf);
+            }
+        }
+        SqlRowSet getSecond = jdbcTemplate.queryForRowSet(secondValue, id);
+        if(!getSecond.wasNull()){
+            if(getSecond.next()){
+                secondHalf = getSecond.getInt("count");
+                smallVersion = Double.valueOf(secondHalf);
+            }
+        }
+        endResult = smallVersion/bigVersion;
+        Double returnValue = (endResult* 100.00)  ;
+        int here = returnValue.intValue();
 
+        return here;
+
+    }
+
+    @Override
+    public BigDecimal totalRevenue(int id) {
+        BigDecimal valueOf = null;
+        int allRequest = 0;
+        String valueSql = "SELECT COUNT(*) from service_request as s\n" +
+                "JOIN properties AS p ON s.prop_id = p.prop_id\n" +
+                "WHERE p.owner_id = ?;";
+
+        SqlRowSet getCount = jdbcTemplate.queryForRowSet(valueSql, id);
+        if(!getCount.wasNull()){
+            if(getCount.next()){
+                allRequest = getCount.getInt("count");
+            }
+        }
+        valueOf = BigDecimal.valueOf(allRequest).multiply(BigDecimal.valueOf(150.00));
+
+        return valueOf;
+    }
+
+    @Override
+    public BigDecimal netProfit(int id) {
+        BigDecimal totalValue = getTotal(id).subtract(totalRevenue(id));
+
+        return totalValue;
+    }
 
 
     //MapRowSet

@@ -12,6 +12,10 @@ export default {
     },
     getApplicationById(id){
         return axios.get(`/applications/user/${id}`)
+    },
+
+    getAppNew(id){
+        return axios.get(`/applications/newfeed/${id}`)
     }
     
 }

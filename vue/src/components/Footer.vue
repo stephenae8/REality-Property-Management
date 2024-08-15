@@ -4,7 +4,7 @@
         <div class="main-info">
           <h4 class="company-name">A2DS2.com</h4>
           <p class="copyright">&copy;2024 DreamStar Group, Inc.</p>
-          <div class="social-icons">
+          <div style="justify-content: flex-start;" class="social-icons">
             <a href="#"><img src="../img/socialMediaHandle/icons8-facebook-100.png" alt="Facebook"></a>
             <a href="#"><img src="../img/socialMediaHandle/icons8-instagram-100.png" alt="Instagram"></a>
             <a href="#"><img src="../img/socialMediaHandle/icons8-linkedin-100.png" alt="LinkedIn"></a>
@@ -46,7 +46,7 @@
   
   <script>
   export default {
-    name: 'Footer'
+   
   }
   </script>
   

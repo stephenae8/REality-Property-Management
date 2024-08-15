@@ -20,4 +20,6 @@ public interface ApplicationsDao {
     Applications updateApplication (Applications applications); //update specific app by app
 
     Applications getApplicationsByAppId(int appId);
+
+    List<Applications> statusOwnerByID (int id);
 }

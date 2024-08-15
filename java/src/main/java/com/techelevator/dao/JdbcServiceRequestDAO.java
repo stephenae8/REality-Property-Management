@@ -170,6 +170,25 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
                 return updatedServiceRequest;
     }
 
+    @Override
+    public List<ServiceRequest> listForOwner(int id) {
+
+        List<ServiceRequest> listOfNew = new ArrayList<>();
+        String sql = "SELECT s.req_status, s.prop_id, s.issue_type,s.last_updated FROM service_request as s\n" +
+                "JOIN properties as p ON s.prop_id = p.prop_id\n" +
+                "WHERE p.owner_id = ?\n" +
+                "ORDER BY s.last_updated DESC ;";
+        SqlRowSet resulted = jdbcTemplate.queryForRowSet(sql,id);
+        if(!resulted.wasNull()){
+            while(resulted.next()){
+                ServiceRequest newOne = mapRow(resulted);
+                listOfNew.add(newOne);
+            }
+        }
+        return listOfNew;
+    }
+
+
     //MapRowSet
     private ServiceRequest mapRowToServiceRequest(SqlRowSet rowSet){
         ServiceRequest serviceRequest = new ServiceRequest();
@@ -184,6 +203,15 @@ public class JdbcServiceRequestDAO implements ServiceRequestDAO {
         serviceRequest.setReqDetails(rowSet.getString("req_body"));
         serviceRequest.setIssueType(rowSet.getString("issue_type"));
         return serviceRequest;
+    }
+
+    public ServiceRequest mapRow(SqlRowSet sqlStuff){
+        ServiceRequest newService = new ServiceRequest();
+        newService.setPropId(sqlStuff.getInt("prop_id"));
+        newService.setReqStatus(sqlStuff.getString("req_status"));
+        newService.setIssueType(sqlStuff.getString("issue_type"));
+        newService.setLastUpdated(sqlStuff.getTimestamp("last_updated").toLocalDateTime());
+        return newService;
     }
 
 
