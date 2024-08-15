@@ -47,9 +47,20 @@ public class JdbcApplicationsDao implements ApplicationsDao {
 
         Applications applications = null;
 
-        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
-                    "FROM applications " +
-                    "WHERE prop_id= ?;";
+        String sql = "SELECT \n" +
+                "    a.*,\n" +
+                "    CONCAT(u.fName, ' ', u.lName) AS applicant_full_name,\n" +
+                "    CONCAT(p.address, ', ', p.city, ', ', p.state) AS property_full_address,\n" +
+                "    CONCAT(o.fName, ' ', o.lName) AS owner_full_name\n" +
+                " FROM \n" +
+                "    applications a\n" +
+                " JOIN \n" +
+                "    users u ON a.user_id = u.user_id\n" +
+                " JOIN \n" +
+                "    properties p ON a.prop_id = p.prop_id\n" +
+                " JOIN \n" +
+                "    users o ON p.owner_id = o.user_id" +
+                " WHERE prop_id= ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, propId);
             if (results.next()) {
@@ -65,8 +76,19 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     public List<Applications> getAllApplications() {
         List<Applications> applications = new ArrayList<>();
 
-        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
-                "FROM applications;";
+        String sql = "SELECT \n" +
+                "    a.*,\n" +
+                "    CONCAT(u.fName, ' ', u.lName) AS applicant_full_name,\n" +
+                "    CONCAT(p.address, ', ', p.city, ', ', p.state) AS property_full_address,\n" +
+                "    CONCAT(o.fName, ' ', o.lName) AS owner_full_name\n" +
+                " FROM \n" +
+                "    applications a\n" +
+                " JOIN \n" +
+                "    users u ON a.user_id = u.user_id\n" +
+                " JOIN \n" +
+                "    properties p ON a.prop_id = p.prop_id\n" +
+                " JOIN \n" +
+                "    users o ON p.owner_id = o.user_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -101,9 +123,20 @@ public class JdbcApplicationsDao implements ApplicationsDao {
     public Applications getApplicationsByAppId(int appId) {
         Applications applications = null;
 
-        String sql = "SELECT app_id, user_id, prop_id, move_in_date, app_status, app_date " +
-                "FROM applications " +
-                "WHERE app_id= ?;";
+        String sql = "SELECT \n" +
+                "    a.*,\n" +
+                "    CONCAT(u.fName, ' ', u.lName) AS applicant_full_name,\n" +
+                "    CONCAT(p.address, ', ', p.city, ', ', p.state) AS property_full_address,\n" +
+                "    CONCAT(o.fName, ' ', o.lName) AS owner_full_name\n" +
+                " FROM \n" +
+                "    applications a\n" +
+                " JOIN \n" +
+                "    users u ON a.user_id = u.user_id\n" +
+                " JOIN \n" +
+                "    properties p ON a.prop_id = p.prop_id\n" +
+                " JOIN \n" +
+                "    users o ON p.owner_id = o.user_id" +
+                " WHERE app_id= ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, appId);
             if (results.next()) {
@@ -145,6 +178,9 @@ public class JdbcApplicationsDao implements ApplicationsDao {
         applications.setMoveInDate(rowSet.getDate("move_in_date").toLocalDate());
         applications.setAppStatus(rowSet.getString("app_status"));
         applications.setAppDate(rowSet.getTimestamp("app_date").toLocalDateTime());
+        applications.setApplicantName(rowSet.getString("applicant_full_name"));
+        applications.setPropertyAddress(rowSet.getString("property_full_address"));
+        applications.setOwnerName(rowSet.getString("owner_full_name"));
 
         return applications;
 

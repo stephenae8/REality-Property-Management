@@ -19,7 +19,8 @@ export function createStore(currentToken, currentUser) {
       property: [],
       lease: {},
       message: [],
-      request: {}
+      request: {},
+      leases: []
 
     },
     mutations: {
@@ -52,7 +53,12 @@ export function createStore(currentToken, currentUser) {
           state.lease = e.data
         })
       },
-
+      SET_LEASES(state) {
+        LeaseService.getAllLeases().then((e)=>{
+          state.leases = e.data
+        })
+      },
+      
       SET_PROPERTY(state){
           PropertyService.getProperty().then((e)=>{
             state.property = e.data

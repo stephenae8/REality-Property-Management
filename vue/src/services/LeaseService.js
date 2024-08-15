@@ -1,6 +1,9 @@
 import axios from "axios";
 
 export default{
+    getAllLeases() {
+        return axios.get('/lease')
+    },
     leaseById(id){
         return axios.get(`lease/user/${id}`)
     },
