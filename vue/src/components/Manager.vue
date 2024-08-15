@@ -316,11 +316,11 @@ export default {
                 "appStatus": "denied"
             },
             inProgress: {
-                "appId": '',
+                "reqId": '',
                 "reqStatus": "in_progress"
             },
             serviceComplete: {
-                "userId": '',
+                "reqId": '',
                 "reqStatus": "complete"
             },
 
@@ -333,7 +333,6 @@ export default {
         this.loadLeases();
         this.loadMessages();
         this.loadTenants();
-        console.log(this.tenants)
     },
 
     methods: {
@@ -399,6 +398,8 @@ export default {
             ApplicationService.updateApplication(this.approved)
                 .then(response => {
                     alert('Application Approved Successfully');
+                    this.$router.push({ path:'/manager'})
+
                 })
                 .catch(error => {
                     console.error('Error Updating Application:', error);
@@ -420,8 +421,8 @@ export default {
                 });
         },
 
-        setInProgress(userId) {
-            this.inProgress.userId = userId;
+        setInProgress(reqId) {
+            this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
         },
         inProgressServiceRequest() {
@@ -434,8 +435,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        setComplete(userId) {
-            this.serviceComplete.userId = userId;
+        setComplete(reqId) {
+            this.serviceComplete.reqId = reqId;
             this.completeServiceRequest();
         },
         completeServiceRequest() {
