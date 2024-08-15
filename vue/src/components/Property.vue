@@ -1,7 +1,7 @@
 <template >
     <div v-if="done" class="all">
         <div class="address">
-            <header > {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
+            <header id="house-number" > {{ justTest.address }} {{ justTest.city }} {{ justTest.state }} </header>
         <div class="sliderAndApplication">
             <div class="whole-slider">
                 <div class="slider-container">
@@ -153,6 +153,7 @@ export default {
                         alert('Your Application Has Been Submitted!')
                     }
                 })
+                .catch(e => alert("You must log in"))
                 .catch(e => console.log("Error creating application"))
         },
     },
@@ -221,170 +222,206 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-.sliderAndApplication {
-    display: flex;
-    justify-content: space-between;
-    grid-template-columns: repeat(2, .5fr);
-}
-
-.whole-slider {
-    max-width: 650px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-#carouselExampleIndicators {
-    border-radius: 18px;
-}
-
-.slider-container {
-    width: 100%;
-    height: 100%;
-    max-width: 650px;
-    max-height: 600px;
-    border-radius: 18px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 20%;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.4s;
-}
-
-
-
-.priceDetails {
-    margin-top: 10px;
-    display: flex;
-    justify-content: left;
-    max-width: 18%;
-    border: 1px solid #a1a1a185;
-    border-radius: 16px;
-    padding-bottom: 0px;
-    margin-bottom: 10px;
-    
-}
-
-.SimilarHomes {
-    font-family: 'Roboto';
-    font-size: 3em;
-}
-
-.propertyDetails {
-    border-bottom: 1px solid black;
-    display: flex;
-    flex-direction: row;
-    gap: 25px;
-    text-align: center;
-    
-    
-
-   
-}
-
-.PropertyCardContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: 1000px;
-}
-
-.AllCardContainer {
-    display: flex;
-}
-
 .all {
-    display: grid;
-    justify-content: center;
-    border: 2px solid #eaeaea;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: hsl(0, 0%, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #eaeaea;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: hsl(0, 0%, 100%);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .address {
-    margin-left: 30px;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #555;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  margin-bottom: 20px;
+
 }
 
-.applicationBox {
-    display: grid;
-    border: 1px solid #a1a1a185;
-    width: 100%;
-    align-content: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.4s;
-    background-color: #f9f9f9;
-    font-family: 'Roboto', sans-serif;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 10%;
-    padding-bottom: 10%;
-    max-height: 200px;
+#house-number {
+    padding-bottom: 20px;
 }
 
-.submitButton {
-    display: flex;
-    justify-content: center;
+.sliderAndApplication {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
 
-.applicationBox:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.whole-slider {
+  flex: 1;
+  min-width: 300px;
+  max-width: 650px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-input {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    border: 1px solid rgba(70, 70, 70, 0.233);
-    text-align: left;
+.slider-container {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
 }
 
 .submitApplication {
-    display: flex;
-    justify-content: center;
-    max-width: 300px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.applicationBox {
+  border: 1px solid #a1a1a185;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.applicationBox h1 {
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.applicationBox p {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.applicationBox input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(70, 70, 70, 0.233);
+}
+
+.submitButton {
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton button {
+  padding: 10px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.priceDetails {
+  margin: 20px 0;
+  border: 1px solid #a1a1a185;
+  border-radius: 16px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.priceDetails img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.propertyDetails {
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 20px 0;
+}
+
+.Amenities {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Amenities p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+}
+
+.Amenity {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.Amenities h1 {
+  font-size: 0.9em;
+  margin: 5px 0;
+}
+
+.Amenities span {
+  font-weight: bold;
+}
+
+.SimilarHomes {
+  font-family: 'Roboto';
+  font-size: 2em;
+  margin: 20px 0;
+}
+
+.PropertyCardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .sliderAndApplication {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .whole-slider, .submitApplication {
     width: 100%;
-    height: 100%;
-    font-size: small;
+  }
+
+  .Amenities p {
+    width: 100px;
+  }
+
+  .SimilarHomes {
+    font-size: 1.5em;
+  }
 }
 
-.Amenities{
-    display: flex;
-    padding-top: 10px;
-    justify-content: space-evenly;
-    width: 1000px;
+@media (max-width: 480px) {
+  .all {
+    padding: 10px;
+  }
 
+  .address {
+    font-size: 1.2em;
+  }
 
-    h1{
-        
-        font-size: 20px;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        
+  .Amenities {
+    gap: 10px;
+  }
 
-    }
+  .Amenities p {
+    width: 80px;
+  }
 
-    p{
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        
-    }
+  .Amenity {
+    width: 40px;
+  }
 
-
+  .Amenities h1 {
+    font-size: 0.8em;
+  }
 }
-.Amenity{
-        display: flex;
-        width: 70px;
-        
-    }
-
 </style>

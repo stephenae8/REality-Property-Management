@@ -14,6 +14,8 @@ import OwnerView from '../views/OwnerView.vue';
 
 import TenantView from '../views/TenantView.vue';
 import ManagerView from '../views/ManagerView.vue';
+import AboutUsView from '../views/AboutUsView.vue';
+
 
 
 
@@ -33,7 +35,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
@@ -83,7 +85,7 @@ const routes = [
     name: "owner",
     component: OwnerView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
@@ -91,16 +93,24 @@ const routes = [
     name: "manager",
     component: ManagerView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },{
     path: '/tenant',
     name: 'Tenant',
     component: TenantView,
     meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutUsView,
+    meta: {
       requiresAuth: false
     }
-  }
+  },
 
 ];
 

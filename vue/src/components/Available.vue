@@ -1,152 +1,155 @@
 <template>
   <div id="main">
-    <span style="display: flex; height: 60px; align-items: center">
+    <span class="header-span">
       <div id="opt">
-        <div id="searchbox">
-          <span id="checkBox" style="display: inline-flex">
-            <input
-              v-model="searchTerm"
-              type="text"
-              no-focus
-              placeholder="Columbus, OH"
-              style="
-                width: 250px;
-                border-radius: 13px;
-                border: none;
-                margin-left: 10%;
-                margin-top: 0.1%;
-              "
-            />
-
-            <img src="../img/socialMediaHandle/search.png" alt="" />
-          </span>
+        <div class="filter-item">
+          <input
+            v-model="searchTerm"
+            type="text"
+            no-focus
+            placeholder="Search"
+            class="filter-input"
+          />
         </div>
-        <div id="secondbox">
-          <span style="display: inline-flex">
-            <select
-              v-model="this.priceup"
-              style="
-                margin-left: 12px;
-                margin-top: %;
-                width: 100%;
-                padding: 2px;
-              "
-              id="avabig"
-              name=""
-            >
-              <option value="">Price</option>
-              <option>$950</option>
-              <option>$1100</option>
-              <option>$1300</option>
-              <option>$1300+</option>
-            </select>
-          </span>
+        <div class="filter-item">
+          <div class="dropdown">
+            <button class="dropbtn">Rent</button>
+            <div class="dropdown-content">
+              <label
+                ><input type="radio" v-model="priceup" value="" /> All</label
+              >
+              <label
+                ><input type="radio" v-model="priceup" value="Under $1000" />
+                Under $1000</label
+              >
+              <label
+                ><input type="radio" v-model="priceup" value="$1000-$1499" />
+                $1000-$1499</label
+              >
+              <label
+                ><input type="radio" v-model="priceup" value="$1500-$1999" />
+                $1500-$1999</label
+              >
+              <label
+                ><input type="radio" v-model="priceup" value="$2000+" />
+                $2000+</label
+              >
+            </div>
+          </div>
         </div>
-        <div id="secondbox">
-          <span style="display: inline-flex">
-            <select
-              v-model="this.available"
-              style="margin-left: 3px; margin-top: 1.5%; width: 90%"
-              id="avabig"
-            >
-              <option value="">Choose One</option>
-
-              <option>Available</option>
-              <option>Not Available</option>
-            </select>
-          </span>
+        <div class="filter-item">
+          <div class="dropdown">
+            <button class="dropbtn">Availability</button>
+            <div class="dropdown-content">
+              <label
+                ><input type="radio" v-model="available" value="" /> All</label
+              >
+              <label
+                ><input type="radio" v-model="available" value="Available" />
+                Available</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  v-model="available"
+                  value="Not Available"
+                />
+                Not Available</label
+              >
+            </div>
+          </div>
         </div>
-        <div id="secondbox">
-          <span style="display: inline-flex">
-            <select
-              v-model="this.bedroom"
-              style="margin-left: 3px; margin-top: 1.5%; width: 90%"
-              id="avabig"
-              name=""
-            >
-              <option>Bedroom</option>
-              <option>2 Bedroom</option>
-              <option>3 Bedroom</option>
-              <option>4 Bedroom</option>
-            </select>
-          </span>
+        <div class="filter-item">
+          <div class="dropdown">
+            <button class="dropbtn">Bedrooms</button>
+            <div class="dropdown-content">
+              <label
+                ><input type="radio" v-model="bedroom" value="Bedrooms" />
+                All</label
+              >
+              <label
+                ><input type="radio" v-model="bedroom" value="2 Bedroom" /> 2
+                Bedroom</label
+              >
+              <label
+                ><input type="radio" v-model="bedroom" value="3 Bedroom" /> 3
+                Bedroom</label
+              >
+              <label
+                ><input type="radio" v-model="bedroom" value="4 Bedroom" /> 4
+                Bedroom</label
+              >
+            </div>
+          </div>
         </div>
-        <div id="secondbox">
-          <span style="display: inline-flex">
-            <select
-              v-model="this.amenities"
-              style="margin-left: 1px; margin-top: 1.5%; width: 95%"
-              id="avabig"
-              name=""
-            >
-              <option value="">Amenities</option>
-              <option>Pets Allowed</option>
-              <option>In-Unit Washer & Dryer</option>
-              <option>Bathroom</option>
-            </select>
-          </span>
+        <div class="filter-item">
+          <div class="dropdown">
+            <button class="dropbtn">Bathrooms</button>
+            <div class="dropdown-content">
+              <label
+                ><input type="radio" v-model="bathroom" value="Bathrooms" />
+                All</label
+              >
+              <label
+                ><input type="radio" v-model="bathroom" value="2 Bathroom" /> 2
+                Bathroom</label
+              >
+              <label
+                ><input type="radio" v-model="bathroom" value="3+ Bathroom" />
+                3+ Bathroom</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="filter-item">
+          <div class="dropdown">
+            <button class="dropbtn">Amenities</button>
+            <div class="dropdown-content">
+              <label
+                ><input
+                  type="checkbox"
+                  value="Pets Allowed"
+                  v-model="amenities"
+                />
+                Pets Allowed</label
+              >
+              <label
+                ><input type="checkbox" value="Laundry" v-model="amenities" />
+                Laundry</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  value="Dishwasher"
+                  v-model="amenities"
+                />
+                Dishwasher</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  value="Air Conditioning"
+                  v-model="amenities"
+                />
+                Air Conditioning</label
+              >
+            </div>
+          </div>
         </div>
       </div>
     </span>
     <div id="main">
-    <div id="filters">
-      <input v-model="searchTerm" type="text" placeholder="Search by city or state" id="searchbox">
-      
-      <select v-model="priceRange">
-        <option value="">Price Range</option>
-        <option value="0-1000">$0 - $1000</option>
-        <option value="1001-1500">$1001 - $1500</option>
-        <option value="1501-2000">$1501 - $2000</option>
-        <option value="2001+">$2001+</option>
-      </select>
-      
-      <select v-model="available">
-        <option>Available</option>
-        <option>Unavailable</option>
-        <option>All</option>
-      </select>
-      
-      <select v-model="bedroomCount">
-        <option value="">Bedrooms</option>
-        <option value="1">1 Bedroom</option>
-        <option value="2">2 Bedrooms</option>
-        <option value="3">3 Bedrooms</option>
-        <option value="4+">4+ Bedrooms</option>
-      </select>
-      
-      <select v-model="bathroomCount">
-        <option value="">Bathrooms</option>
-        <option value="1">1 Bathroom</option>
-        <option value="2">2 Bathrooms</option>
-        <option value="3">3 Bathrooms</option>
-        <option value="4+">4+ Bathrooms</option>
-      </select>
-      
-      <div id="amenities">
-        <label>
-          <input type="checkbox" v-model="amenities" value="petsAllowed"> Pets Allowed
-        </label>
-        <label>
-          <input type="checkbox" v-model="amenities" value="inUnitWasherDryer"> In-Unit Washer & Dryer
-        </label>
-        <label>
-          <input type="checkbox" v-model="amenities" value="inUnitWasherDryer"> In-Unit Washer & Dryer
-        </label>
-        <label>
-          <input type="checkbox" v-model="amenities" value="inUnitWasherDryer"> In-Unit Washer & Dryer
-        </label>
+      <div id="propertyList">
+        <div v-for="property in filteredProperties" :key="property.propId">
+          <router-link
+            :to="{ name: 'property', params: { id: property.propId } }"
+          >
+            <DifferentCard :one-individual="property"></DifferentCard>
+          </router-link>
+        </div>
       </div>
     </div>
-
-    <div id="propertyList">
-      <div v-for="property in filteredProperties" :key="property.propId">
-        <router-link :to="{ name: 'property', params: { id: property.propId } }">
-          <DifferentCard :one-individual="property"></DifferentCard>
-        </router-link>
-      </div>
-    </div>
-  </div>
-    <div id="secondMain" style="border: 1px solid black">
+    <div id="secondMain">
       <div
         style="margin-bottom: 2%"
         v-for="one in filterBaseOn"
@@ -165,7 +168,6 @@
 
 <script>
 import PropertyService from "../services/PropertyService.js";
-import PropertyCard from "./PropertyCard.vue";
 import DifferentCard from "./DifferentCard.vue";
 
 export default {
@@ -173,12 +175,13 @@ export default {
     return {
       allProperty: [],
       searchTerm: this.$route.query.search ? this.$route.query.search : "",
-      priceRange: '',
+      priceRange: "",
       available: "Available",
       willNumber: "",
       priceup: "",
-      bedroom: "",
-      amenities: "",
+      bedroom: "Bedrooms",
+      amenities: [],
+      bathroom: "Bathrooms",
     };
   },
 
@@ -198,136 +201,86 @@ export default {
   },
 
   computed: {
-    
     filterBaseOn() {
       let newList = this.allProperty;
 
-      if (this.searchTerm == "") {
-        newList = this.allProperty;
+      // Filter by search term (city or state)
+      if (this.searchTerm) {
+        const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+        newList = newList.filter(
+          (e) =>
+            e.city.toLowerCase().includes(lowerCaseSearchTerm) ||
+            e.state.toLowerCase().includes(lowerCaseSearchTerm)
+        );
       }
 
-      if (this.searchTerm != "") {
-        newList = newList.filter((e) => {
-          if (e.city.toLowerCase().match(this.searchTerm.toLowerCase())) {
-            return e;
-          } else if (
-            e.state.toLowerCase().match(this.searchTerm.toLowerCase())
-          ) {
-            return e;
-          }
-        });
-      }
-      if (this.available == "Available") {
-        newList = newList.filter((e) => {
-          if (e.vacancy == true) {
-            return e;
-          }
-        });
+      // Filter by availability
+      if (this.available === "Available") {
+        newList = newList.filter((e) => e.vacancy === true);
+      } else if (this.available === "Not Available") {
+        newList = newList.filter((e) => e.vacancy === false);
       }
 
-      if (this.available == "Not Available") {
-        newList = newList.filter((e) => {
-          if (e.vacancy == false) {
-            return e;
-          }
-        });
+      // Filter by bedroom count
+      const bedroomOptions = {
+        "1 Bedroom": 1,
+        "2 Bedroom": 2,
+        "3 Bedroom": 3,
+        "4 Bedroom": 4,
+      };
+      if (this.willNumber in bedroomOptions) {
+        newList = newList.filter(
+          (e) => e.bedrooms === bedroomOptions[this.willNumber]
+        );
       }
 
-      if (this.willNumber == "1 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 1) {
-            return e;
-          }
-        });
+      // Filter by price range
+      const priceRanges = {
+        "Under $1000": (e) => e.rent < 1000,
+        "$1000-$1499": (e) => e.rent >= 1000 && e.rent < 1500,
+        "$1500-$1999": (e) => e.rent >= 1500 && e.rent < 2000,
+        "$2000+": (e) => e.rent > 1999,
+      };
+      if (this.priceup in priceRanges) {
+        newList = newList.filter(priceRanges[this.priceup]);
       }
 
-      if (this.willNumber == "2 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 2) {
-            return e;
-          }
-        });
-      }
-
-      if (this.willNumber == "3 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 3) {
-            return e;
-          }
-        });
-      }
-
-      if (this.willNumber == "4 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 4) {
-            return e;
-          }
-        });
-      }
-
-      if (this.priceup == "$950") {
-        newList = newList.filter((e) => {
-          if (e.rent > 900 && e.rent < 1000) {
-            return e;
-          }
-        });
-      }
-
-      if (this.priceup == "$1100") {
-        newList = newList.filter((e) => {
-          if (e.rent > 1000 && e.rent < 1200) {
-            return e;
-          }
-        });
-      }
-
-      if (this.priceup == "$1300") {
-        newList = newList.filter((e) => {
-          if (e.rent > 1200 && e.rent < 1300) {
-            return e;
-          }
-        });
-      }
-
-      if (this.priceup == "$1300+") {
-        newList = newList.filter((e) => {
-          if (e.rent > 1300) {
-            return e;
-          }
-        });
+      // Filter by bedroom count (again, if needed)
+      if (this.bedroom in bedroomOptions) {
+        newList = newList.filter(
+          (e) => e.bedrooms === bedroomOptions[this.bedroom]
+        );
       }
 
 
-
-      if (this.bedroom == "2 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 2) {
-            return e;
-          }
-        });
+      // Filter by bathroom count
+      const bathroomOptions = {
+        "2 Bathroom": (e) => e.bathrooms >= 2 && e.bathrooms < 3,
+        "3 Bathroom": (e) => e.bathrooms >= 3,
+      };
+      if (this.bathroom in bathroomOptions) {
+        newList = newList.filter(bathroomOptions[this.bathroom]);
       }
 
-      if (this.bedroom == "3 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 3) {
-            return e;
-          }
-        });
-      }
+      // Filter by amenities
 
-      if (this.bedroom == "4 Bedroom") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 4) {
-            return e;
-          }
-        });
-      }
-
-      if (this.amenities == "Pets Allowed") {
-        newList = newList.filter((e) => {
-          if (e.bedrooms == 4) {
-            return e;
-          }
+      if (this.amenities.length > 0) {
+        newList = newList.filter((property) => {
+          console.log(property);
+          return this.amenities.every((amenity) => {
+            switch (amenity) {
+              case "Pets Allowed":
+                return property.petsAllowed;
+              case "Laundry":
+                return property.laundry;
+              case "Dishwasher":
+                return property.dishwasher;
+              case "Air Conditioning":
+                return property.centralAir;
+              default:
+                return true;
+            }
+          });
         });
       }
 
@@ -338,41 +291,114 @@ export default {
 </script>
 
 <style scoped>
-#main {
-  height: auto;
-}
-
-#filters {
+#opt {
+  border-bottom: 1px solid rgb(231, 231, 231);
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-#searchbox {
-  width: 200px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-select {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-#amenities {
-  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 10px;
 }
 
-#propertyList {
+.filter-item {
+  flex: 1 1 auto;
+  min-width: 120px;
+  max-width: 200px;
+  margin: 0 5px;
+}
+
+.filter-input,
+.dropbtn {
+  background-color: #f1f1f1;
+  color: black;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.filter-input {
+  width: 100%;
+  max-width: 200px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropbtn {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content label {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content label:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #e9e9e9;
+}
+
+.dropdown-content input[type="radio"],
+.dropdown-content input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+#main,
+#secondMain {
+  height: auto;
+}
+
+#propertyList,
+#secondMain {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 20px;
+}
+
+#propertyList {
   padding: 20px;
+}
+
+#secondMain {
+  margin: 1% 0 0 3%;
+  width: 95%;
+  padding: 10px;
+}
+
+#propertyList > div,
+#secondMain > div {
+  flex: 1 1 300px;
+  max-width: 100%;
 }
 
 a {
@@ -380,89 +406,82 @@ a {
   color: inherit;
 }
 
-
-
-
-
-#avabig {
-  /* height: 17px; */
-  border: none;
-}
-
-#secondMain {
-  margin-top: 1%;
-  width: 95%;
-  margin-left: 3%;
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  height: auto;
-  justify-content: space-evenly;
-}
-
-#opt {
-  border: 1px solid black;
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-#main {
-  height: auto;
-}
-
-#secondbox {
-  border: 1px solid black;
-  height: 30px;
-  margin-left: 1%;
-  margin-top: 0.5%;
-  width: 100px;
-  border-radius: 7px;
-}
-
 #searchbox {
+  width: 15%;
+  height: 30px;
   border: 1px solid black;
   border-radius: 10px;
-  width: 15%;
   margin-top: 0.5%;
-  height: 30px;
-}
-
-img {
-  margin-top: 2%;
-  height: 3%;
-  width: 17px;
-  margin-left: 5%;
-}
-
-#select {
-  height: 8px;
-  border: none;
-  margin-top: 12.5%;
-}
-
-#ava {
-  margin-bottom: 3px;
-  width: 80px;
-  /* margin-top: 3%; */
-
-  /* border: 1px solid black; */
-  text-align: center;
-  /* width: 65px; */
-}
-
-#label {
-  margin-bottom: 3px;
-  width: 50px;
-  margin-top: 3%;
-
-  /* border: 1px solid black; */
-  text-align: center;
-  width: 65px;
+  padding: 5px;
 }
 
 input:focus {
   outline: none;
 }
+
+.header-span {
+  display: flex;
+  height: 60px;
+  align-items: center;
+}
+
+.search-input {
+  width: 250px;
+  border-radius: 13px;
+  border: none;
+  margin-left: 10%;
+  margin-top: 0.1%;
+}
+
+.select-box {
+  margin-left: 12px;
+  margin-top: 1.5%;
+  width: 100%;
+  padding: 2px;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: rgb(114, 160, 103);
+}
+
+@media (max-width: 1200px) {
+  #main-container {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  #opt {
+    flex-wrap: wrap;
+  }
+
+  .filter-item {
+    flex-basis: calc(33.333% - 10px);
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-item {
+    flex-basis: calc(50% - 10px);
+  }
+  
+  #opt {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-item {
+    flex-basis: 100%;
+  }
+  
+  .filter-input {
+    width: 100%;
+  }
+  #secondMain {
+    padding-top: 40px;
+  }
+}
+
 </style>

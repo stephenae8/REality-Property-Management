@@ -35,8 +35,8 @@
                             <p><strong>Move In Date:</strong> {{ applications.moveInDate }}</p>
                             <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
                             <div class="allButtons">
-                                <button @click.prevent="setApprovedUser(applications.userId)">Approve</button>
-                                <button @click.prevent="setDeniedUser(applications.userId)">Deny</button>
+                                <button @click.prevent="setApprovedUser(applications.appId)">Approve</button>
+                                <button @click.prevent="setDeniedUser(applications.appId)">Deny</button>
                             </div>
                         </li>
                     </div>
@@ -63,20 +63,12 @@ export default {
             },
             services: [],
             applications: [],
-            newLease: {
-                userId: this.$store.state.user.id,
-                propId: this.$store.state.propId,
-                startDate: '2020-11-10',
-                endDate: '2020-11-10',
-                rent: this.$store.state.property.rent,
-                termLength: '12',
-            },
             approved: {
-                "userId": '',
+                "appId": '',
                 "appStatus": "approved"
             },
             denied: {
-                "userId": '',
+                "appId": '',
                 "appStatus": "denied"
             },
             inProgress: {
@@ -122,8 +114,8 @@ export default {
                 this.applications = e.data;
             });
         },
-        setApprovedUser(userId) {
-            this.approved.userId = userId;
+        setApprovedUser(appId) {
+            this.approved.appId = appId;
             this.approveApplication();
         },
         approveApplication() {
@@ -136,18 +128,8 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-        createLease(newLease) {
-            LeaseService.createLease(newLease)
-            .then(response => {
-                alert('New lease created', newLease);
-            })
-            .catch(error => {
-                console.error('Error Updating Application:', error);
-                alert('Failed to approve application.');
-            });
-        },
-        setDeniedUser(userId) {
-            this.denied.userId = userId;
+        setDeniedUser(appId) {
+            this.denied.appId = appId;
             this.deniedApplication();
         },
         deniedApplication() {

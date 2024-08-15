@@ -12,7 +12,7 @@
                 <div id="justcolor"></div>
                 <div id="status" >
                     <span id="smallspan">
-                    <h2 id="h2span" >Your current Balance is <b>$0.00</b></h2>
+                    <h2 id="h2span" >Your current Balance is <b>${{ displayRent }}</b></h2>
                     <span style=" margin-left: 4%;">
                     <img src="../img/socialMediaHandle/icons8-payment-24.png" alt="">
                     <p style="display: inline; font-size: 10px;">1 schedule payment</p>
@@ -20,7 +20,7 @@
                 </span>
                 </div>
                 <div style="height: 50%; margin-top: 1%; margin-left: 30%;">
-                    <button v-show="checkCase" class="button small">Make a Payment</button><br>
+                    <button @click="balanceGood" v-show="checkCase" class="button small">Make a Payment</button><br>
                     <button v-show="checkCase" class="button grey small">Set Up AutoPay</button>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <span style="display: flex; justify-content: space-evenly;">
                     <button v-show="otherCase" @click="checkMessage" style="width: 25%;" class="button small">Open All</button>
     
-                    <button v-show="otherCase" @click="openSendMessage" style="width: 25%;" class="button grey small">Send a Message</button>
+                    <button v-show="secondCase" @click="openSendMessage" style="width: 25%;" class="button grey small">Send a Message</button>
     
                 </span>
                 </span>
@@ -206,6 +206,7 @@
                 completed: false,
                 firstOne: false,
                 otherCase: true,
+                secondCase: true,
                 checkCase:true,
                 username: this.$store.state.user,
                 leases: {},
@@ -231,6 +232,13 @@
         },
     
         methods: {
+
+            balanceGood(){
+                this.leases.rent = 0
+
+            },
+
+
     
             formGood(){
             let objectToPost = {
@@ -256,6 +264,7 @@
                 this.go= false;
                 this.addRe = false;
                 this.otherCase = true;
+                this.secondCase = true;
             },
          
 
@@ -299,17 +308,20 @@
                 this.go=true;
                 this.addRe = true;
                 this.otherCase =false;
+                this.secondCase = false
             },
     
             checkMessage(){
                 this.go =true;
                 this.getMessage = true;
                 this.checkCase =false;
+                this.secondCase = false;
             },
             closeMessage(){
                 this.go =false;
                 this.getMessage = false;
                 this.checkCase = true;
+                this.secondCase = true
             },
             
             openSendMessage(){
@@ -320,7 +332,7 @@
     
             closeMes(){
                 this.createMessage = false;
-                this.checkCase =  false;
+                this.checkCase =  true;
                 this.go = false;
             },
             goodMes(){
@@ -340,6 +352,7 @@
                 this.createMessage =false;
                 this.checkCase =false;
                 this.go =false;
+                this.checkCase = true;
     
             }
     
@@ -401,6 +414,11 @@
                 })
                 return newMessage;
             },
+
+            displayRent(){
+                let balance = 0;
+                return balance = this.leases.rent
+            }
             
     
         }

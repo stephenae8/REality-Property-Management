@@ -3,7 +3,7 @@
     <div class="navigator-content">
       <div class="logo">
         <router-link :to="{ name: 'home' }">
-          <img src="../img/icons8-real-estate-100.png" alt="Logo" />
+          <img src="/RE-logo.png" alt="Logo" />
         </router-link>
       </div>
       <div class="nav-items">
@@ -22,9 +22,10 @@
         <nav>
           <router-link class="nav-text" :to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Log Out</router-link>
           <router-link class="nav-text" :to="{ name: 'Available' }">Available Properties</router-link>
-          <router-link class="nav-text" to="#">About Us</router-link>
+          <router-link class="nav-text" :to="{ name: 'about' }">About Us</router-link>
           <router-link class="portal" :to="{name: 'Tenant'}" v-show="role == 'ROLE_TENANT'">Tenant Portal</router-link>
           <router-link class="portal" :to="{name: 'manager'}" v-show="role == 'ROLE_MANAGER'">Manager Portal</router-link>
+          <router-link class="portal" :to="{name: 'owner'}" v-show="role == 'ROLE_OWNER'">Owner Portal</router-link>
         </nav>
       </div>
     </div>

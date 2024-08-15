@@ -42,7 +42,7 @@ public class JdbcMessagesDao implements MessagesDao{
                 "JOIN \n" +
                 "    users u_from ON m.user_from = u_from.user_id\n" +
                 "WHERE \n" +
-                "    m.user_to = ? OR m.user_from = ?; ";
+                "    m.user_to = ?  OR m.user_from = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
             while (results.next()) {
@@ -98,9 +98,7 @@ public class JdbcMessagesDao implements MessagesDao{
         messages.setMsgId(rowSet.getInt("msg_id"));
         messages.setContactType(rowSet.getString("contact_type"));
         messages.setUserTo(rowSet.getInt("user_to"));
-        messages.setUserToFullName(rowSet.getString("to_full_name"));
         messages.setUserFrom(rowSet.getInt("user_from"));
-        messages.setUserFromFullName(rowSet.getString("from_full_name"));
         messages.setSubject(rowSet.getString("subject"));
         messages.setMsgBody(rowSet.getString("msg_body"));
         messages.setMsgDate(rowSet.getTimestamp("msg_date").toLocalDateTime());

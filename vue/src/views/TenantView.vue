@@ -1,4 +1,5 @@
 <template>
+  <div v-if="this.$store.state.user.authorities[0].name == 'ROLE_TENANT' " >
     <div v-if="this.wait">
     <div v-if="this.applicationCheck.appStatus == 'withdrawn' || this.applicationCheck.appStatus == 'pending'">
       <div style="height: 800px; width: 100%">
@@ -57,7 +58,10 @@
     <div v-else>
         <h1>Loading...</h1>
     </div>
-
+  </div>
+  <div v-else>
+    <button @click="goback" class="button gray">Go Back To Home Page</button>
+  </div>
 </template>
 
 <script>

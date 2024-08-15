@@ -1,4 +1,6 @@
 <template>
+  <div v-if="this.$store.state.user.authorities[0].name == 'ROLE_OWNER'">
+   
   <div id="mainBox" :class="{background: addProp }">
     <span id="welcome">
         <h6 style="margin-left: 5%;font-size: 20px; height: 30px;">Dashboard</h6>
@@ -188,6 +190,14 @@
 
 
   </div>
+
+</div>
+<div v-else>
+  <div style="height: 700px; width: 100%; display: flex;justify-content: center;align-items: center;">
+   
+   <button style="width: 25%;" @click="goback" class="button gray">Go Back To Home Page</button>
+  </div>
+</div>
   
 </template>
 
@@ -263,7 +273,6 @@ export default {
         amenities: secondAm,
         images: thirdImg
       }
-      console.log(storethem);
 
       PropertyService.createProperty(storethem).then((e)=>{
       this.application.address = '';
@@ -282,6 +291,10 @@ export default {
 
       })
 
+    },
+
+    goback(){
+      this.$router.push('/')
     },
 
 
@@ -333,6 +346,7 @@ export default {
   },
 
   created() {
+    if(this.$store.state.user.authorities[0].name == 'ROLE_OWNER'){
     this.getNetProfit();
     this.getTotal();
     this.getVacancy();
@@ -340,6 +354,9 @@ export default {
     this.getProperty();
     this.getService();
     this.getApplicationForNew();
+    }else{
+      console.log("Worked")
+    }
   },
 
   computed: {
@@ -498,6 +515,7 @@ export default {
   background: gray;
   color: white;
 }
+
 
 
 </style>

@@ -1,5 +1,9 @@
 <template>
-    <Owner></Owner>
+
+<Owner></Owner>
+
+
+  
   </template>
   
   <script>
@@ -8,11 +12,27 @@
   export default {
     components: {
       Owner,
+    },
+    methods: {
+      goback(){
+        this.$router.push('/')
+      }
     }
   
   }
   </script>
   
-  <style>
+  <style scoped>
+  .button {
+  border-radius: 10px;
+  display: block;
+  width: 10%;
+  padding: 10px;
+  background: #f11303f5;
+  color: white;
+}
+.button:hover{
+  background: gray;
+}
   
   </style>
