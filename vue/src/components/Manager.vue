@@ -1,59 +1,297 @@
 <template>
     <div class="all">
-        <span class="welcome-message">
-            <h1>Welcome {{ this.$store.state.user.fName }}</h1>
+        <span class="greeting">
+            <h1>Hello {{ this.$store.state.user.fName }}  {{ this.$store.state.user.lName }}</h1>
         </span>
         <div class="container">
-            <div class="top-section">
-                <div class="service-box">
-                    <div class="scroll">
-                        <h1>Service Requests</h1>
-                        <li v-for="(services, index) in services" :key="index" class="property-card">
-                            <p><strong>Property Id:</strong> {{ services.propId }} </p>
-                            <p><strong>Service Issue:</strong> {{ services.reqDetails }} </p>
-                            <p><strong>Service Status:</strong> {{ services.reqStatus }}</p>
-                            <div class="allButtons">
-                                <button @click.prevent="setInProgress(services.reqId)">In Progress</button>
-                                <button @click.prevent="setComplete(services.reqId)">Complete</button>
+            <div class="bottom-section">
+                <div class="properties-box">
+                    <h1>Application Status</h1>
+                    
+                    <!-- Pending Applications Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pendingCollapse">
+                                    Pending Applications
+                                </button>
+                            </h2>
+                            <div id="pendingCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <div class="scroll">
+                                            <li v-for="(application, index) in filterApplications('pending')" :key="index" class="property-card">
+                                                <p><strong>Applicant:</strong> {{ application.applicantName }}</p>
+                                                <p><strong>Requested Move In Date:</strong> {{ application.moveInDate }}</p>
+                                                <p><strong>Property Address:</strong> {{ application.propertyAddress }}</p>
+                                                <p><strong>Property Owner:</strong> {{ application.ownerName }}</p>
+                                                <div class="allButtons">
+                                                    <div class="submit-button">
+                                                        <button type="submit" class="approve-button" @click.prevent="setApprovedUser(application.appId)">Approve</button>
+                                                    </div>
+                                                    <div class="submit-button">
+                                                        <button type="submit" class="deny-button" @click.prevent="setDeniedUser(application.appId)">Deny</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
                             </div>
-                        </li>
+                        </div>
+                    </div>
+
+                    <!-- Approved/Denied Applications Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item" v-for="status in ['approved', 'denied']" :key="status">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#${status}Collapse`">
+                                    {{ status.charAt(0).toUpperCase() + status.slice(1) }} Applications
+                                </button>
+                            </h2>
+                            <div :id="`${status}Collapse`" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <div class="scroll">
+                                            <li v-for="(application, index) in filterApplications(status)" :key="index" class="property-card">
+                                                <p><strong>Applicant:</strong> {{ application.applicantName }}</p>
+                                                <p><strong>Requested Move In Date:</strong> {{ application.moveInDate }}</p>
+                                                <p><strong>Property Address:</strong> {{ application.propertyAddress }}</p>
+                                                <p><strong>Property Owner:</strong> {{ application.ownerName }}</p>
+                                                <p><strong>Application Status:</strong> {{ status.charAt(0).toUpperCase() + status.slice(1) }}</p>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <form @submit.prevent="submitMessage" class="message-form">
-                    <h1>Send A Message To A User</h1>
-                    <input v-model="message.userTo" type="number" placeholder="Enter User ID" required />
-                    <textarea v-model="message.msgBody" class="messageBox" placeholder="Enter Your Message" required></textarea>
-                    <button @click.prevent="submitMessage">Submit</button>
-                </form>
+                <div class="leases-box">
+        <h1>Lease Management</h1>
+        
+        <!-- Active Leases Accordion -->
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#activeLeaseCollapse">
+                        Active Leases
+                    </button>
+                </h2>
+                <div id="activeLeaseCollapse" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul class="scroll">
+                            <li v-for="(lease, index) in filterLeases('active')" :key="index" class="property-card">
+                                <p><strong>Tenant:</strong> {{ lease.tenantName }}</p>
+                                <p><strong>Property Address:</strong> {{ lease.propertyAddress }}</p>
+                                <p><strong>Lease Start Date:</strong> {{ lease.startDate }}</p>
+                                <p><strong>Lease End Date:</strong> {{ lease.endDate }}</p>
+                                <div class="submit-button">
+                                    <button type="submit" class="terminate-button" @click.prevent="terminateLease(lease.leaseId)">Terminate Lease</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="bottom-section">
-                <div class="applications-box">
-                    <h1>All Applications</h1>
-                    <div class="scroll">
-                        <li v-for="(applications, index) in applications" :key="index" class="property-card">
-                            <p><strong>UserId:</strong> {{ applications.userId }}</p>
-                            <p><strong>Move In Date:</strong> {{ applications.moveInDate }}</p>
-                            <p><strong>Application Status:</strong> {{ applications.appStatus }}</p>
-                            <div class="allButtons">
-                                <button @click.prevent="setApprovedUser(applications.appId)">Approve</button>
-                                <button @click.prevent="setDeniedUser(applications.appId)">Deny</button>
-                            </div>
-                        </li>
+        </div>
+
+        <!-- Expired Leases Accordion -->
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#expiredLeaseCollapse">
+                        Expired Leases
+                    </button>
+                </h2>
+                <div id="expiredLeaseCollapse" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul class="scroll">
+                            <li v-for="(lease, index) in filterLeases('expired')" :key="index" class="property-card">
+                                <p><strong>Tenant:</strong> {{ lease.tenantName }}</p>
+                                <p><strong>Property Address:</strong> {{ lease.propertyAddress }}</p>
+                                <p><strong>Lease Start Date:</strong> {{ lease.startDate }}</p>
+                                <p><strong>Lease End Date:</strong> {{ lease.endDate }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminated Leases Accordion -->
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#terminatedLeaseCollapse">
+                        Terminated Leases
+                    </button>
+                </h2>
+                <div id="terminatedLeaseCollapse" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul class="scroll">
+                            <li v-for="(lease, index) in filterLeases('terminated')" :key="index" class="property-card">
+                                <p><strong>Tenant:</strong> {{ lease.tenantName }}</p>
+                                <p><strong>Property Address:</strong> {{ lease.propertyAddress }}</p>
+                                <p><strong>Lease Start Date:</strong> {{ lease.startDate }}</p>
+                                <p><strong>Lease End Date:</strong> {{ lease.endDate }}</p>
+                                <p><strong>Termination Date:</strong> {{ lease.terminationDate }}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+            </div>
+            <div class="top-section">
+                <div class="revenue-box">
+                    <!-- Pending Requests Accordion -->
+                    <div class="accordion">
+                        <h2>Service Requests</h2>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pendingRequestsCollapse">
+                                    New Requests
+                                </button>
+                            </h2>
+                            <div id="pendingRequestsCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="scroll">
+                                        <li v-for="(service, index) in filterServices('pending')" :key="index" class="property-card">
+                                            <p><strong>Property Id:</strong> {{ service.propId }}</p>
+                                            <p><strong>Service Issue:</strong> {{ service.reqDetails }}</p>
+                                            <p><strong>Service Status:</strong> Pending</p>
+                                            <div class="submit-button">
+                                                <button type="submit" class="in-progress-button" @click.prevent="setInProgress(service.reqId)">Set In Progress</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In Progress Requests Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#inProgressRequestsCollapse">
+                                    In-Progress Requests
+                                </button>
+                            </h2>
+                            <div id="inProgressRequestsCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="scroll">
+                                        <li v-for="(service, index) in filterServices('in_progress')" :key="index" class="property-card">
+                                            <p><strong>Property Id:</strong> {{ service.propId }}</p>
+                                            <p><strong>Service Issue:</strong> {{ service.reqDetails }}</p>
+                                            <p><strong>Service Status:</strong> In Progress</p>
+                                            <div class="submit-button">
+                                                <button type="submit" class="complete-button" @click.prevent="setComplete(service.reqId)">Set Complete</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Requests Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#completedRequestsCollapse">
+                                    Completed Requests
+                                </button>
+                            </h2>
+                            <div id="completedRequestsCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="scroll">
+                                        <li v-for="(service, index) in filterServices('complete')" :key="index" class="property-card">
+                                            <p><strong>Property Id:</strong> {{ service.propId }}</p>
+                                            <p><strong>Service Issue:</strong> {{ service.reqDetails }}</p>
+                                            <p><strong>Service Status:</strong> Completed</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-box">
+                    <h1>Tenant Communication</h1>
+
+                    <!-- Send Message Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sendMessageCollapse">
+                                    Contact Tenant
+                                </button>
+                            </h2>
+                            <div id="sendMessageCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <form @submit.prevent="submitMessage" class="message-form">
+                                        <input v-model="searchTenant" type="text" placeholder="Search tenant by name" @input="searchTenant" />
+                                        <select v-model="selectedTenant" required>
+                                            <option value="" disabled selected>Select a tenant</option>
+                                            <option v-for="tenant in filteredTenants" :key="tenant.userId" :value="tenant.userId">
+                                                {{ tenant.fName }}
+                                            </option>
+                                        </select>
+                                        <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
+                                            placeholder="Enter your message" required></textarea>
+                                        <div class="submit-button">
+                                            <button type="submit" class="submit-message-button">Send Message</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View Messages Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#viewMessagesCollapse">
+                                    Message History
+                                </button>
+                            </h2>
+                            <div id="viewMessagesCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="scroll">
+                                        <li v-for="(msg, index) in messages" :key="index" class="message-card">
+                                            <p><strong>To:</strong> {{ msg.userToFullName }}</p>
+                                            <p><strong>Date:</strong> {{ msg.msgDate }}</p>
+                                            <p><strong>Message:</strong> {{ msg.msgBody }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </template>
+
+
+
 <script>
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
 import ServiceRequestService from '../services/ServiceRequestService.js';
 import LeaseService from '../services/LeaseService.js';
+import UserService from '../services/UserService.js'
 export default {
     data() {
         return {
             message: {
+
                 contactType: 'email',
                 userTo: "",
                 userFrom: this.$store.state.user.id,
@@ -63,6 +301,12 @@ export default {
             },
             services: [],
             applications: [],
+            leases: [],
+            searchTenant: '',
+            selectedTenant: '',
+            filteredTenants: [],
+            messages: [],
+            tenants: [],
             approved: {
                 "appId": '',
                 "appStatus": "approved"
@@ -73,37 +317,46 @@ export default {
             },
             inProgress: {
                 "reqId": '',
-                "reqStatus": "in_progress",
-                "lastUpdated": "2024-03-16T10:30:00",
+                "reqStatus": "in_progress"
             },
             serviceComplete: {
                 "reqId": '',
-                "reqStatus": "complete",
-                "lastUpdated": "2024-03-16T10:30:00",
+                "reqStatus": "complete"
             },
+
         };
     },
+
     created() {
         this.loadApplications();
         this.loadServiceRequests();
+        this.loadLeases();
+        this.loadMessages();
+        this.loadTenants();
     },
+
     methods: {
         submitMessage() {
+            this.message.userTo = this.selectedTenant;
             MessageService.createMessage(this.message)
                 .then(response => {
                     alert('Message sent successfully!');
                     this.resetMessageForm();
+                    this.loadMessages();
                 })
                 .catch(error => {
                     console.error('Error sending message:', error);
-                    alert('Message Sent');
+                    alert('Failed to send message.');
                     this.resetMessageForm();
                 });
         },
+
         resetMessageForm() {
+            this.searchTenant = '';
             this.message.userTo = '';
             this.message.msgBody = '';
         },
+
         loadServiceRequests() {
             ServiceRequestService.getServiceRequest().then((e) => {
                 this.services = e.data;
@@ -114,6 +367,29 @@ export default {
                 this.applications = e.data;
             });
         },
+        loadLeases() {
+            LeaseService.getAllLeases().then((e) => {
+                this.leases = e.data;
+            })
+        },
+        loadMessages() {
+        MessageService.getMessageByUser(this.$store.state.user.id)
+            .then(response => {
+                this.messages = response.data;
+            })
+            .catch(error => {
+                console.error('Error loading messages:', error);
+            });
+        },
+        loadTenants() {
+            UserService.getUsers().then(e => {
+                this.tenants = e.data;
+            })
+            .catch((error) => {
+                alert('Error loading tenants ' + error)
+            })
+        },
+
         setApprovedUser(appId) {
             this.approved.appId = appId;
             this.approveApplication();
@@ -122,6 +398,8 @@ export default {
             ApplicationService.updateApplication(this.approved)
                 .then(response => {
                     alert('Application Approved Successfully');
+                    this.$router.push({ path:'/manager'})
+
                 })
                 .catch(error => {
                     console.error('Error Updating Application:', error);
@@ -142,6 +420,7 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
+
         setInProgress(reqId) {
             this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
@@ -153,7 +432,7 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Error changing status');
+                    alert('Failed to approve application.');
                 });
         },
         setComplete(reqId) {
@@ -167,32 +446,54 @@ export default {
                 })
                 .catch(error => {
                     console.error('Error Updating Service Request:', error);
-                    alert('Error changing status');
+                    alert('Failed to approve application.');
                 });
         },
+
+        filterApplications(status) {
+            if (status === 'all') return this.applications;
+            return this.applications.filter(app => app.appStatus.toLowerCase() === status);
+        },
+        filterServices(status) {
+            if (status === 'all') return this.services;
+            return this.services.filter(serv => serv.reqStatus.toLowerCase() === status);
+        },
+        filterLeases(status) {
+            if (status === 'all') return this.leases;
+            return this.leases.filter(lease => lease.leaseStatus.toLowerCase() === status);
+        },
+        searchTenant() {
+            this.filteredTenants = this.tenants.filter(name => name.fName.toLowerCase().includes(this.searchTenant.toLowerCase()));
+        },
     }
+
+    
 }
 </script>
 
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .all {
     width: 100%;
-    border: 1px solid black;
+    height: 100%;
     max-width: 2300px;
+    display: flex;
+    flex-direction: column;
     margin: auto;
-    background-color: rgba(158, 158, 158, 0.137);
-    padding: 2%;
+    background-color: rgba(158,158,158,.137);
 }
-.welcome-message {
+
+.greeting {
+    display: block;
     height: 6%;
     width: 80%;
-    margin: 2% auto;
-    border-bottom: 1px solid black;
-    font-size: 60px;
-    text-align: center;
+    margin-top: 2%;
+    margin-left: 10%;
+    font-size: larger;
 }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -200,84 +501,135 @@ export default {
     font-family: 'Roboto', sans-serif;
     padding: 0 20%;
 }
-.top-section, .bottom-section {
-    width: 2000px;
+
+.bottom-section,
+.top-section {
     display: flex;
-    flex-direction: row;
-    align-content: center;
+    flex-direction: column;
     justify-content: center;
-    gap: 10%;
-    margin-bottom: 5%;
+    /* gap: 250px; */
+    /* margin-top: 10%; */
+    /* margin-bottom: 10%; */
 }
-.service-box, .applications-box, .message-form {
+
+/* .bottom-section {
+    max-width: 1560px;
+    margin-bottom: 25%;
+    width: 100%;
+} */
+
+.revenue-box,
+.properties-box,
+.leases-box,
+.message-box,
+.message-form {
     place-content: center;
-    width: 30%;
+    min-width: 650px;
     border-radius: 16px;
-    border: 1px solid rgba(126, 126, 126, 0.473);
+    border: 3px solid rgba(126, 126, 126, 0.473);
     background-color: rgba(204, 204, 204, 0.295);
     padding: 20px;
 }
-.scroll {
-    height: 500px;
-    overflow-x: hidden;
-    overflow-y: auto;
+
+.message-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 400px;
+    padding: 35px;
 }
+
+.message-form h1 {
+    font-size: 30px;
+    margin-bottom: auto;
+}
+
+.message-form input,
+.message-form textarea {
+    font-size: large;
+    margin-bottom: 15px;
+}
+
+.messageBox {
+    border-radius: 8px;
+    margin: auto;
+    height: 50%;
+    width: 80%;
+}
+
+.submit-button {
+    margin-top: 10px;
+}
+
 .property-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    background-color: #F9F9F9;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
+
+.property-card p {
+    margin: 5px 0;
+}
+
 .allButtons {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
 }
-button {
+
+.in-progress-button {
     border-radius: 10px;
-    padding: 10px;
-    background: #73B680;
+    background-color: #fcc82cea;
+    border-color: white;
     color: white;
-    width: 100%;
-    max-width: 150px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
 }
-button:hover {
-    background: #5A8F60;
+
+.complete-button,
+.submit-message-button,
+.approve-button {
+    border-radius: 10px;
+    background-color: #058805ea;
+    border-color: white;
+    color: white;
 }
-input, textarea {
+
+.deny-button {
+    border-radius: 10px;
+    background-color: #901818c6;
+    border-color: white;
+    color: white;
+}
+
+.scroll {
+    margin: 4px, 4px;
+    padding: 4px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.accordion-button {
     width: 100%;
+    text-align: left;
     padding: 10px;
-    font-size: large;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
-.messageBox{
-    min-height: 300px;
-}
-@media (max-width: 1024px) {
-    .container {
-        padding: 0 5%;
-    }
-    .top-section, .bottom-section {
-        width: 100%;
-        flex-direction: column;
-        gap: 20px;
-    }
-    .service-box, .applications-box, .message-form {
-        width: 100%;
-        max-width: 600px;
-        padding: 15px;
-    }
-    .scroll {
-        height: 200px;
-    }
-    .welcome-message {
-        font-size: 5vw;
-    }
+
+.accordion-body {
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 0 0 5px 5px;
 }
 </style>

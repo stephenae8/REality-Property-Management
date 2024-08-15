@@ -13,6 +13,9 @@ public class Applications {
     private LocalDate moveInDate;
     private String appStatus;
     private LocalDateTime appDate;
+    private String applicantName;
+    private String propertyAddress;
+    private String ownerName;
 
 
     public Applications () { }
@@ -72,5 +75,29 @@ public class Applications {
 
     public void setAppDate(LocalDateTime appDate) {
         this.appDate = appDate;
+    }
+
+    public String getApplicantName() {
+        return applicantName;
+    }
+
+    public void setApplicantName(String applicantName) {
+        this.applicantName = applicantName;
+    }
+
+    public String getPropertyAddress() {
+        return propertyAddress;
+    }
+
+    public void setPropertyAddress(String propertyAddress) {
+        this.propertyAddress = propertyAddress;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

@@ -12,6 +12,7 @@
   
   <script>
   import Manager from '../components/Manager.vue';
+  // import Manager from '../components/ManagerBackupp.vue';
 
   export default {
     components: {

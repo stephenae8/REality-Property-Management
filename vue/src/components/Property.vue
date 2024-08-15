@@ -117,7 +117,7 @@ export default {
             application: {
                 moveInDate: '',
                 userId: this.$store.state.user.id,
-                propId: 9020,
+                propId: this.$route.params.id,
                 appDate: "2020-11-10T10:00:00",
                 appStatus: 'pending'
             },
