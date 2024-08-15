@@ -219,18 +219,61 @@
                         </div>
                     </div>
                 </div>
+                <div class="message-box">
+                    <h1>Tenant Communication</h1>
 
-                <form @submit.prevent="submitMessage" class="message-form">
-                    <h1>Send a Message to a Tenant</h1>
-
-                    <input v-model="message.userTo" type="number" placeholder="Enter Tenant's User ID" required />
-
-                    <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
-                        placeholder="Enter your message" required></textarea>
-                    <div class="submit-button">
-                        <button type="submit" class="submit-message-button" @click.prevent="submitMessage">Submit</button>
+                    <!-- Send Message Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sendMessageCollapse">
+                                    Contact Tenant
+                                </button>
+                            </h2>
+                            <div id="sendMessageCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <form @submit.prevent="submitMessage" class="message-form">
+                                        <input v-model="searchTenant" type="text" placeholder="Search tenant by name" @input="searchTenants" />
+                                        <select v-model="selectedTenant" required>
+                                            <option value="" disabled selected>Select a tenant</option>
+                                            <option v-for="tenant in filteredTenants" :key="tenant.id" :value="tenant.id">
+                                                {{ tenant.name }}
+                                            </option>
+                                        </select>
+                                        <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
+                                            placeholder="Enter your message" required></textarea>
+                                        <div class="submit-button">
+                                            <button type="submit" class="submit-message-button">Send Message</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
+
+                    <!-- View Messages Accordion -->
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#viewMessagesCollapse">
+                                    Message History
+                                </button>
+                            </h2>
+                            <div id="viewMessagesCollapse" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="scroll">
+                                        <li v-for="(msg, index) in messages" :key="index" class="message-card">
+                                            <p><strong>To:</strong> {{ msg.userTo }}</p>
+                                            <p><strong>From:</strong> {{ msg.userFrom }}</p>
+                                            <p><strong>Date:</strong> {{ msg.msgDate }}</p>
+                                            <p><strong>Message:</strong> {{ msg.msgBody }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -260,6 +303,10 @@ export default {
             services: [],
             applications: [],
             leases: [],
+            searchTenant: '',
+            selectedTenant: '',
+            filteredTenants: [],
+            messages: [],
             approved: {
                 "appId": '',
                 "appStatus": "approved"
@@ -284,6 +331,7 @@ export default {
         this.loadApplications();
         this.loadServiceRequests();
         this.loadLeases();
+        this.loadMessages();
     },
 
     methods: {
@@ -304,12 +352,12 @@ export default {
             this.message.userTo = '';
             this.message.msgBody = '';
         },
+
         loadServiceRequests() {
             ServiceRequestService.getServiceRequest().then((e) => {
                 this.services = e.data;
             });
         },
-
         loadApplications() {
             ApplicationService.getApplication().then((e) => {
                 this.applications = e.data;
@@ -320,6 +368,17 @@ export default {
                 this.leases = e.data;
             })
         },
+        loadMessages() {
+        MessageService.getMessageByUser(9002)
+            .then(response => {
+                this.messages = response.data;
+                console.log(this.message)
+            })
+            .catch(error => {
+                console.error('Error loading messages:', error);
+            });
+    },
+
         setApprovedUser(appId) {
             this.approved.appId = appId;
             this.approveApplication();
@@ -348,6 +407,7 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
+
         setInProgress(userId) {
             this.inProgress.userId = userId;
             this.inProgressServiceRequest();
@@ -376,6 +436,7 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
+
         filterApplications(status) {
             if (status === 'all') return this.applications;
             return this.applications.filter(app => app.appStatus.toLowerCase() === status);
@@ -444,6 +505,7 @@ export default {
 .revenue-box,
 .properties-box,
 .leases-box,
+.message-box,
 .message-form {
     place-content: center;
     min-width: 650px;

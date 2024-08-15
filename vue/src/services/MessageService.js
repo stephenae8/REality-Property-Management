@@ -7,4 +7,5 @@ export default{
     createMessage(data) {
         return axios.post('/messages/create', data);
     },
+    
 }
