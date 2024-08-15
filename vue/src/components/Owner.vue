@@ -31,9 +31,9 @@
           <p style="border: 1px solid black;width: 80%;text-align: center;">You Currently Have an Total of: <b>{{ displayAllProp }}</b> Properties </p>
         </span>
           <hr style="width: 50%; margin-left: 25%;">
-<span style="display: flex; justify-content: center;">
+<!-- <span style="display: flex; justify-content: center;">
   <button style="width: 35%;" class="button">Click To View More </button>
-</span>
+</span> -->
 
         </span>
         </span>
@@ -54,9 +54,9 @@
           <p style="width: 80%;border: 1px solid black;margin-top: 1%;border-radius: 3px; text-align: center;">Your Total Expenses of Based On All Propeties: <b>${{ displayRevenue }}</b></p>
         </span>
         <hr style="width: 50%;margin-left: 25%;">
-        <span style="display: flex; justify-content: center;">
+        <!-- <span style="display: flex; justify-content: center;">
           <button style="width: 35%;" class=" grey">Show more Details </button>
-        </span>
+        </span> -->
         </span>
       </div>
 
@@ -182,7 +182,7 @@
       </div>
     </span>
     <span style="display: flex; height: 100px;justify-content: center;align-items: center;">
-      <button style="width: 10%;height: 65%;" class="button">Click To View All</button>
+      <button style="width: 10%;height: 65%;" class="button" @click="pushToAvailable">Click To View All</button>
 
     </span>
 
@@ -339,6 +339,12 @@ export default {
 
       })
     },
+    pushToAvailable(){
+      
+      this.$router.push({name: 'Available', query: {secondsearch: this.ownerProp[0].ownerId}})
+    }
+
+  
 
 
 

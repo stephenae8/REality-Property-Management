@@ -175,6 +175,7 @@ export default {
     return {
       allProperty: [],
       searchTerm: this.$route.query.search ? this.$route.query.search : "",
+      secondSearch: this.$route.query.secondsearch ? this.$route.query.secondsearch : this.searchTerm,
       priceRange: "",
       available: "Available",
       willNumber: "",
@@ -203,6 +204,18 @@ export default {
   computed: {
     filterBaseOn() {
       let newList = this.allProperty;
+      
+      if(this.secondSearch){
+        console.log(newList);
+        newList = newList.filter((e)=>{
+          if(e.ownerId == this.$route.query.secondsearch){
+            return e
+          }
+          console.log(this.secondSearch)
+
+        })
+      }
+
 
       // Filter by search term (city or state)
       if (this.searchTerm) {
@@ -210,7 +223,7 @@ export default {
         newList = newList.filter(
           (e) =>
             e.city.toLowerCase().includes(lowerCaseSearchTerm) ||
-            e.state.toLowerCase().includes(lowerCaseSearchTerm)
+            e.state.toLowerCase().includes(lowerCaseSearchTerm) 
         );
       }
 

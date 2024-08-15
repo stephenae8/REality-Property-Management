@@ -233,7 +233,7 @@
                             <div id="sendMessageCollapse" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <form @submit.prevent="submitMessage" class="message-form">
-                                        <input v-model="searchTenant" type="text" placeholder="Search tenant by name" @input="searchTenant" />
+                                        <input v-model="searchedTenant" type="text" placeholder="Search tenant by name" @input="searchedTenant" />
                                         <select v-model="selectedTenant" required>
                                             <option value="" disabled selected>Select a tenant</option>
                                             <option v-for="tenant in filteredTenants" :key="tenant.userId" :value="tenant.userId">
@@ -290,6 +290,7 @@ import UserService from '../services/UserService.js'
 export default {
     data() {
         return {
+            wait: false,
             message: {
 
                 contactType: 'email',
@@ -302,7 +303,7 @@ export default {
             services: [],
             applications: [],
             leases: [],
-            searchTenant: '',
+            searchedTenant: '',
             selectedTenant: '',
             filteredTenants: [],
             messages: [],
@@ -328,11 +329,15 @@ export default {
     },
 
     created() {
+        if(this.wait){
         this.loadApplications();
         this.loadServiceRequests();
         this.loadLeases();
         this.loadMessages();
-        this.loadTenants();
+        this.loadTenants();}
+        else{
+            console.log("asdas")
+        }
     },
 
     methods: {
@@ -361,6 +366,7 @@ export default {
             ServiceRequestService.getServiceRequest().then((e) => {
                 this.services = e.data;
             });
+            this.wait = true
         },
         loadApplications() {
             ApplicationService.getApplication().then((e) => {
@@ -463,7 +469,7 @@ export default {
             return this.leases.filter(lease => lease.leaseStatus.toLowerCase() === status);
         },
         searchTenant() {
-            this.filteredTenants = this.tenants.filter(name => name.fName.toLowerCase().includes(this.searchTenant.toLowerCase()));
+            this.filteredTenants = this.tenants.filter(name => name.fName.toLowerCase().includes(this.searchedTenant.toLowerCase()));
         },
     }
 
