@@ -233,11 +233,11 @@
                             <div id="sendMessageCollapse" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <form @submit.prevent="submitMessage" class="message-form">
-                                        <input v-model="searchTenant" type="text" placeholder="Search tenant by name" @input="searchTenants" />
+                                        <input v-model="searchTenant" type="text" placeholder="Search tenant by name" @input="searchTenant" />
                                         <select v-model="selectedTenant" required>
                                             <option value="" disabled selected>Select a tenant</option>
-                                            <option v-for="tenant in filteredTenants" :key="tenant.id" :value="tenant.id">
-                                                {{ tenant.name }}
+                                            <option v-for="tenant in filteredTenants" :key="tenant.userId" :value="tenant.userId">
+                                                {{ tenant.fName }}
                                             </option>
                                         </select>
                                         <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
@@ -263,8 +263,7 @@
                                 <div class="accordion-body">
                                     <ul class="scroll">
                                         <li v-for="(msg, index) in messages" :key="index" class="message-card">
-                                            <p><strong>To:</strong> {{ msg.userTo }}</p>
-                                            <p><strong>From:</strong> {{ msg.userFrom }}</p>
+                                            <p><strong>To:</strong> {{ msg.userToFullName }}</p>
                                             <p><strong>Date:</strong> {{ msg.msgDate }}</p>
                                             <p><strong>Message:</strong> {{ msg.msgBody }}</p>
                                         </li>
@@ -283,11 +282,11 @@
 
 
 <script>
-// ... (script section remains the same)
 import MessageService from '../services/MessageService.js';
 import ApplicationService from '../services/ApplicationService.js';
 import ServiceRequestService from '../services/ServiceRequestService.js';
 import LeaseService from '../services/LeaseService.js';
+import UserService from '../services/UserService.js'
 export default {
     data() {
         return {
@@ -307,6 +306,7 @@ export default {
             selectedTenant: '',
             filteredTenants: [],
             messages: [],
+            tenants: [],
             approved: {
                 "appId": '',
                 "appStatus": "approved"
@@ -332,14 +332,18 @@ export default {
         this.loadServiceRequests();
         this.loadLeases();
         this.loadMessages();
+        this.loadTenants();
+        console.log(this.tenants)
     },
 
     methods: {
         submitMessage() {
+            this.message.userTo = this.selectedTenant;
             MessageService.createMessage(this.message)
                 .then(response => {
                     alert('Message sent successfully!');
                     this.resetMessageForm();
+                    this.loadMessages();
                 })
                 .catch(error => {
                     console.error('Error sending message:', error);
@@ -349,6 +353,7 @@ export default {
         },
 
         resetMessageForm() {
+            this.searchTenant = '';
             this.message.userTo = '';
             this.message.msgBody = '';
         },
@@ -369,15 +374,22 @@ export default {
             })
         },
         loadMessages() {
-        MessageService.getMessageByUser(9002)
+        MessageService.getMessageByUser(this.$store.state.user.id)
             .then(response => {
                 this.messages = response.data;
-                console.log(this.message)
             })
             .catch(error => {
                 console.error('Error loading messages:', error);
             });
-    },
+        },
+        loadTenants() {
+            UserService.getUsers().then(e => {
+                this.tenants = e.data;
+            })
+            .catch((error) => {
+                alert('Error loading tenants ' + error)
+            })
+        },
 
         setApprovedUser(appId) {
             this.approved.appId = appId;
@@ -448,7 +460,10 @@ export default {
         filterLeases(status) {
             if (status === 'all') return this.leases;
             return this.leases.filter(lease => lease.leaseStatus.toLowerCase() === status);
-        }
+        },
+        searchTenant() {
+            this.filteredTenants = this.tenants.filter(name => name.fName.toLowerCase().includes(this.searchTenant.toLowerCase()));
+        },
     }
 
     
