@@ -295,7 +295,7 @@ export default {
             message: {
 
                 contactType: 'email',
-                userTo: "1",
+                userTo: "",
                 userFrom: this.$store.state.user.id,
                 subject: 'Message from Manager',
                 msgBody: "",
