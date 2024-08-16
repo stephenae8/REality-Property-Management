@@ -23,10 +23,10 @@
           <router-link class="nav-text" :to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Log Out</router-link>
           <router-link class="nav-text" :to="{ name: 'Available' }">Available Properties</router-link>
           <!-- <router-link class="nav-text" :to="{ name: 'about' }">About Us</router-link> -->
-          <router-link class="portal" :to="{ name: 'logout' }" v-if="this.$store.state.token == ''">Log In</router-link>
-          <router-link class="portal" :to="{name: 'Tenant'}" v-show="role == 'ROLE_TENANT'">Tenant Portal</router-link>
-          <router-link class="portal" :to="{name: 'manager'}" v-show="role == 'ROLE_MANAGER'">Manager Portal</router-link>
-          <router-link class="portal" :to="{name: 'owner'}" v-show="role == 'ROLE_OWNER'">Owner Portal</router-link>
+          <router-link class="portal" :to="{ name: 'login' }" v-show="this.$store.state.token == ''">Log In</router-link>
+          <router-link class="portal" :to="{ name: 'Tenant'}" v-show="role == 'ROLE_TENANT'">Tenant Portal</router-link>
+          <router-link class="portal" :to="{ name: 'manager'}" v-show="role == 'ROLE_MANAGER'">Manager Portal</router-link>
+          <router-link class="portal" :to="{ name: 'owner'}" v-show="role == 'ROLE_OWNER'">Owner Portal</router-link>
         </nav>
       </div>
     </div>

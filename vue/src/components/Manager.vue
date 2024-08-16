@@ -81,13 +81,13 @@
                 <div id="activeLeaseCollapse" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <ul class="scroll">
-                            <li v-for="(lease, index) in filterLeases('active')" :key="index" class="property-card">
-                                <p><strong>Tenant:</strong> {{ lease.tenantName }}</p>
-                                <p><strong>Property Address:</strong> {{ lease.propertyAddress }}</p>
+                            <li v-for="(lease, index) in filterLeases('active')" :key="index" class="property-card">    
+                                <p><strong>Tenant:</strong> {{ lease.userId }}</p>
+                                <p><strong>Property Address:</strong> {{ lease.propId }}</p>
                                 <p><strong>Lease Start Date:</strong> {{ lease.startDate }}</p>
                                 <p><strong>Lease End Date:</strong> {{ lease.endDate }}</p>
                                 <div class="submit-button">
-                                    <button type="submit" class="terminate-button" @click.prevent="terminateLease(lease.leaseId)">Terminate Lease</button>
+                                    <button type="submit" class="terminate-button" @click.prevent="setTerminatedLease(lease.leaseId)">Terminate Lease</button>
                                 </div>
                             </li>
                         </ul>
@@ -233,13 +233,13 @@
                             <div id="sendMessageCollapse" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <form @submit.prevent="submitMessage" class="message-form">
-                                        <input v-model="searchedTenant" type="text" placeholder="Search tenant by name" @input="searchedTenant" />
-                                        <select v-model="selectedTenant" required>
+                                        <input v-model="message.userTo" type="number" placeholder="Search tenant by ID" />
+                                        <!-- <select v-model="selectedTenant" required>
                                             <option value="" disabled selected>Select a tenant</option>
                                             <option v-for="tenant in filteredTenants" :key="tenant.userId" :value="tenant.userId">
                                                 {{ tenant.fName }}
                                             </option>
-                                        </select>
+                                        </select> -->
                                         <textarea v-model="message.msgBody" class="messageBox" name="text" cols="25" rows="5"
                                             placeholder="Enter your message" required></textarea>
                                         <div class="submit-button">
@@ -263,7 +263,7 @@
                                 <div class="accordion-body">
                                     <ul class="scroll">
                                         <li v-for="(msg, index) in messages" :key="index" class="message-card">
-                                            <p><strong>To:</strong> {{ msg.userToFullName }}</p>
+                                            <p><strong>To:</strong> {{ msg.userTo }}</p>
                                             <p><strong>Date:</strong> {{ msg.msgDate }}</p>
                                             <p><strong>Message:</strong> {{ msg.msgBody }}</p>
                                         </li>
@@ -291,10 +291,11 @@ export default {
     data() {
         return {
             wait: false,
+            fakeUserTo: '',
             message: {
 
                 contactType: 'email',
-                userTo: "",
+                userTo: "1",
                 userFrom: this.$store.state.user.id,
                 subject: 'Message from Manager',
                 msgBody: "",
@@ -324,7 +325,10 @@ export default {
                 "reqId": '',
                 "reqStatus": "complete"
             },
-
+            terminated: {
+                "leaseId" : '',
+                "leaseStatus" : "terminated"
+            }
         };
     },
 
@@ -336,21 +340,14 @@ export default {
         this.loadMessages();
         this.loadTenants();
         console.log(this.tenants)
-
-    // }
-    //     else{
-    //         console.log("asdas")
-    //     }
     },
 
     methods: {
         submitMessage() {
-            this.message.userTo = this.selectedTenant;
             MessageService.createMessage(this.message)
                 .then(response => {
                     alert('Message sent successfully!');
                     this.resetMessageForm();
-                    this.loadMessages();
                 })
                 .catch(error => {
                     console.error('Error sending message:', error);
@@ -360,8 +357,8 @@ export default {
         },
 
         resetMessageForm() {
-            this.searchedTenant = '';
             this.message.userTo = '';
+            this.fakeUserTo = '';
             this.message.msgBody = '';
         },
 
@@ -429,7 +426,22 @@ export default {
                     alert('Failed to approve application.');
                 });
         },
-
+        setTerminatedLease(leaseId) {
+            this.terminated.leaseId = leaseId;
+            this.terminateLease();
+            this.$router.go(0)
+        },
+        terminateLease() {
+            console.log(this.terminated)
+            LeaseService.updateLease(this.terminated)
+            .then(response => {
+                alert('Lease terminated!')
+        })
+        .catch(error => {
+            alert('Error terminating lease', error)
+        })
+        },
+        
         setInProgress(reqId) {
             this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
@@ -484,163 +496,194 @@ export default {
 
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #e8f5e9;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
 
 .all {
-    width: 100%;
-    height: 100%;
-    max-width: 2300px;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    background-color: rgba(158,158,158,.137);
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(158,158,158,.137);
 }
 
 .greeting {
-    display: block;
-    height: 6%;
-    width: 80%;
-    margin-top: 2%;
-    margin-left: 10%;
-    font-size: larger;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Roboto', sans-serif;
-    padding: 0 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
 }
 
 .bottom-section,
 .top-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* gap: 250px; */
-    /* margin-top: 10%; */
-    /* margin-bottom: 10%; */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
 }
-
-/* .bottom-section {
-    max-width: 1560px;
-    margin-bottom: 25%;
-    width: 100%;
-} */
 
 .revenue-box,
 .properties-box,
 .leases-box,
-.message-box,
-.message-form {
-    place-content: center;
-    min-width: 650px;
-    border-radius: 16px;
-    border: 3px solid rgba(126, 126, 126, 0.473);
-    background-color: rgba(204, 204, 204, 0.295);
-    padding: 20px;
+.message-box {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
 }
 
 .message-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 400px;
-    padding: 35px;
-}
-
-.message-form h1 {
-    font-size: 30px;
-    margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .message-form input,
+.message-form select,
 .message-form textarea {
-    font-size: large;
-    margin-bottom: 15px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #a5d6a7;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 .messageBox {
-    border-radius: 8px;
-    margin: auto;
-    height: 50%;
-    width: 80%;
+  min-height: 100px;
+  resize: vertical;
 }
 
 .submit-button {
-    margin-top: 10px;
+  text-align: right;
 }
 
-.property-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.property-card p {
-    margin: 5px 0;
-}
-
-.allButtons {
-    display: flex;
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 .in-progress-button {
-    border-radius: 10px;
-    background-color: #fcc82cea;
-    border-color: white;
-    color: white;
+  background-color: #f39c12;
+  color: white;
 }
 
 .complete-button,
 .submit-message-button,
 .approve-button {
-    border-radius: 10px;
-    background-color: #058805ea;
-    border-color: white;
-    color: white;
+  background-color: #058805ea;
+  color: white;
 }
 
 .deny-button {
-    border-radius: 10px;
-    background-color: #901818c6;
-    border-color: white;
-    color: white;
+  background-color: #901818c6;
+  color: white;
 }
 
 .scroll {
-    margin: 4px, 4px;
-    padding: 4px;
-    height: 500px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: justify;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.property-card,
+.message-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .accordion-item {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .accordion-button {
-    width: 100%;
-    text-align: left;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #4CAF50;
+  color: #1a1a1a;
 }
 
 .accordion-body {
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 0 0 5px 5px;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #a5d6a7;
+  border-radius: 0 0 5px 5px;
 }
+
+.allButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+  .bottom-section,
+  .top-section {
+    flex-direction: row;
+  }
+
+  .revenue-box,
+  .properties-box,
+  .leases-box,
+  .message-box {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .all {
+    padding: 10px;
+  }
+
+  .greeting {
+    font-size: 1.2rem;
+  }
+
+  .accordion-button {
+    font-size: 0.9rem;
+  }
+
+  .property-card,
+  .message-card {
+    padding: 10px;
+  }
+}
+
+
 </style>

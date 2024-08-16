@@ -25,5 +25,8 @@ export default{
 
     leaseByRevenue(id){
         return axios.get(`/lease/revenue/${id}`)
+    },
+    updateLease(data){
+        return axios.put('/lease/update', data)
     }
 }
