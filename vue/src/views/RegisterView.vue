@@ -109,7 +109,7 @@
   
   .register-form {
     background-color: white;
-    padding: 2rem;
+    padding: 1.3rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
