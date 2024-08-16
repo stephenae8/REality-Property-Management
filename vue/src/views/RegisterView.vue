@@ -11,7 +11,7 @@
         <FormField label="Last Name" id="lname" v-model="user.lName" required />
         
         <div class="form-field">
-          <label for="role">Role:</label>
+          <label for="role">Account Type:</label>
           <select id="role" v-model="user.role" required>
             <option value="tenant">Tenant</option>
             <option value="owner">Owner</option>
