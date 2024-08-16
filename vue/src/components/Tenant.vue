@@ -34,10 +34,10 @@
                     <label style="color: white;display: block;margin-top: 1%;">Service Type: </label>
                     <select v-model="this.request.service" style=" color: black;width: 20%; margin-top: .3%;" name="">
                         <option >dishwasher</option>
-                         <option >central Air</option>
+                         <option >central_air</option>
                         <option >laundry</option>
                         <option >bathroom</option>
-                        <option >Other...</option>    
+                        <option >other</option>    
                     </select>
                     <label style="color: white;display: block;margin-top: 2%;">Description:</label>
                     <textarea v-model="this.request.description" name="" cols="50" rows="4" style="resize: none;" placeholder="Please Add Your Request!" ></textarea>
@@ -233,7 +233,28 @@
     
         methods: {
 
+            payRent() {
+              // Start the countdown effect
+             this.countDown(this.amount, 0, 1000);
+            },
+            countDown(start, end, duration) {
+                let range = start - end;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                let current = start;
+
+                let interval = setInterval(() => {
+                    current -= 1;
+                    this.currentAmount = current;
+
+                    if (current <= end) {
+                    clearInterval(interval);
+                    }
+                }, stepTime);
+            },
+
+
             balanceGood(){
+                alert('Payment Successful')
                 this.leases.rent = 0
 
             },

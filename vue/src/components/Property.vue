@@ -64,7 +64,7 @@
                 <p> <img src="https://img.icons8.com/?size=100&id=LuG23LXvoO4t&format=png&color=000000" alt="" class="Amenity" > <h1> Bedrooms: <p style="font-weight: bold;">{{ justTest.bedrooms }}</p> </h1> </p>
                 <p> <img src="https://img.icons8.com/?size=100&id=11485&format=png&color=000000" alt="" class="Amenity"> <h1>Bathrooms<p style="font-weight: bold;">{{ justTest.bathrooms }}</p>  </h1> </p>
                 <p> <img src="https://img.icons8.com/?size=100&id=ZDR4vMNuubY1&format=png&color=000000" alt="" class="Amenity" ><h1> Dishwasher: <p style="font-weight: bold;">{{ justTest.dishwasher }}</p> </h1> </p>    
-                <p> <img src="https://img.icons8.com/?size=100&id=10013&format=png&color=000000" alt="" class="Amenity" ><h1> Air Conditioning: <p style="font-weight: bold;">{{ justTest.centralAir }}</p> </h1> </p>    
+                <p> <img src="https://img.icons8.com/?size=100&id=10013&format=png&color=000000" alt="" class="Amenity" ><h1> Air Conditioning: <p style="font-weight: bold;">{{ justTest.centralAir ? "Yes" : "No" }}</p> </h1> </p>    
                 <p> <img src="https://img.icons8.com/?size=100&id=BpWRdkvhcXWs&format=png&color=000000" alt="" class="Amenity" ><h1> Laundry: <p style="font-weight: bold;">{{ justTest.laundry }}</p> </h1> </p>  
                 <p> <img src="https://img.icons8.com/?size=100&id=106514&format=png&color=000000" alt="" class="Amenity"><h1> Pets: <p style="font-weight: bold;">{{ justTest.petsAllowed }}</p> </h1></p>    
   
@@ -153,7 +153,7 @@ export default {
                         alert('Your Application Has Been Submitted!')
                     }
                 })
-                .catch(e => alert("You must log in"))
+                .catch(e => alert("You must be logged in to apply!"))
                 .catch(e => console.log("Error creating application"))
         },
     },

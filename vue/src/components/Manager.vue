@@ -329,15 +329,18 @@ export default {
     },
 
     created() {
-        if(this.wait){
+        // if(this.wait){
         this.loadApplications();
         this.loadServiceRequests();
         this.loadLeases();
         this.loadMessages();
-        this.loadTenants();}
-        else{
-            console.log("asdas")
-        }
+        this.loadTenants();
+        console.log(this.tenants)
+
+    // }
+    //     else{
+    //         console.log("asdas")
+    //     }
     },
 
     methods: {
@@ -357,7 +360,7 @@ export default {
         },
 
         resetMessageForm() {
-            this.searchTenant = '';
+            this.searchedTenant = '';
             this.message.userTo = '';
             this.message.msgBody = '';
         },
@@ -399,13 +402,12 @@ export default {
         setApprovedUser(appId) {
             this.approved.appId = appId;
             this.approveApplication();
+            this.$router.go(0)
         },
         approveApplication() {
             ApplicationService.updateApplication(this.approved)
                 .then(response => {
                     alert('Application Approved Successfully');
-                    this.$router.push({ path:'/manager'})
-
                 })
                 .catch(error => {
                     console.error('Error Updating Application:', error);
@@ -415,6 +417,7 @@ export default {
         setDeniedUser(appId) {
             this.denied.appId = appId;
             this.deniedApplication();
+            this.$router.go(0)
         },
         deniedApplication() {
             ApplicationService.updateApplication(this.denied)
@@ -430,6 +433,7 @@ export default {
         setInProgress(reqId) {
             this.inProgress.reqId = reqId;
             this.inProgressServiceRequest();
+            this.$router.go(0)
         },
         inProgressServiceRequest() {
             ServiceRequestService.updateServiceRequest(this.inProgress)
@@ -444,6 +448,7 @@ export default {
         setComplete(reqId) {
             this.serviceComplete.reqId = reqId;
             this.completeServiceRequest();
+            this.$router.go(0)
         },
         completeServiceRequest() {
             ServiceRequestService.updateServiceRequest(this.serviceComplete)

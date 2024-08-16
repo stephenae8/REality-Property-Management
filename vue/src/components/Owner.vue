@@ -22,7 +22,7 @@
           <h6 style="text-align: center; font-size: 18px; font-weight: bold;">Vacancy</h6>
           <span style="display:flex; justify-content: space-evenly;">
             <img src="../img/icons8-building-100 (1).png" alt="" style="width: 50px;">
-          <p style="margin-top: 2%;border: 1px solid black; width: 80%;text-align: center;border-radius: 5px;">Current Percentages of Properties Occupated: <b>{{ displayVacancy }}% </b></p>
+          <p style="margin-top: 2%;border: 1px solid black; width: 80%;text-align: center;border-radius: 5px;">Current Percentages of Properties Occupied: <b>{{ displayVacancy }}% </b></p>
           </span>
           <hr style="width: 50%; margin-left: 25%;">
           <h6 style="font-weight: bold; font-size: 18px; text-align: center;">Property Owned</h6>
@@ -72,7 +72,7 @@
                 <span style="display: block; width: 40%; height: 74%;  ">
                   <span style=";display: block;width: 100%;">
                     <label style="color: white;display: block;">State</label>
-                    <select v-model="this.application.state"  style=" color: black;width: 20%; margin-top: .3%;" name="">
+                    <select v-model="application.state"  style=" color: black;width: 20%; margin-top: .3%;" name="">
                       <option  value="">Select State</option>
                         <option >PA</option>
                         <option >OH</option>
@@ -82,20 +82,20 @@
                     </select>
                   </span>
                     <label style="color: white;display: block;margin-top: 1%;">City: </label>
-                   <input v-model="this.application.city"  type="text" style="width: 45%;" required>
+                   <input v-model="application.city"  type="text" style="width: 45%;" required>
                     <label style="color: white;display: block;margin-top: 1%;">Zip Code:</label>
-                    <input v-model="this.application.zipCode"  type="text" style="width: 45%;" required>
+                    <input v-model="application.zipCode"  type="text" style="width: 45%;" required>
 
                     <label style="color: white;display: block;margin-top: 1%;">Address: </label>
-                    <input v-model="this.application.address"  type="text" style="width: 45%;" required>
+                    <input v-model="application.address"  type="text" style="width: 45%;" required>
                     <label style="color: white;display: block;margin-top: 1%;">Rent:</label>
-                    <input v-model="this.application.rent" type="text" style="width: 45%;" required>
+                    <input v-model="application.rent" type="text" style="width: 45%;" required>
                     <label style="color: white;display: block;margin-top: 1%;">Bed:</label>
-                    <input v-model="this.application.bedroom" type="text" style="width: 45%;" required>
+                    <input v-model="application.bedrooms" type="text" style="width: 45%;" required>
                     <label style="color: white;display: block;margin-top: 1%;">Bathroom:</label>
-                    <input v-model="this.application.bathroom" type="text" style="width: 45%;" required>
+                    <input v-model="application.bathrooms" type="text" style="width: 45%;" required>
                     <label style="color: white;display: block;margin-top: 1%;">Please include an URL to your property:</label>
-                    <input v-model="this.images.imgURL" type="text" style="width: 45%;" >
+                    <input v-model="images.imageURL" type="text" style="width: 45%;" >
                  
                 </span>
                 <span style="display: block; width: 40%;">
@@ -103,28 +103,28 @@
                 
                   <div style="height: 50%;margin-top: 2.5%;">
                     <label style="margin-top: 3%;" for="">Pets: </label><br>
-                    <select v-model="this.amenities.petsAllowed" style="display: block;" name="" id="">
+                    <select v-model="amenities.pets_allowed" style="display: block;" name="" id="">
                       <option value="">Pets allowed</option>
-                      <option >true</option>
-                      <option >false</option>
+                      <option value="true">true</option>
+                      <option value="false">false</option>
                     </select>
                     <label style="margin-top: 3%;display: block;color: white;" for="">Dishwasher</label>
-                    <select v-model="this.amenities.dishwasher" style="display: block;" name="" id="">
+                    <select v-model="amenities.dishwasher" style="display: block;" name="" id="">
                       <option value=""></option>
-                      <option>true</option>
-                      <option>false</option>
+                      <option value="true">true</option>
+                      <option value="false">false</option>
                     </select>
                     <label style="display: block;margin-top: 3%;color: white;" for="">Air Conditioner</label>
-                    <select v-model="this.amenities.centralAir" id="">
+                    <select v-model="amenities.central_air" id="">
                       <option value=""></option>
-                      <option>true</option>
-                      <option>false</option>
+                      <option value="true">true</option>
+                      <option value="false">false</option>
                     </select>
                     <label style="display: block;margin-top: 3%;color: white;" for="">Laundry</label>
-                    <select v-model="this.amenities.laundry" id="">
+                    <select v-model="amenities.laundry" id="">
                       <option value=""></option>
-                      <option>true</option>
-                      <option>false</option>
+                      <option value="true">true</option>
+                      <option value="false">false</option>
                     </select>
 
                   </div>
@@ -233,9 +233,9 @@ export default {
       },
 
       amenities: {
-        petsAllowed: '',
+        pets_allowed: '',
         dishwasher: '',
-        centralAir: '',
+        central_air: '',
         laundry: ''
       },
 
@@ -273,19 +273,20 @@ export default {
         amenities: secondAm,
         images: thirdImg
       }
+      console.log(storethem)
 
       PropertyService.createProperty(storethem).then((e)=>{
-      this.application.address = '';
-      this.application.bathrooms = '';
-      this.application.bedrooms = '';
-      this.application.city = '';
-      this.application.rent = '';
-      this.application.state = '';
-      this.application.zipCode = '';
-      this.amenities.centralAir = '';
-      this.amenities.petsAllowed = '';
-      this.amenities.laundry = '';
-      this.amenities.dishwasher= '';
+      // this.application.address = '';
+      // this.application.bathrooms = '';
+      // this.application.bedrooms = '';
+      // this.application.city = '';
+      // this.application.rent = '';
+      // this.application.state = '';
+      // this.application.zipCode = '';
+      // this.amenities.centralAir = '';
+      // this.amenities.petsAllowed = '';
+      // this.amenities.laundry = '';
+      // this.amenities.dishwasher= '';
       this.addProp = false;
       this.realCase = true;
 
