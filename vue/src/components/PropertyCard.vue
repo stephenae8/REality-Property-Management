@@ -2,7 +2,7 @@
 
 <div class="card" >
     <a href="#" target="_blank">
-<img :src="justOne[0].imgString[4]" alt="Apartment image">
+<img :src="justOne[0].imgString[2]" alt="Apartment image">
     </a>
     <h6 style="font-size: 14px; text-align: center; margin-top: 1%;">{{justOne[0].address}}</h6>
     <p style="font-size: 12px; text-align: center;">{{ justOne[0].city }}, {{ justOne[0].state }}  {{ justOne[0].zipCode }}</p>

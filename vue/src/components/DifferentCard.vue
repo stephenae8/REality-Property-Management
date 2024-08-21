@@ -1,7 +1,7 @@
 <template>
     <div v-if="done" :class="{ not: OneIndividual.vacancy, card: !OneIndividual.vacancy }">
       <div class="card-image">
-        <img :src="OneIndividual.imgString[2] ? OneIndividual.imgString[2] : OneIndividual.imgString[0]" alt="Apartment image">
+        <img :src="OneIndividual.imgString[2] ? OneIndividual.imgString[0] : OneIndividual.imgString[0]" alt="Apartment image">
       </div>
       <div class="card-content">
         <h6 class="address">{{OneIndividual.address}}</h6>
