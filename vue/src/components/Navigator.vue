@@ -6,19 +6,18 @@
           <img src="/RE-logo.png" alt="Logo" />
         </router-link>
       </div>
-      <div class="nav-items">
+      <!-- <div class="nav-items">
         <div class="allIcon" v-show="this.$store.state.token != ''">
           <div class="user-menu">
             <a href="#" @mouseover="mouseover = true" @mouseleave="mouseover = false">
               <img class="icons" src="../img/icons8-avatar-50.png" alt="Avatar" />
               <div class="dropdown" v-show="mouseover">
-                <!-- Add dropdown menu items here -->
               </div>
             </a>
           </div>
           <img class="icons" src="../img/icons8-notification-100.png" alt="Notifications" />
           <img class="icons" src="../img/icons8-favorite-100 (1).png" alt="Favorites" />
-        </div>
+        </div> -->
         <nav>
           <router-link class="nav-text" :to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Log Out</router-link>
           <router-link class="nav-text" :to="{ name: 'Available' }">Available Properties</router-link>
@@ -29,7 +28,7 @@
           <router-link class="portal" :to="{ name: 'owner'}" v-show="role == 'ROLE_OWNER'">Owner Portal</router-link>
         </nav>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
