@@ -96,4 +96,67 @@ CREATE TABLE messages (
 	msg_date TIMESTAMP NOT NULL
 );
 
+-- Function to set payment_period
+CREATE OR REPLACE FUNCTION set_payment_period()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.pay_period := DATE_TRUNC('month', NEW.pay_date);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update payment_period before insert on payments table
+CREATE TRIGGER set_payment_period_trigger
+BEFORE INSERT ON payments
+FOR EACH ROW
+EXECUTE FUNCTION set_payment_period();
+
+-- Function to create lease when application is approved
+CREATE OR REPLACE FUNCTION create_lease_on_approval()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.app_status = 'approved' AND OLD.app_status = 'pending' THEN
+        INSERT INTO leases (user_id, prop_id, start_date, end_date, rent, lease_status, term_length)
+        SELECT
+            NEW.user_id,
+            NEW.prop_id,
+            NEW.move_in_date,
+            NEW.move_in_date + INTERVAL '1 year', -- Assuming 1-year lease
+            (SELECT rent FROM properties WHERE prop_id = NEW.prop_id),
+            'active',
+            12
+        ;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to create lease when application is approved
+CREATE TRIGGER create_lease_on_approval_trigger
+AFTER UPDATE ON applications
+FOR EACH ROW
+WHEN (NEW.app_status = 'approved' AND OLD.app_status = 'pending')
+EXECUTE FUNCTION create_lease_on_approval();
+
+-- Function to update property vacancy when a lease is created
+CREATE OR REPLACE FUNCTION update_property_vacancy_on_lease()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Update the property's vacancy to false when a new lease is created
+    UPDATE properties
+    SET vacancy = false
+    WHERE prop_id = NEW.prop_id;
+
+    RAISE NOTICE 'Updated vacancy for property % to false', NEW.prop_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update property vacancy when a lease is created
+CREATE TRIGGER update_property_vacancy_on_lease_trigger
+AFTER INSERT ON leases
+FOR EACH ROW
+EXECUTE FUNCTION update_property_vacancy_on_lease();
+
 COMMIT TRANSACTION;

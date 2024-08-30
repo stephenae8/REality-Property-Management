@@ -2,7 +2,7 @@
   <div class="backgroundImage" style="background-image: url('https://as1.ftcdn.net/v2/jpg/02/82/39/92/1000_F_282399227_V7C6up0mpGZm7fTJtBBSFhgbjtf0kMQ5.jpg'); background-repeat: no-repeat; background-size: cover;">
 <div id="login" class="login-container" >
     <form v-on:submit.prevent="login" class="login-form">
-      <h1 style="font-size: 40px; text-align: center; padding-bottom: 20px;">Please Sign In</h1>
+      <h1 style="font-size: 40px; text-align: center; padding-bottom: 20px;">Log In</h1>
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -11,16 +11,16 @@
       </div>
       <div class="formContainer">
       <div class="form-input-group">
-        <label for="username" style="font-size: 25px;">Username</label>
+        <label for="username" style="font-size: 16px;">Username</label>
         <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
       <div class="form-input-group">
-        <label for="password" style="font-size: 25px; padding-left: 8px;">Password</label>
+        <label for="password" style="font-size: 16px;">Password</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
     </div>
       <div class="button-container" style=" display: flex; justify-content: center; padding-bottom: 10px;"> 
-      <button class="button-button" type="submit" style="font-size: 20px;  align-items: center;">Sign in</button>
+      <button class="button-button" type="submit" style="font-size: 16px;  align-items: center;">Sign in</button>
     </div>
       <p style="text-align: center;">
       <router-link v-bind:to="{ name: 'register' }" style="color: green; font-size: 16.5px;">Need an account? Sign up.</router-link></p>
@@ -83,11 +83,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   background-color: rgb(255, 255, 255);
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 610px;
+    max-width: 400px;
 }
 #login{
   height: 60vh;
@@ -107,12 +107,12 @@ label {
 #password{
   
   width: 100%;
-  max-width: 400px;
+  /* max-width: 400px; */
   height: 50px
 }
 .button-button{
   width: 100%;
-  max-width: 200px;
+  max-width: 400px;
   
     padding: 0.75rem;
     background-color: #4CAF50;
@@ -129,6 +129,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
 }
 
 .formContainer{
@@ -137,7 +138,7 @@ label {
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  width: 400px;
+  width: 364px;
   
   
 }

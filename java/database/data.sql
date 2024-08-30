@@ -130,7 +130,7 @@ INSERT INTO amenities (prop_id, dishwasher, central_air, laundry, pets_allowed) 
 (9021, true, true, true, false),
 (9022, true, true, false, true),
 (9023, true, true, true, true),
-(9024, false, true, false, true),
+(9024, false, true, false, true),+
 (9025, true, true, true, false),
 (9026, true, true, false, false),
 (9027, true, true, true, false),
@@ -657,69 +657,5 @@ INSERT INTO messages (contact_type, user_to, user_from, subject, msg_body, msg_d
 ('email', 9007, 9002, 'Service Request Received - Air Conditioning', 'We have received your service request regarding the air conditioning not turning on. Our maintenance team will address this issue soon.', '2024-08-02 09:50:00'),
 ('email', 9007, 9002, 'Service Request Update - Air Conditioning', 'Our maintenance team is currently working on your air conditioning issue. We''ll update you once the work is completed.', '2024-08-03 11:35:00'),
 ('email', 9010, 9002, 'Service Request Received - Shower', 'We have received your service request regarding the leaking shower head and low water pressure. Our maintenance team will address this issue soon.', '2024-08-05 16:15:00');
-
--- Function to set payment_period
-CREATE OR REPLACE FUNCTION set_payment_period()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.pay_period := DATE_TRUNC('month', NEW.pay_date);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to update payment_period before insert on payments table
-CREATE TRIGGER set_payment_period_trigger
-BEFORE INSERT ON payments
-FOR EACH ROW
-EXECUTE FUNCTION set_payment_period();
-
--- Function to create lease when application is approved
-CREATE OR REPLACE FUNCTION create_lease_on_approval()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF NEW.app_status = 'approved' AND OLD.app_status = 'pending' THEN
-        INSERT INTO leases (user_id, prop_id, start_date, end_date, rent, lease_status, term_length)
-        SELECT
-            NEW.user_id,
-            NEW.prop_id,
-            NEW.move_in_date,
-            NEW.move_in_date + INTERVAL '1 year', -- Assuming 1-year lease
-            (SELECT rent FROM properties WHERE prop_id = NEW.prop_id),
-            'active',
-            12
-        ;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to create lease when application is approved
-CREATE TRIGGER create_lease_on_approval_trigger
-AFTER UPDATE ON applications
-FOR EACH ROW
-WHEN (NEW.app_status = 'approved' AND OLD.app_status = 'pending')
-EXECUTE FUNCTION create_lease_on_approval();
-
--- Function to update property vacancy when a lease is created
-CREATE OR REPLACE FUNCTION update_property_vacancy_on_lease()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Update the property's vacancy to false when a new lease is created
-    UPDATE properties
-    SET vacancy = false
-    WHERE prop_id = NEW.prop_id;
-
-    RAISE NOTICE 'Updated vacancy for property % to false', NEW.prop_id;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to update property vacancy when a lease is created
-CREATE TRIGGER update_property_vacancy_on_lease_trigger
-AFTER INSERT ON leases
-FOR EACH ROW
-EXECUTE FUNCTION update_property_vacancy_on_lease();
-
 
 COMMIT TRANSACTION;
