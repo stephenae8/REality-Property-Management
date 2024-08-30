@@ -19,7 +19,7 @@
           <span>
       <h6 class="subsection-title">Vacancy</h6>
       <span class="vacancy-info">
-        <img src="../img/icons8-building-100 (1).png" alt="" class="icon">
+        <img src="../img/icons8-building-100.png" alt="" class="icon">
       <p class="stats-box">Current Percentages of Properties Occupied: <b>{{ displayVacancy }}% </b></p>
       </span>
       <hr class="short-hr">

@@ -16,7 +16,7 @@
             </a>
           </div>
           <img class="icons" src="../img/icons8-notification-100.png" alt="Notifications" />
-          <img class="icons" src="../img/icons8-favorite-100 (1).png" alt="Favorites" />
+          <img class="icons" src="../img/icons8-favorite-100.png" alt="Favorites" />
         </div> -->
         <nav>
           <router-link class="nav-text" :to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Log Out</router-link>
