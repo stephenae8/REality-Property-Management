@@ -7,8 +7,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.js'
 
 /* sets the base url for server API communication with axios */
-axios.defaults.baseURL = "https://reality-site-11aab09607e4.herokuapp.com/";
-// axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API;
+// Heroku hosted setting
+// axios.defaults.baseURL = "https://reality-site-11aab09607e4.herokuapp.com/";
+
+//localhost setting
+axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API;
 
 /*
  * The authorization header is set for axios when you login but what happens when 

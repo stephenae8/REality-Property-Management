@@ -4,27 +4,26 @@
       <h2 id="ownh2">Discover Your New Home</h2>
       <h4>Find What Comforts You!</h4>
       <div id="search-container">
-        <input
-          type="text"
-          placeholder="Search"
-          v-model="UserSearch"
-        />
+        <input type="text" placeholder="Search" v-model="UserSearch" />
         <button @click="moveToAvailable">Search</button>
       </div>
     </div>
   </div>
-  <h3 id="unique">Explore Rentals</h3>  
+  <h3 id="unique">Explore Rentals</h3>
   <div id="preview" v-if="done">
     <div v-for="one in justfour" :key="one.propId">
-      <router-link class="property-link" :to="{name: 'property', params:{id: one.propId}}">
+      <router-link
+        class="property-link"
+        :to="{ name: 'property', params: { id: one.propId } }"
+      >
         <different-card :OneIndividual="one"></different-card>
       </router-link>
     </div>
   </div>
   <div class="view-more-container">
-    <router-link :to="{name: 'Available'}" v-show="done"> 
+    <router-link :to="{ name: 'Available' }" v-show="done">
       <button id="middlebutton">Click to View More</button>
-    </router-link> 
+    </router-link>
   </div>
   <hr class="divider" />
 
@@ -47,27 +46,32 @@
     <div class="image-content"></div>
   </div>
   <hr />
+  <WelcomeModal/>
 </template>
 
 <script>
 // import Navigator from '../components/Navigator.vue';
 import PropertyService from "../services/PropertyService.js";
 import DifferentCard from "./DifferentCard.vue";
+import WelcomeModal from "./WelcomeModal.vue";
+
 export default {
   data() {
     return {
       UserSearch: "",
       apartmentdescrption: [],
-      done: false
+      done: false,
     };
   },
 
   methods: {
     moveToAvailable() {
-      this.$router.push({ name: "Available", query: {search: this.UserSearch}});
+      this.$router.push({
+        name: "Available",
+        query: { search: this.UserSearch },
+      });
     },
 
-  
     createdProp() {
       PropertyService.getProperty().then((e) => {
         this.apartmentdescrption = e.data;
@@ -96,6 +100,7 @@ export default {
 
   components: {
     DifferentCard,
+    WelcomeModal
   },
 };
 </script>
@@ -156,7 +161,8 @@ input {
   border: 1px solid white;
 }
 
-input, input[placeholder] {
+input,
+input[placeholder] {
   text-align: center;
 }
 button {
@@ -222,7 +228,8 @@ button {
   padding: 20px;
 }
 
-.text-content, .image-content {
+.text-content,
+.image-content {
   flex: 1;
   min-width: 300px;
 }
@@ -315,9 +322,17 @@ button {
 }
 
 @keyframes reveal {
-  0% { opacity: 0; }
-  20% { opacity: 0; }
-  80% { opacity: 1; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

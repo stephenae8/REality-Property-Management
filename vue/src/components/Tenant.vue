@@ -15,7 +15,7 @@
                     <h2 id="h2span" >Your current Balance is <b>${{ displayRent }}</b></h2>
                     <span style=" margin-left: 4%;">
                     <img src="../img/socialMediaHandle/icons8-payment-24.png" alt="">
-                    <p style="display: inline; font-size: 10px;">1 schedule payment</p>
+                    <p style="display: inline; font-size: 10px;">1 scheduled payment</p>
                     </span>
                 </span>
                 </div>
@@ -105,7 +105,7 @@
                     <textarea v-model="this.oneMessage.msgBody" name="" cols="50" rows="4" style="resize: none;" placeholder="Send your message!" ></textarea>
                    <span style="display: flex;margin-top: 3%;justify-content: space-evenly;">
                     <button @click="goodMes"  class="button small" style= "width: 33%" >Submit</button>
-                    <button @click="closeMes" class="button grey small" style=";width: 33% ;">Close</button>
+                    <button @click="closeMes" class="button grey small" style="width: 33% ;">Close</button>
                 </span>
                 </span>
             </span>
