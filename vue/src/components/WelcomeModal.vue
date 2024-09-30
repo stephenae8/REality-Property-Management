@@ -105,7 +105,7 @@ export default {
 
 .modal-close-btn {
   padding: 0.5rem 1rem;
-  background-color: green;
+  background-color: rgb(78, 134, 64);
   color: white;
   border: none;
   border-radius: 4px;
@@ -113,7 +113,7 @@ export default {
 }
 
 .modal-close-btn:hover {
-  background-color: #2980b9;
+  background-color: green;
 }
 
 .modal-enter-active,
